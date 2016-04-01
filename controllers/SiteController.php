@@ -59,6 +59,7 @@ class SiteController extends Controller
     {
         $model = new SquareForm();
         $kv = [];
+        $kvEx = [];
 
         if ($model->load(Yii::$app->request->post())) {
             $date = new \DateTime($model->birth_date);
@@ -69,10 +70,12 @@ class SiteController extends Controller
             $person->save();
 
             $kv = $square->simpleMatrix;
+            $kvEx = $square->extendedMatrix;
         }
         return $this->render('kvadrat', [
             'model' => $model,
-            'kv' => $kv
+            'kv' => $kv,
+            'kvEx' => $kvEx
         ]);
     }
 

@@ -53,7 +53,6 @@ class PythagorasSquare
 
     public static function countWorkingChars(\DateTime $date)
     {
-        $chars = [];
         $dateChars = self::formatIntoSymbolsArray($date);
 
         //Первое рабочее число
@@ -85,7 +84,6 @@ class PythagorasSquare
                 array_push($arr, $item);
             }
         }
-        Yii::warning('exploded working chars: '.implode(' ',$arr));
         return $arr;
     }
 
@@ -109,16 +107,68 @@ class PythagorasSquare
             array_push($square,$c);
         }
 
-        Yii::warning('date chars: '.implode(' ', $dateChars));
-        Yii::warning('working chars: '.implode(' ', $workingChars));
-        Yii::warning('square: '.implode(' ', $square));
         return $square;
     }
 
     public static function countExtendedSquare(\DateTime $date)
     {
         $workingChars = self::countWorkingChars($date);
-        $initialSquare = self::countSquare($date);
-        return [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+        $dateChars = self::formatIntoSymbolsArray($date);
+        $square = self::countSquare($date);
+
+        // КП10
+        $elem = $square[0]+$square[1]+$square[2];
+        array_push($square, $elem);
+        // КП11
+        $elem = $square[3]+$square[4]+$square[5];
+        array_push($square, $elem);
+        // КП12
+        $elem = $square[6]+$square[7]+$square[8];
+        array_push($square, $elem);
+        // КП13
+        $elem = $square[0]+$square[3]+$square[6];
+        array_push($square, $elem);
+        // КП14
+        $elem = $square[1]+$square[4]+$square[7];
+        array_push($square, $elem);
+        // КП15
+        $elem = $square[2]+$square[5]+$square[8];
+        array_push($square, $elem);
+        // КП16
+        $elem = $square[0]+$square[4]+$square[8];
+        array_push($square, $elem);
+        // КП17
+        $elem = $square[2]+$square[4]+$square[6];
+        array_push($square, $elem);
+
+        // КП18 (Zero count)
+        $elem=0;
+        foreach ($workingChars as $item) {
+            if ($item===0)
+                $elem++;
+        }
+        foreach ($dateChars as $key=>$item) {
+            if ($item===0 && $key!==0 && $key!==2)
+                $elem++;
+        }
+        array_push($square, $elem);
+
+        // КП19
+        $elem = $square[11]+$square[13];
+        array_push($square, $elem);
+        // КП20
+        $elem = $square[9]+$square[14];
+        array_push($square, $elem);
+        // КП21
+        $elem = $square[10]+$square[12];
+        array_push($square, $elem);
+        // КП22
+        $elem = $square[9]+$square[12];
+        array_push($square, $elem);
+        // КП23
+        $elem = $square[15]+$square[6];
+        array_push($square, $elem);
+
+        return $square;
     }
 }

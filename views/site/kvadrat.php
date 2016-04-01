@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+    <p>Пожалуйста, заполните вашу дату рождения в следующем формате: день-месяц-год</p>
 
     <?php $form = ActiveForm::begin([
         'id' => 'square-form',
@@ -46,4 +46,18 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </p>
 </div>
+<? } ?>
+
+<? if ($kvEx!=null && !empty($kvEx)) {?>
+    <div class="panel square-simple">
+        <h1>Ваш расширенный квадрат пифагора:</h1>
+        <p>
+            <?php
+            $str = '';
+            foreach ($kvEx as $element)
+                $str .= $element.' ';
+            echo $str;
+            ?>
+        </p>
+    </div>
 <? } ?>
