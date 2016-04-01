@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\PythagorasSquare;
+use app\models\SquareForm;
+use app\models\TestedPerson;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -54,7 +57,23 @@ class SiteController extends Controller
 
     public function actionKvadrat()
     {
-        return $this->render('kvadrat');
+        $model = new SquareForm();
+        $kv = [];
+
+        if ($model->load(Yii::$app->request->post())) {
+            $date = new \DateTime($model->birth_date);
+            $square = new PythagorasSquare($date);
+
+            $person = new TestedPerson();
+            $person->birth_date = $date->format('d-m-Y');
+            $person->save();
+
+            $kv = $square->simpleMatrix;
+        }
+        return $this->render('kvadrat', [
+            'model' => $model,
+            'kv' => $kv
+        ]);
     }
 
     public function actionLogin()
