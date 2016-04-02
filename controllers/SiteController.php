@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\PythagorasSquare;
 use app\models\SquareForm;
 use app\models\TestedPerson;
+use Faker\Provider\DateTime;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -62,12 +63,15 @@ class SiteController extends Controller
         $kvEx = [];
 
         if ($model->load(Yii::$app->request->post())) {
-            $date = new \DateTime($model->birth_date);
+            $date = \DateTime::createFromFormat('d-m-Y',$model->birth_date);
+
             $square = new PythagorasSquare($date);
 
             $person = new TestedPerson();
-            $person->birth_date = $date->format('d-m-Y');
+            $person->birth_date = $date->format('Y-m-d H:i:s');;
+            Yii::warning('Before save: '.$person->birth_date);
             $person->save();
+            Yii::warning('After save: '.$person->birth_date);
 
             $kv = $square->simpleMatrix;
             $kvEx = $square->extendedMatrix;

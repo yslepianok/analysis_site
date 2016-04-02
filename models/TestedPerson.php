@@ -11,17 +11,53 @@ use yii\db\ActiveRecord;
 
 class TestedPerson extends ActiveRecord
 {
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'user';
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name', 'birth_date'], 'safe'],
+            [['birth_date'], 'required'],
+            [['birth_date'], 'safe'],
+            [['name'], 'string', 'max' => 45],
+            [['name'], 'unique']
         ];
     }
 
-    static function tableName()
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
     {
-        return 'user';
+        return [
+            'id' => 'ID',
+            'name' => 'Name',
+            'birth_date' => 'Birth Date',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserToUsers()
+    {
+        return $this->hasMany(UserToUser::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserToUsers0()
+    {
+        return $this->hasMany(UserToUser::className(), ['user_related_id' => 'id']);
     }
 
 }

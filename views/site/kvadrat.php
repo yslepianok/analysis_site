@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\date\DatePicker;
 
 $this->title = 'Квадрат пифагора';
 $this->params['breadcrumbs'][] = $this->title;
@@ -24,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'birth_date')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'birth_date')->textInput(['autofocus' => true]); ?>
 
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
