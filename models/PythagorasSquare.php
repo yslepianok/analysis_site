@@ -66,12 +66,20 @@ class PythagorasSquare
         $elem2 = (integer)$str[0] + (integer)$str[1];
 
         //Третье рабочее число
-        $elem3 = $elem1 - 2*(($dateChars[0]!==0) ? $dateChars[0] : $dateChars[1]);
+        $char = $dateChars[0];
+        if ($dateChars[0]==0)
+            $char = $dateChars[1];
+        $elem3 = abs($elem1 - 2*$char);
 
         //Четвертое рабочее число
-        $str = (string)$elem3;
-        $elem4 = (integer)$str[0] + (integer)$str[1];
+        if ($elem3<=9)
+            $elem4 = $elem3;
+        else {
+            $str = (string)$elem3;
+            $elem4 = (integer)$str[0] + (integer)$str[1];
+        }
 
+        Yii::warning('Рабочие числа: '.implode(' ',[$elem1,$elem2,$elem3,$elem4]));
         return [$elem1,$elem2,$elem3,$elem4];
     }
 
@@ -112,7 +120,7 @@ class PythagorasSquare
 
     public static function countExtendedSquare(\DateTime $date)
     {
-        $workingChars = self::countWorkingChars($date);
+        $workingChars = self::explodeIntArrayIntoChars(self::countWorkingChars($date));
         $dateChars = self::formatIntoSymbolsArray($date);
         $square = self::countSquare($date);
 
@@ -144,13 +152,16 @@ class PythagorasSquare
         // КП18 (Zero count)
         $elem=0;
         foreach ($workingChars as $item) {
-            if ($item===0)
+            if ($item==0)
                 $elem++;
         }
         foreach ($dateChars as $key=>$item) {
-            if ($item===0 && $key!==0 && $key!==2)
+            if ($item==0 && $key!=0 && $key!=2)
                 $elem++;
         }
+        Yii::warning(implode(' ',$workingChars));
+        Yii::warning(implode(' ',$dateChars));
+
         array_push($square, $elem);
 
         // КП19
