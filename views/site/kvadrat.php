@@ -27,6 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'birth_date')->textInput(['autofocus' => true]); ?>
 
+    <p>Информация о родственниках (увеличивает точность)</p>
+
+    <div class="row">
+        <div class="data-container" id="itemCont">
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
             <?= Html::submitButton('Посчитать квадрат', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
@@ -34,6 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <?php ActiveForm::end(); ?>
+    <input type="text" id="itemCount">
+    <button type="button" name="itemAdd" id="itemAdd">Добавить родственника </button>
 </div>
 <? if ($kv!=null && !empty($kv)) {?>
 <div class="panel square-simple">
@@ -62,3 +71,47 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
     </div>
 <? } ?>
+
+
+<!--Script for adding persons-->
+<script>
+    (function initCarouselCfg(){
+        console.log('init additionalPersons');
+        window.additionalPersons = {
+            itemCount:0,
+            itemContDefinition:'<div class="row" id="addedCont">',
+            itemDefinition:'<input placeholder="Дата рождения родственника" name="name" id="addedItem" type="text" value="">',
+            addItem : function(){
+                console.log('from add item');
+                var index = window.additionalPersons.itemCount+1;
+                var itemCont = $("#itemCont");
+
+                itemCont.append(window.additionalPersons.itemContDefinition);
+                var addedCont = $("#addedCont");
+                addedCont.append(window.additionalPersons.itemDefinition);
+                var item = $("#addedItem");
+                addedCont.attr("id", "Relatives_cont_"+index);
+                item.attr("id", "Relatives_"+index);
+                item.attr("name", "Relatives["+index+"]");
+                window.additionalPersons.countItems();
+            },
+            countItems :function(){
+                console.log('from count items');
+                var itemCont = $("#itemCont");
+                var countInput = $("#itemCount");
+
+                window.additionalPersons.itemCount = itemCont.children().length;
+                countInput.val(window.additionalPersons.itemCount);
+                countInput.prop('disabled', true);
+            }
+        };
+    })();
+
+    $(document).ready(function(){
+        window.additionalPersons.countItems();
+        var itemAdd = $("#itemAdd");
+        itemAdd.click(function() {
+            window.additionalPersons.addItem();
+        });
+    });
+</script>

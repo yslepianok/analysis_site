@@ -62,8 +62,12 @@ class PythagorasSquare
         }
 
         //Второе рабочее число
-        $str = (string)$elem1;
-        $elem2 = (integer)$str[0] + (integer)$str[1];
+        if ($elem1<=9)
+            $elem2 = $elem1;
+        else {
+            $str = (string)$elem1;
+            $elem2 = (integer)$str[0] + (integer)$str[1];
+        }
 
         //Третье рабочее число
         $char = $dateChars[0];
