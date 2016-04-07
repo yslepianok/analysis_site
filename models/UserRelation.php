@@ -54,4 +54,9 @@ class UserRelation extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserToUser::className(), ['relation_id' => 'id']);
     }
+
+    public static function getRelationoptions()
+    {
+        return self::findAll();
+    }
 }

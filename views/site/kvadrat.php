@@ -86,6 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 var index = window.additionalPersons.itemCount+1;
                 var itemCont = $("#itemCont");
 
+                // @TODO Add relative type choosing
                 itemCont.append(window.additionalPersons.itemContDefinition);
                 var addedCont = $("#addedCont");
                 addedCont.append(window.additionalPersons.itemDefinition);
