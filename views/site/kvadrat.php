@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php
             $str = '';
             foreach ($kvW as $key=>$element)
-                $str .= 'KP'.($key+1).' '.$element.' ';
+                $str .= 'KP'.($key).' '.$element.' ';
             echo $str;
             ?>
         </p>

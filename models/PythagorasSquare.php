@@ -18,7 +18,7 @@ class PythagorasSquare
     public $workingCharsIntArray = [];
     public $simpleMatrix = [];
     public $extendedMatrix = [];
-    public $acceptableLevelOld = [
+    public static $acceptableLevelOld = [
         1 =>[0, 0, 0, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3],
         2 =>[0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
         3 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
@@ -43,7 +43,7 @@ class PythagorasSquare
         22=>[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2],
         23=>[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2],
     ];
-    public $acceptableLevelNew = [
+    public static $acceptableLevelNew = [
         1 =>[0, 0, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
         2 =>[0, 0, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
         3 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
@@ -67,6 +67,17 @@ class PythagorasSquare
         21=>[0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3],
         22=>[0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3],
         23=>[0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3],
+    ];
+    public static $gFunction = [
+        0 => [0, 1, 3, 5],
+        1 => [0, 4, 7, 10],
+        2 => [0, 7, 10, 17],
+        3 => [0, 10, 14, 25],
+    ];
+    public static $hFunction = [
+        0 => [0, 1, 1, 1],
+        1 => [0, 0.25, 0.25, 0.5],
+        2 => [0, 0.15, 0.15, 0.25],
     ];
 
     public function __construct(\DateTime $date)
@@ -236,10 +247,6 @@ class PythagorasSquare
     public static function countWeightedSquare(TestedPerson $user)
     {
         $relations = $user->relatives;
-        //$relatives = [];
-        /*foreach ($relations as $relation) {
-            array_push($relatives,$relation->getUserRelated());
-        }*/
 
         $squares = [];
         $levels = [];
@@ -247,22 +254,77 @@ class PythagorasSquare
         $g = [];
         $h = [];
         $mainSquare = self::countExtendedSquare(\DateTime::createFromFormat('Y-m-d H:i:s', $user->birth_date));
-        array_push($squares, $mainSquare);
-        array_push($levels,0);
+        $squares[$user->id]= $mainSquare;
+        $levels[$user->id] = 0;
 
         foreach ($relations as $relation) {
             $square = self::countExtendedSquare(\DateTime::createFromFormat('Y-m-d H:i:s', $relation->userRelated->birth_date));
-            array_push($squares, $square);
-            array_push($levels,$relation->relationType->level);
+            $squares[$relation->userRelated->id] = $square;
+            $levels[$relation->userRelated->id] = $relation->relationType->level;
         }
 
         foreach ($squares as $key=>$sqr)
         {
-            Yii::warning('Level = '.$levels[$key].' KP: '.implode(' ', $sqr));
+            Yii::warning('Level['.$key.'] = '.$levels[$key].' KP: '.implode(' ', $sqr));
         }
 
-        //foreach ($relations as $relation)
+        // Вычисление всех данных для каждого родственника
+        foreach ($levels as $key=>$level) {
+            $relation = TestedPerson::find()->where('id=:id',[':id'=>$key])->one();
+            $accLevelPerson = [];
+            $gPerson = [];
+            $hPerson = [];
+            Yii::warning($relation->birth_date);
+            for ($i=1;$i<=23;$i++)
+            {
+                // Вычисление уровней доступа
 
-        return $mainSquare;
+                $acc = 0;
+                if ($squares[$key][$i-1]>=15)
+                    $acc = 3;
+                elseif ($relation->birth_date<'2000')
+                {
+                    $acc = self::$acceptableLevelOld[$i][$squares[$key][$i-1]];
+                }
+                elseif($relation->birth_date>='2000')
+                {
+                    $acc = self::$acceptableLevelNew[$i][$squares[$key][$i-1]];
+                }
+                $accLevelPerson[$i] = $acc;
+
+                // Определение g-функции элемента
+                $gElem = 0;
+                if ($squares[$key][17]>=3)
+                    $n = 3;
+                else
+                    $n = $squares[$key][17];
+                $gElem = self::$gFunction[$n][$acc];
+                $gPerson[$i] = $gElem;
+
+                // Определение h-функции элемента
+                $hElem = self::$hFunction[$level][$acc];
+                $hPerson[$i] = $hElem;
+            }
+            $accessLevels[$key]= $accLevelPerson;
+            $h[$key]= $hPerson;
+            $g[$key]= $gPerson;
+
+            Yii::warning('Key = '.$key.' Level: '.$level.' Acc[1] = '.$accLevelPerson[1].' G[1] = '.$gPerson[1].' H[1] = '.$hPerson[1]);
+        }
+
+        // Рассчет средневзвешенной матрицы
+        $kp = [];
+        for ($i=1;$i<=23;$i++)
+        {
+            $ch = 0;
+            $zn = 0;
+            foreach ($levels as $key=>$level) {
+                $ch += $h[$key][$i] * $g[$key][$i] * $squares[$key][$i-1];
+                $zn += $h[$key][$i] * $g[$key][$i];
+            }
+            $kp[$i] = round($ch/$zn, 2);
+        }
+
+        return $kp;
     }
 }
