@@ -6,7 +6,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use kartik\date\DatePicker;
+use app\models\UserRelation;
 
 $this->title = 'Квадрат пифагора';
 $this->params['breadcrumbs'][] = $this->title;
@@ -29,8 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>Информация о родственниках (увеличивает точность)</p>
 
-    <div class="row">
-        <div class="data-container" id="itemCont">
+    <div class="form-group">
+        <div class="row">
+            <div class="data-container" id="itemContainer">
+            </div>
         </div>
     </div>
 
@@ -41,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <?php ActiveForm::end(); ?>
+    <?php echo Html::dropDownList('RelativeTypeDropdown',null,UserRelation::getRelationoptions())?>
     <input type="text" id="itemCount">
     <button type="button" name="itemAdd" id="itemAdd">Добавить родственника </button>
 </div>
@@ -72,6 +75,20 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 <? } ?>
 
+<? if ($kvW!=null && !empty($kvW)) {?>
+    <div class="panel square-simple">
+        <h1>Ваш средневзвешенный квадрат пифагора:</h1>
+        <p>
+            <?php
+            $str = '';
+            foreach ($kvW as $key=>$element)
+                $str .= 'KP'.($key+1).' '.$element.' ';
+            echo $str;
+            ?>
+        </p>
+    </div>
+<? } ?>
+
 
 <!--Script for adding persons-->
 <script>
@@ -80,25 +97,32 @@ $this->params['breadcrumbs'][] = $this->title;
         window.additionalPersons = {
             itemCount:0,
             itemContDefinition:'<div class="row" id="addedCont">',
+            itemRelTypeDefinition:'<input type="text" name="name" id="addedRelativeType" value="">',
             itemDefinition:'<input placeholder="Дата рождения родственника" name="name" id="addedItem" type="text" value="">',
             addItem : function(){
                 console.log('from add item');
                 var index = window.additionalPersons.itemCount+1;
-                var itemCont = $("#itemCont");
+                var itemCont = $("#itemContainer");
+                var relativeType = $( "select option:selected" ).text();
 
                 // @TODO Add relative type choosing
                 itemCont.append(window.additionalPersons.itemContDefinition);
                 var addedCont = $("#addedCont");
+                addedCont.append(window.additionalPersons.itemRelTypeDefinition);
                 addedCont.append(window.additionalPersons.itemDefinition);
+                var type = $("#addedRelativeType");
                 var item = $("#addedItem");
                 addedCont.attr("id", "Relatives_cont_"+index);
-                item.attr("id", "Relatives_"+index);
-                item.attr("name", "Relatives["+index+"]");
+                item.attr("id", "Relatives_"+index+"_BDate");
+                item.attr("name", "Relatives["+index+"][BDate]");
+                type.attr("id", "Relatives_"+index+"_Type");
+                type.attr("name", "Relatives["+index+"][Type]");
+                type.val(relativeType);
                 window.additionalPersons.countItems();
             },
             countItems :function(){
                 console.log('from count items');
-                var itemCont = $("#itemCont");
+                var itemCont = $("#itemContainer");
                 var countInput = $("#itemCount");
 
                 window.additionalPersons.itemCount = itemCont.children().length;

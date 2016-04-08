@@ -53,7 +53,7 @@ class UserToUser extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(TestedPerson::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -61,7 +61,7 @@ class UserToUser extends \yii\db\ActiveRecord
      */
     public function getUserRelated()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_related_id']);
+        return $this->hasOne(TestedPerson::className(), ['id' => 'user_related_id']);
     }
 
     /**

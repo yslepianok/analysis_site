@@ -18,13 +18,62 @@ class PythagorasSquare
     public $workingCharsIntArray = [];
     public $simpleMatrix = [];
     public $extendedMatrix = [];
+    public $acceptableLevelOld = [
+        1 =>[0, 0, 0, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        2 =>[0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        3 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        4 =>[1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        5 =>[1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        6 =>[1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        7 =>[1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        8 =>[1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        9 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        10=>[0, 0, 0, 0, 0, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3],
+        11=>[0, 0, 0, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        12=>[0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        13=>[0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3],
+        14=>[0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3],
+        15=>[0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3],
+        16=>[0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 2],
+        17=>[0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        18=>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        19=>[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 3],
+        20=>[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2],
+        21=>[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2],
+        22=>[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2],
+        23=>[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2],
+    ];
+    public $acceptableLevelNew = [
+        1 =>[0, 0, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        2 =>[0, 0, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        3 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        4 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        5 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        6 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        7 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        8 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        9 =>[0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        10=>[0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        11=>[0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        12=>[0, 0, 0, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        13=>[0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        14=>[0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        15=>[0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        16=>[0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 2],
+        17=>[0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        18=>[0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        19=>[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 3],
+        20=>[0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3, 3],
+        21=>[0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3],
+        22=>[0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3],
+        23=>[0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3],
+    ];
 
     public function __construct(\DateTime $date)
     {
         $this->date = $date->format('d-m-Y');
 
         $this->dateSymbols = self::formatIntoSymbolsArray($date);
-        Yii::warning('Current date: '.$this->date);
         $this->workingChars = self::countWorkingChars($date);
         $this->workingCharsIntArray = self::explodeIntArrayIntoChars($this->workingChars);
         $this->simpleMatrix = self::countSquare($date);
@@ -83,7 +132,6 @@ class PythagorasSquare
             $elem4 = (integer)$str[0] + (integer)$str[1];
         }
 
-        Yii::warning('Рабочие числа: '.implode(' ',[$elem1,$elem2,$elem3,$elem4]));
         return [$elem1,$elem2,$elem3,$elem4];
     }
 
@@ -163,8 +211,6 @@ class PythagorasSquare
             if ($item==0 && $key!=0 && $key!=2)
                 $elem++;
         }
-        Yii::warning(implode(' ',$workingChars));
-        Yii::warning(implode(' ',$dateChars));
 
         array_push($square, $elem);
 
@@ -185,5 +231,38 @@ class PythagorasSquare
         array_push($square, $elem);
 
         return $square;
+    }
+
+    public static function countWeightedSquare(TestedPerson $user)
+    {
+        $relations = $user->relatives;
+        //$relatives = [];
+        /*foreach ($relations as $relation) {
+            array_push($relatives,$relation->getUserRelated());
+        }*/
+
+        $squares = [];
+        $levels = [];
+        $accessLevels = [];
+        $g = [];
+        $h = [];
+        $mainSquare = self::countExtendedSquare(\DateTime::createFromFormat('Y-m-d H:i:s', $user->birth_date));
+        array_push($squares, $mainSquare);
+        array_push($levels,0);
+
+        foreach ($relations as $relation) {
+            $square = self::countExtendedSquare(\DateTime::createFromFormat('Y-m-d H:i:s', $relation->userRelated->birth_date));
+            array_push($squares, $square);
+            array_push($levels,$relation->relationType->level);
+        }
+
+        foreach ($squares as $key=>$sqr)
+        {
+            Yii::warning('Level = '.$levels[$key].' KP: '.implode(' ', $sqr));
+        }
+
+        //foreach ($relations as $relation)
+
+        return $mainSquare;
     }
 }

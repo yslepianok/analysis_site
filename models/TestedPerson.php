@@ -47,7 +47,7 @@ class TestedPerson extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserToUsers()
+    public function getRelatives()
     {
         return $this->hasMany(UserToUser::className(), ['user_id' => 'id']);
     }
@@ -55,9 +55,8 @@ class TestedPerson extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserToUsers0()
+    public function getSmallRelatives()
     {
         return $this->hasMany(UserToUser::className(), ['user_related_id' => 'id']);
     }
-
 }

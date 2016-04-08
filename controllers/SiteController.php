@@ -5,9 +5,12 @@ namespace app\controllers;
 use app\models\PythagorasSquare;
 use app\models\SquareForm;
 use app\models\TestedPerson;
+use app\models\UserRelation;
+use app\models\UserToUser;
 use Faker\Provider\DateTime;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
@@ -61,17 +64,40 @@ class SiteController extends Controller
         $model = new SquareForm();
         $kv = [];
         $kvEx = [];
+        $kvW = [];
 
         if ($model->load(Yii::$app->request->post())) {
             $date = \DateTime::createFromFormat('d-m-Y',$model->birth_date);
 
             $square = new PythagorasSquare($date);
 
+            //Yii::warning(Json::encode(Yii::$app->request->post()));
+
             $person = new TestedPerson();
             $person->birth_date = $date->format('Y-m-d H:i:s');;
-            Yii::warning('Before save: '.$person->birth_date);
             $person->save();
-            Yii::warning('After save: '.$person->birth_date);
+
+            if (isset(Yii::$app->request->post()['Relatives']))
+            {
+                $relatives = Yii::$app->request->post()['Relatives'];
+                foreach ($relatives as $relative) {
+                    $date = \DateTime::createFromFormat('d-m-Y',$relative['BDate']);
+                    $personRel = new TestedPerson();
+                    $personRel->birth_date = $date->format('Y-m-d H:i:s');;
+                    $personRel->save();
+
+                    $relation = new UserToUser();
+                    $relation->user_id = $person->id;
+                    $relation->user_related_id = $personRel->id;
+                    $rel = UserRelation::find()->where('name=:name',[':name'=>$relative['Type']])->one();
+                    if ($rel == null)
+                        throw new \HttpException('Wrong relation name, '.$relative['Type'], 400);
+                    $relation->relation_id = $rel->id;
+                    $relation->save();
+                }
+
+                $kvW = $square::countWeightedSquare($person);
+            }
 
             $kv = $square->simpleMatrix;
             $kvEx = $square->extendedMatrix;
@@ -79,7 +105,8 @@ class SiteController extends Controller
         return $this->render('kvadrat', [
             'model' => $model,
             'kv' => $kv,
-            'kvEx' => $kvEx
+            'kvEx' => $kvEx,
+            'kvW' => $kvW
         ]);
     }
 
