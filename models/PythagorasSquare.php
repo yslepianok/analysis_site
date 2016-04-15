@@ -79,6 +79,44 @@ class PythagorasSquare
         1 => [0, 0.25, 0.25, 0.5],
         2 => [0, 0.15, 0.15, 0.25],
     ];
+    public static $specialityFunction = [
+        '1-1'=>'1,5',
+        '1-2'=>'5,6',
+        '1-3'=>'2,9',
+        '1-4'=>'3,7',
+        '1-5'=>'7,8',
+        '2-1'=>'4,7',
+        '2-2'=>'6,8',
+        '2-3'=>'1,2',
+        '2-4'=>'2,4',
+        '2-5'=>'7,9',
+        '3-1'=>'3,8',
+        '3-2'=>'2,3',
+        '3-3'=>'3,5',
+        '3-4'=>'2,7',
+        '3-5'=>'5,9',
+        '4-1'=>'6,9',
+        '4-2'=>'1,7',
+        '4-3'=>'3,6',
+        '4-4'=>'4,5',
+        '4-5'=>'4,9',
+        '5-1'=>'3,9',
+        '5-2'=>'2,8',
+        '5-3'=>'4,8',
+        '5-4'=>'1,4',
+        '5-5'=>'5,7',
+        '6-1'=>'6,7',
+        '6-2'=>'5,8',
+        '6-3'=>'4,6',
+        '6-4'=>'1,9',
+        '6-5'=>'2,6',
+        '7-1'=>'1,3',
+        '7-2'=>'2,5',
+        '7-3'=>'1,6',
+        '7-4'=>'3,4',
+        '7-5'=>'8,9',
+
+    ];
 
     public function __construct(\DateTime $date)
     {
@@ -363,7 +401,7 @@ class PythagorasSquare
             $pairs = self::getNonDominatingPairs($kp,$keys);
 
         foreach ($pairs as $pair) {
-            Yii::warning('Pair:'.$pair[0].'-'.$pair[1]);
+            //Yii::warning('Pair:'.$pair[0].'-'.$pair[1]);
         }
         
         return $pairs;
@@ -374,7 +412,7 @@ class PythagorasSquare
         $arr = [];
         $i = 1;
         
-        while (($kp[$i+1]<=(0.75 * $kp[$i]))) {
+        while (($kp[$i]<=(0.75 * $kp[1]))) {
             $arr [] = [$keys[0]+1, $keys[$i]+1];
             $i++;
         }
@@ -393,15 +431,31 @@ class PythagorasSquare
             array_push($elements, $keys[$i]);
             $i++;
         }
-        Yii::warning('Elements: '.implode(', ',$elements));
+        //Yii::warning('Elements: '.implode(', ',$elements));
 
         for ($i=0;$i<count($elements);$i++)
         {
-            for ($j=$i;$j<count($elements);$j++) {
+            for ($j=$i+1;$j<count($elements);$j++) {
                 $arr []= [$keys[$i]+1,$keys[$j]+1];
             }
         }
         
         return $arr;
+    }
+
+    public static function getSpecialitiesForPairs($pairs)
+    {
+        $specialityList = [];
+        foreach ($pairs as $pair)
+        {
+            sort($pair);
+            $pair = implode(',',$pair);
+            foreach (self::$specialityFunction as $key=>$item)
+            {
+                if ($item == $pair)
+                    $specialityList []= $key;
+            }
+        }
+        return $specialityList;
     }
 }

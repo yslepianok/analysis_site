@@ -98,6 +98,8 @@ class SiteController extends Controller
 
                 $kvW = $square::countWeightedSquare($person);
                 $pairs = PythagorasSquare::foundMainElementPairs($kvW);
+                $specialities = PythagorasSquare::getSpecialitiesForPairs($pairs);
+                Yii::warning('SpecialityList: '.implode('; ',$specialities));
             }
 
             $kv = $square->simpleMatrix;
