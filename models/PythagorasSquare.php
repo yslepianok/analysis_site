@@ -327,4 +327,81 @@ class PythagorasSquare
 
         return $kp;
     }
+
+    public static function foundMainElementPairs($kp_full)
+    {
+        $kp = array_slice($kp_full,0,9);
+
+        // Первые 9 элементов от расширенного квадрата, сортируются по убыванию. Старые ключи сохраняются в отдельный массив с теми же новыми ключами
+        $keys = [0,1,2,3,4,5,6,7,8];
+        for ($i=0;$i<9;$i++)
+        {
+            for ($j=$i;$j<9;$j++)
+            {
+                if ($kp[$i]<$kp[$j])
+                {
+                    $buf = $kp[$i];
+                    $kp[$i] = $kp[$j];
+                    $kp[$j] = $buf;
+                    $buf = $keys[$i];
+                    $keys[$i] = $keys[$j];
+                    $keys[$j] = $buf;
+                }
+            }
+        }
+
+        $befSort = '';
+        foreach ($kp as $key=>$item) {
+            $befSort .= ' key='.$keys[$key].' val='.$item;
+        }
+        Yii::warning('After sorting: '.$befSort);
+
+        $pairs = [];
+        if ($kp[0]>=($kp[1]*1.5))
+            $pairs = self::getDominatingPairs($kp,$keys);
+        else
+            $pairs = self::getNonDominatingPairs($kp,$keys);
+
+        foreach ($pairs as $pair) {
+            Yii::warning('Pair:'.$pair[0].'-'.$pair[1]);
+        }
+        
+        return $pairs;
+    }
+
+    public static function getDominatingPairs($kp,$keys)
+    {
+        $arr = [];
+        $i = 1;
+        
+        while (($kp[$i+1]<=(0.75 * $kp[$i]))) {
+            $arr [] = [$keys[0]+1, $keys[$i]+1];
+            $i++;
+        }
+        
+        return $arr;
+    }
+
+    public static function getNonDominatingPairs($kp,$keys)
+    {
+        $elements = [];
+        $arr = [];
+        $i = 1;
+        array_push($elements, $keys[0]);
+
+        while ($kp[$i]>=(0.5 * $kp[0])) {
+            array_push($elements, $keys[$i]);
+            $i++;
+        }
+        Yii::warning('Elements: '.implode(', ',$elements));
+
+        for ($i=0;$i<count($elements);$i++)
+        {
+            for ($j=$i;$j<count($elements);$j++) {
+                $arr []= [$keys[$i]+1,$keys[$j]+1];
+            }
+        }
+        
+        return $arr;
+    }
 }

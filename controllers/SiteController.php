@@ -97,6 +97,7 @@ class SiteController extends Controller
                 }
 
                 $kvW = $square::countWeightedSquare($person);
+                $pairs = PythagorasSquare::foundMainElementPairs($kvW);
             }
 
             $kv = $square->simpleMatrix;
