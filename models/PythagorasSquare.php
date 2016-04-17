@@ -69,52 +69,52 @@ class PythagorasSquare
         23=>[0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3],
     ];
     public static $gFunction = [
-        0 => [0, 1, 3, 5],
+        0 => [0.5, 1, 3, 5],
         1 => [0, 4, 7, 10],
         2 => [0, 7, 10, 17],
         3 => [0, 10, 14, 25],
     ];
     public static $hFunction = [
-        0 => [0, 1, 1, 1],
+        0 => [0.5, 1, 1, 1],
         1 => [0, 0.25, 0.25, 0.5],
         2 => [0, 0.15, 0.15, 0.25],
     ];
     public static $specialityFunction = [
-        '1-1'=>'1,5',
-        '1-2'=>'5,6',
-        '1-3'=>'2,9',
-        '1-4'=>'3,7',
-        '1-5'=>'7,8',
-        '2-1'=>'4,7',
-        '2-2'=>'6,8',
-        '2-3'=>'1,2',
-        '2-4'=>'2,4',
-        '2-5'=>'7,9',
-        '3-1'=>'3,8',
-        '3-2'=>'2,3',
-        '3-3'=>'3,5',
-        '3-4'=>'2,7',
-        '3-5'=>'5,9',
-        '4-1'=>'6,9',
-        '4-2'=>'1,7',
-        '4-3'=>'3,6',
-        '4-4'=>'4,5',
-        '4-5'=>'4,9',
-        '5-1'=>'3,9',
-        '5-2'=>'2,8',
-        '5-3'=>'4,8',
-        '5-4'=>'1,4',
-        '5-5'=>'5,7',
-        '6-1'=>'6,7',
-        '6-2'=>'5,8',
-        '6-3'=>'4,6',
-        '6-4'=>'1,9',
-        '6-5'=>'2,6',
-        '7-1'=>'1,3',
-        '7-2'=>'2,5',
-        '7-3'=>'1,6',
-        '7-4'=>'3,4',
-        '7-5'=>'8,9',
+        '1.1'=>'1,5',
+        '1.2'=>'5,6',
+        '1.3'=>'2,9',
+        '1.4'=>'3,7',
+        '1.5'=>'7,8',
+        '2.1'=>'4,7',
+        '2.2'=>'6,8',
+        '2.3'=>'1,2',
+        '2.4'=>'2,4',
+        '2.5'=>'7,9',
+        '3.1'=>'3,8',
+        '3.2'=>'2,3',
+        '3.3'=>'3,5',
+        '3.4'=>'2,7',
+        '3.5'=>'5,9',
+        '4.1'=>'6,9',
+        '4.2'=>'1,7',
+        '4.3'=>'3,6',
+        '4.4'=>'4,5',
+        '4.5'=>'4,9',
+        '5.1'=>'3,9',
+        '5.2'=>'2,8',
+        '5.3'=>'4,8',
+        '5.4'=>'1,4',
+        '5.5'=>'5,7',
+        '6.1'=>'6,7',
+        '6.2'=>'5,8',
+        '6.3'=>'4,6',
+        '6.4'=>'1,9',
+        '6.5'=>'2,6',
+        '7.1'=>'1,3',
+        '7.2'=>'2,5',
+        '7.3'=>'1,6',
+        '7.4'=>'3,4',
+        '7.5'=>'8,9',
 
     ];
 
@@ -360,16 +360,20 @@ class PythagorasSquare
                 $ch += $h[$key][$i] * $g[$key][$i] * $squares[$key][$i-1];
                 $zn += $h[$key][$i] * $g[$key][$i];
             }
-            $kp[$i] = round($ch/$zn, 2);
+            if ($zn == 0)
+            {
+                Yii::warning('Деление на 0, элемент '. ($i+1));
+                $kp[$i]=$ch;
+            }
+            else
+                $kp[$i] = round($ch/$zn, 2);
         }
 
         return $kp;
     }
 
-    public static function foundMainElementPairs($kp_full)
+    public static function getMainSortedElements($kp)
     {
-        $kp = array_slice($kp_full,0,9);
-
         // Первые 9 элементов от расширенного квадрата, сортируются по убыванию. Старые ключи сохраняются в отдельный массив с теми же новыми ключами
         $keys = [0,1,2,3,4,5,6,7,8];
         for ($i=0;$i<9;$i++)
@@ -388,6 +392,17 @@ class PythagorasSquare
             }
         }
 
+        return [$kp,$keys];
+    }
+
+    public static function foundMainElementPairs($kp_full)
+    {
+        $kp = array_slice($kp_full,0,9);
+
+        $temp = self::getMainSortedElements($kp);
+        $kp = $temp[0];
+        $keys = $temp[1];
+
         $befSort = '';
         foreach ($kp as $key=>$item) {
             $befSort .= ' key='.$keys[$key].' val='.$item;
@@ -401,7 +416,7 @@ class PythagorasSquare
             $pairs = self::getNonDominatingPairs($kp,$keys);
 
         foreach ($pairs as $pair) {
-            //Yii::warning('Pair:'.$pair[0].'-'.$pair[1]);
+            Yii::warning('Pair:'.$pair[0].'-'.$pair[1]);
         }
         
         return $pairs;
@@ -412,9 +427,15 @@ class PythagorasSquare
         $arr = [];
         $i = 1;
         
-        while (($kp[$i]<=(0.75 * $kp[1]))) {
-            $arr [] = [$keys[0]+1, $keys[$i]+1];
-            $i++;
+        $elements = [$kp[1]];
+        for ($i=2;$i<9;$i++)
+        {
+            if ($kp[$i]>= (0.75 * $kp[1]))
+                array_push($elements, $keys[$i]);
+        }
+
+        foreach ($elements as $element) {
+            $arr []= [$keys[0]+1,$element+1];
         }
         
         return $arr;
@@ -431,7 +452,7 @@ class PythagorasSquare
             array_push($elements, $keys[$i]);
             $i++;
         }
-        //Yii::warning('Elements: '.implode(', ',$elements));
+        Yii::warning('Elements: '.implode(', ',$elements));
 
         for ($i=0;$i<count($elements);$i++)
         {
@@ -453,7 +474,7 @@ class PythagorasSquare
             foreach (self::$specialityFunction as $key=>$item)
             {
                 if ($item == $pair)
-                    $specialityList []= $key;
+                    $specialityList[$pair] = $key;
             }
         }
         return $specialityList;
