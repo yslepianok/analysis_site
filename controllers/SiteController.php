@@ -2,10 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\ActivityType;
 use app\models\PythagorasSquare;
 use app\models\SquareForm;
 use app\models\TestedPerson;
 use app\models\UserRelation;
+use app\models\UserToActivity;
 use app\models\UserToUser;
 use Faker\Provider\DateTime;
 use Yii;
@@ -97,9 +99,10 @@ class SiteController extends Controller
                 }
 
                 $kvW = $square::countWeightedSquare($person);
-                $pairs = PythagorasSquare::foundMainElementPairs($kvW);
-                $specialities = PythagorasSquare::getSpecialitiesForPairs($pairs);
-                Yii::warning('SpecialityList: '.implode('; ',$specialities));
+                //$pairs = PythagorasSquare::foundMainElementPairs($kvW);
+                //$specialities = PythagorasSquare::getSpecialitiesForPairs($pairs);
+                $specials = UserToActivity::getUserSpecialities($person);
+                //Yii::warning('SpecialityList: '.implode('; ',$specialities));
             }
 
             $kv = $square->simpleMatrix;

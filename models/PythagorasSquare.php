@@ -478,6 +478,7 @@ class PythagorasSquare
                     $specialityList[$pair] = $key;
             }
         }
+        Yii::warning('Список пар цифр для специализаций: '.implode(' ',$specialityList));
         return $specialityList;
     }
 }
