@@ -68,6 +68,7 @@ class UserToActivity extends \yii\db\ActiveRecord
     }
 
     // @todo Тут можно сильно оптимизировать (А можно и не оптимизировать)
+    // Функция определения предпочитаемой сферы деятельности и ее веса
     public static function getUserSpecialities($user)
     {
         $kvW = PythagorasSquare::countWeightedSquare($user);
@@ -92,19 +93,16 @@ class UserToActivity extends \yii\db\ActiveRecord
                 $activity = ActivityType::find()->where('(pair_one=:pair1 AND pair_two=:pair2) OR (pair_one=:pair2 AND pair_two=:pair1)',[':pair1'=>$itemFirst,':pair2'=>$itemSecond])->one();
                 if ($activity!=null && !in_array($activity, $specials))
                 {
-                    //Yii::warning('1');
                     $specials []= $activity;
                     $elements = [(integer)$key1[0],(integer)$key1[2],(integer)$key2[0],(integer)$key2[2]];
                 }
                 elseif(($activity = ActivityType::find()->where('pair_one=:pair1 OR pair_two=:pair1',[':pair1'=>$itemFirst])->one())!=null && !in_array($activity, $specials))
                 {
-                    //Yii::warning('2');
                     $specials []= $activity;
                     $elements = [(integer)$key1[0],(integer)$key1[2]];
                 }
                 elseif($activity = (ActivityType::find()->where('pair_one=:pair1 OR pair_two=:pair1',[':pair1'=>$itemSecond])->one())!=null && !in_array($activity, $specials))
                 {
-                    //Yii::warning('3');
                     $specials []= $activity;
                     $elements = [(integer)$key1[0],(integer)$key1[2]];
                 }
@@ -119,6 +117,7 @@ class UserToActivity extends \yii\db\ActiveRecord
         }
         Yii::warning('Количество специализаций: '.count($specials));
 
+        // Сортировка полученных сфер деятельности с учетом их веса
         for ($i=0;$i<count($specials);$i++)
         {
             for ($j=$i;$j<count($specials);$j++)

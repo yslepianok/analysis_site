@@ -150,6 +150,7 @@ class PythagorasSquare
         return $arr;
     }
 
+    // Функция получения 4-х рабочих чисел для расчетов квадрата пифагора
     public static function countWorkingChars(\DateTime $date)
     {
         $dateChars = self::formatIntoSymbolsArray($date);
@@ -197,6 +198,7 @@ class PythagorasSquare
         return $arr;
     }
 
+    // Функция рассчета простого квадрата пифагора. На входе - экземпляр класса DateTime
     public static function countSquare(\DateTime $date)
     {
         $dateChars = self::formatIntoSymbolsArray($date);
@@ -220,6 +222,7 @@ class PythagorasSquare
         return $square;
     }
 
+    // Функция рассчета расширенного квадрата пифагора. На входе - экземпляр класса DateTime
     public static function countExtendedSquare(\DateTime $date)
     {
         $workingChars = self::explodeIntArrayIntoChars(self::countWorkingChars($date));
@@ -283,6 +286,7 @@ class PythagorasSquare
         return $square;
     }
 
+    //Функция рассчета средневзвешенного квадрата пифагора (На входе - сохраненный в БД экземпляр класса Person. Выдает массив 23 элементов.
     public static function countWeightedSquare(TestedPerson $user)
     {
         $relations = $user->relatives;
@@ -373,9 +377,9 @@ class PythagorasSquare
         return $kp;
     }
 
+    // Первые 9 элементов от расширенного квадрата, сортируются по убыванию. Старые ключи сохраняются в отдельный массив с теми же новыми ключами
     public static function getMainSortedElements($kp)
     {
-        // Первые 9 элементов от расширенного квадрата, сортируются по убыванию. Старые ключи сохраняются в отдельный массив с теми же новыми ключами
         $keys = [0,1,2,3,4,5,6,7,8];
         for ($i=0;$i<9;$i++)
         {
@@ -396,6 +400,7 @@ class PythagorasSquare
         return [$kp,$keys];
     }
 
+    // Поиск главных пар элементов для этапов 3,4
     public static function foundMainElementPairs($kp_full)
     {
         $kp = array_slice($kp_full,0,9);
@@ -423,6 +428,7 @@ class PythagorasSquare
         return $pairs;
     }
 
+    // Этап 3 - для сверхдоминирующего случая
     public static function getDominatingPairs($kp,$keys)
     {
         $arr = [];
@@ -442,6 +448,7 @@ class PythagorasSquare
         return $arr;
     }
 
+    // Этап 3 - для НЕ сверхдоминирующего случая
     public static function getNonDominatingPairs($kp,$keys)
     {
         $elements = [];
@@ -465,6 +472,7 @@ class PythagorasSquare
         return $arr;
     }
 
+    // Получение пар специализации (Этап 4)
     public static function getSpecialitiesForPairs($pairs)
     {
         $specialityList = [];

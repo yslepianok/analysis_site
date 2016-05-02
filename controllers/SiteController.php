@@ -101,9 +101,9 @@ class SiteController extends Controller
                 $kvW = $square::countWeightedSquare($person);
                 //$pairs = PythagorasSquare::foundMainElementPairs($kvW);
                 //$specialities = PythagorasSquare::getSpecialitiesForPairs($pairs);
-                $specials = UserToActivity::getUserSpecialities($person);
                 //Yii::warning('SpecialityList: '.implode('; ',$specialities));
             }
+            $specials = UserToActivity::getUserSpecialities($person);
 
             $kv = $square->simpleMatrix;
             $kvEx = $square->extendedMatrix;
