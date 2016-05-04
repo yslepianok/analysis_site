@@ -456,7 +456,12 @@ class PythagorasSquare
         foreach ($elements as $element) {
             $arr []= [$keys[0]+1,$element+1];
         }
-        
+
+        $debugStr = '';
+        foreach ($arr as $pair) {
+            $debugStr .=' пара:'.$pair[0].'-'.$pair[1];
+        }
+        Yii::warning('Пары: сверхдоминирующий алгоритм, итог: '.$debugStr);
         return $arr;
     }
 
@@ -480,7 +485,12 @@ class PythagorasSquare
                 $arr []= [$keys[$i]+1,$keys[$j]+1];
             }
         }
-        
+
+        $debugStr = '';
+        foreach ($arr as $pair) {
+            $debugStr .=' пара:'.$pair[0].'-'.$pair[1];
+        }
+        Yii::warning('Пары: доминирующий алгоритм, итог: '.$debugStr);
         return $arr;
     }
 
