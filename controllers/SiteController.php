@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ActivityType;
+use app\models\Profession;
 use app\models\PythagorasSquare;
 use app\models\SquareForm;
 use app\models\TestedPerson;
@@ -107,12 +108,14 @@ class SiteController extends Controller
 
             $kv = $square->simpleMatrix;
             $kvEx = $square->extendedMatrix;
+            $professions = Profession::getUserProfessions($person);
         }
         return $this->render('kvadrat', [
             'model' => $model,
             'kv' => $kv,
             'kvEx' => $kvEx,
-            'kvW' => $kvW
+            'kvW' => $kvW,
+            'professions'=>$professions
         ]);
     }
 

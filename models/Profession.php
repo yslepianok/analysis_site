@@ -76,4 +76,160 @@ class Profession extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ActivityType::className(), ['id' => 'specialityId']);
     }
+    
+    public static function getUserProfessions($user)
+    {
+        // Пункт 3, средневзвешенный расширенный квадрат пифагора
+        $kvW = PythagorasSquare::countWeightedSquare($user);
+
+        $pairs = PythagorasSquare::foundMainElementPairs($kvW);
+
+        // Пункт 1, Элементы таблички 4.3
+        $specialities = PythagorasSquare::getSpecialitiesForPairs($pairs);
+
+        $kp = array_slice($kvW,0,9);
+
+        // Пункт 2, веса ячеек пункта1
+        $weights = self::getCellWeights($specialities, $kp);
+
+        // Пункт 4 находится в БД
+
+        // Маска лидерства
+        $leader = PythagorasSquare::getLeaderBits($user);
+
+        $professions = [];
+        $professionsDB = Profession::findAll();
+        foreach ($professionsDB as $profession) {
+            $spc = [];
+
+            $i = 0;
+            if ($profession->additional_cell_1!=null) {
+                $spc [] = $profession->additional_cell_1;
+                $i++;
+            }
+            if ($profession->additional_cell_2!=null){
+                $spc []= $profession->additional_cell_2;
+                $i++;
+            }
+            if ($profession->additional_cell_3!=null){
+                $spc []= $profession->additional_cell_3;
+                $i++;
+            }
+            if ($profession->additional_cell_4!=null){
+                $spc []= $profession->additional_cell_4;
+                $i++;
+            }
+            if ($profession->additional_cell_5!=null){
+                $spc []= $profession->additional_cell_5;
+                $i++;
+            }
+            if ($profession->additional_cell_6!=null){
+                $spc []= $profession->additional_cell_6;
+                $i++;
+            }
+
+            // Этап отбраковки 1: Количество совпадающих ячеек
+            $passedItems = [];
+            $j = 0;
+            foreach ($spc as $item) {
+                if (in_array($item, $specialities))
+                {
+                    $passedItems []= $item;
+                    $j++;
+                }
+            }
+
+            $failed = true;
+            switch ($i)
+            {
+                case 1:
+                    $failed = ($j <= 0);
+                    break;
+                case 2:
+                    $failed = ($j <= 1);
+                    break;
+                case 3:
+                    $failed = ($j <= 1);
+                    break;
+                case 4:
+                    $failed = ($j <= 1);
+                    break;
+                case 5:
+                    $failed = ($j <= 2);
+                    break;
+                case 6:
+                    $failed = ($j <= 2);
+                    break;
+            }
+            if ($failed)
+                continue;
+
+            // Этап отбраковки 2: Допустимость элементов профессии
+            $failed = false;
+            foreach ($spc as $item) {
+                $element = PythagorasSquare::$specialityFunction[$item];
+                $s1 = (integer)$element[0];
+                $s2 = (integer)$element[2];
+                
+                $acc_lvl1 = PythagorasSquare::getElementAccessLevel($s1, $kvW[$s1-1], $user);
+                $acc_lvl2 = PythagorasSquare::getElementAccessLevel($s2, $kvW[$s2-1], $user);
+
+                if ($acc_lvl1==0 || $acc_lvl2==0)
+                    $failed = true;
+            }
+            if ($failed)
+                continue;
+
+            // Этам отбраковки 3: управляющие биты
+            if ($profession->boss_flags[0]<=$leader[0] &&
+                $profession->boss_flags[1]<=$leader[1] &&
+                $profession->boss_flags[2]<=$leader[2] &&
+                $profession->boss_flags[3]<=$leader[3])
+                continue;
+
+            // Если мы вошли сюда, профессия не отбракована
+            Yii::warning(' Профессия прошла отбраковку: '.$profession->name);
+            // Вычисление веса профессии
+            $weight = 0;
+            $r = self::rFunction($leader);
+            foreach ($spc as $item) {
+                $w = self::getCellWeight($item, $kp);
+                $weight += $w * $r;
+            }
+            $professions []= [$profession, $weight];
+        }
+
+        return $professions;
+    }
+
+    public static function getCellWeights($specialities, $kp)
+    {
+        $weight = [];
+        $debugStr = '';
+
+        foreach ($specialities as $key=>$speciality) {
+            $w = $kp[(integer)$key[0]-1] + $kp[(integer)$key[2]-1];
+            $weight[$key] = $w;
+
+            $debugStr .= 'Элемент='.$speciality.' Вес='.$w.'; ';
+        }
+
+        Yii::warning($debugStr);
+        return $weight;
+    }
+
+    public static function getCellWeight($key, $kp)
+    {
+        $w = $kp[(integer)$key[0]-1] + $kp[(integer)$key[2]-1];
+        return $w;
+    }
+
+    public static function rFunction($lead)
+    {
+        if ($lead[3]==1 || ($lead[2]==1 && $lead[1]==1))
+            return 2;
+        elseif ($lead[4]==1 || ($lead[0]==1 && $lead[1]==1))
+            return 1.5;
+        else return 1;
+    }
 }

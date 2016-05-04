@@ -122,7 +122,13 @@ class PythagorasSquare
         '7.4'=>'1,4',
         '7.5'=>'1,9',
         '36' =>'1,8',
+    ];
 
+    public static $leaderBitsMask = [
+        ['2001','2010','2100','1101','1110','0011','0201','1020','0120','0030'],
+        ['0300','0030','0102','0120','0201','0011','0210'],
+        ['1000','1100','1010','1001','0010','0110','0001','0101'],
+        ['0100','1100','2100','3100','0010','1010','2010','3010','0110','1110','2110','3110','0001','1001','2001','3001'],
     ];
 
     public function __construct(\DateTime $date)
@@ -494,5 +500,84 @@ class PythagorasSquare
         }
         Yii::warning('Список пар цифр для специализаций: '.implode(' ',$specialityList));
         return $specialityList;
+    }
+
+    // Расчет лидерской маски пользователя
+    public static function getLeaderBits($user)
+    {
+        $leader = '';
+
+        $kp = self::countWeightedSquare($user);
+
+        $keys = [19,20,23,18];
+        $acc = '';
+        foreach ($keys as $key) {
+            $acc .= self::getElementAccessLevel($key, $kp[$key-1], $user);
+            /*if ($kp[$key-1]>=15)
+                $acc .= 3;
+            elseif ($user->birth_date<'2000')
+            {
+                $acc .= self::$acceptableLevelOld[$key][$kw[$key-1]];
+            }
+            elseif($user->birth_date>='2000')
+            {
+                $acc .= self::$acceptableLevelNew[$key][$kw[$key-1]];
+            }*/
+        }
+
+        Yii::warning('Маска уровней допустимости лидерских качеств пользователя='.$acc);
+        
+        $lead1=0;
+        $lead2=0;
+        $lead3=0;
+        $lead4=0;
+        
+        foreach (self::$leaderBitsMask[0] as $item) {
+            if ($item[0]<=$acc[0] && $item[1]<=$acc[1] && $item[2]<=$acc[2] && $item[3]<=$acc[3]) {
+                $lead1 = 1;
+                $lead3 = 1;
+            }
+        }
+        foreach (self::$leaderBitsMask[1] as $item) {
+            if ($item[0]<=$acc[0] && $item[1]<=$acc[1] && $item[2]<=$acc[2] && $item[3]<=$acc[3]) {
+                $lead2 = 1;
+                $lead4 = 1;
+            }
+        }
+        if (!$lead1)
+        {
+            foreach (self::$leaderBitsMask[2] as $item) {
+                if ($item==$acc) {
+                    $lead1 = 1;
+                }
+            }
+        }
+        if (!$lead2)
+        {
+            foreach (self::$leaderBitsMask[3] as $item) {
+                if ($item==$acc) {
+                    $lead2 = 1;
+                }
+            }
+        }
+
+        $leader = $lead1.$lead2.$lead3.$lead4;
+        Yii::warning('Маска лидерства: '.$leader);
+        
+        return $leader;
+    }
+
+    public static function getElementAccessLevel($key, $element, $user)
+    {
+        if ($element>=15)
+            return 3;
+        elseif ($user->birth_date<'2000')
+        {
+            return self::$acceptableLevelOld[$key][$element];
+        }
+        elseif($user->birth_date>='2000')
+        {
+            return self::$acceptableLevelNew[$key][$element];
+        }
     }
 }

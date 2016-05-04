@@ -89,6 +89,22 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 <? } ?>
 
+<? if ($professions!=null && !empty($professions)) {?>
+    <div class="panel square-simple">
+        <h1>Ваши профессии:</h1>
+        <p>
+            <?php
+            foreach ($professions as $element)
+                echo '<div class="row">';
+                echo '<h2>'.$element[0]->name.' Вес:'.$element[1].'</h2>';
+                echo '</div>'
+            ?>
+        </p>
+    </div>
+<? } ?>
+
+
+
 
 <!--Script for adding persons-->
 <script>
