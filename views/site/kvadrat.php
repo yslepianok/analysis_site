@@ -90,6 +90,22 @@ $this->params['breadcrumbs'][] = $this->title;
 <? } ?>
 
 <div class="panel square-simple">
+    <h1>Ваши сферы деятельности:</h1>
+    <p>
+        <?php
+        if ($specialities != null && !empty($specialities))
+        {
+            foreach ($specialities[0] as $key=>$spc) {
+                echo '<div class="row">';
+                echo '<h2>' . $spc->name . ' Вес:' . $specialities[1][$key] . '</h2>';
+                echo '</div>';
+            }
+        }
+        ?>
+    </p>
+</div>
+
+<div class="panel square-simple">
     <h1>Ваши профессии:</h1>
     <p>
     <?php
