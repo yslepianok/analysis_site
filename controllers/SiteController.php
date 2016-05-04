@@ -68,6 +68,7 @@ class SiteController extends Controller
         $kv = [];
         $kvEx = [];
         $kvW = [];
+        $professions = [];
 
         if ($model->load(Yii::$app->request->post())) {
             $date = \DateTime::createFromFormat('d-m-Y',$model->birth_date);
@@ -109,6 +110,18 @@ class SiteController extends Controller
             $kv = $square->simpleMatrix;
             $kvEx = $square->extendedMatrix;
             $professions = Profession::getUserProfessions($person);
+            if ($professions!=null)
+            {
+                $s = count($professions);
+                for ($i=0;$i<$s;$i++)
+                    for ($j=$i;$j<$s;$j++)
+                        if ($professions[$i][1] <= $professions[$j][1])
+                        {
+                            $buf = $professions[$i];
+                            $professions[$i] = $professions[$j];
+                            $professions[$j] = $buf;
+                        }
+            }
         }
         return $this->render('kvadrat', [
             'model' => $model,

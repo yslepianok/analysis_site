@@ -79,6 +79,10 @@ class Profession extends \yii\db\ActiveRecord
     
     public static function getUserProfessions($user)
     {
+        $passed1 = [];
+        $passed2 = [];
+        $passed3 = [];
+
         // Пункт 3, средневзвешенный расширенный квадрат пифагора
         $kvW = PythagorasSquare::countWeightedSquare($user);
 
@@ -98,7 +102,7 @@ class Profession extends \yii\db\ActiveRecord
         $leader = PythagorasSquare::getLeaderBits($user);
 
         $professions = [];
-        $professionsDB = Profession::findAll();
+        $professionsDB = Profession::find()->all();
         foreach ($professionsDB as $profession) {
             $spc = [];
 
@@ -163,29 +167,33 @@ class Profession extends \yii\db\ActiveRecord
             }
             if ($failed)
                 continue;
+            $passed1 []= $profession->name;
 
             // Этап отбраковки 2: Допустимость элементов профессии
             $failed = false;
             foreach ($spc as $item) {
                 $element = PythagorasSquare::$specialityFunction[$item];
-                $s1 = (integer)$element[0];
-                $s2 = (integer)$element[2];
+                $s1 = (integer)((string)$element[0]);
+                $s2 = (integer)((string)$element[2]);
                 
-                $acc_lvl1 = PythagorasSquare::getElementAccessLevel($s1, $kvW[$s1-1], $user);
-                $acc_lvl2 = PythagorasSquare::getElementAccessLevel($s2, $kvW[$s2-1], $user);
+                $acc_lvl1 = PythagorasSquare::getElementAccessLevel($s1, $kvW[$s1], $user);
+                $acc_lvl2 = PythagorasSquare::getElementAccessLevel($s2, $kvW[$s2], $user);
 
                 if ($acc_lvl1==0 || $acc_lvl2==0)
                     $failed = true;
             }
             if ($failed)
                 continue;
+            $passed2 []= $profession->name;
 
             // Этам отбраковки 3: управляющие биты
-            if ($profession->boss_flags[0]<=$leader[0] &&
-                $profession->boss_flags[1]<=$leader[1] &&
-                $profession->boss_flags[2]<=$leader[2] &&
-                $profession->boss_flags[3]<=$leader[3])
+            if ($profession->boss_flags[0]>$leader[0] &&
+                $profession->boss_flags[1]>$leader[1] &&
+                $profession->boss_flags[2]>$leader[2] &&
+                $profession->boss_flags[3]>$leader[3])
                 continue;
+
+            $passed3 []= $profession->name;
 
             // Если мы вошли сюда, профессия не отбракована
             Yii::warning(' Профессия прошла отбраковку: '.$profession->name);
@@ -196,9 +204,11 @@ class Profession extends \yii\db\ActiveRecord
                 $w = self::getCellWeight($item, $kp);
                 $weight += $w * $r;
             }
-            $professions []= [$profession, $weight];
+            $professions []= [0=>$profession, 1=>$weight];
         }
-
+        Yii::warning('Прошли 1 этап отбраковки: '.count($passed1));
+        Yii::warning('Прошли 2 этап отбраковки: '.count($passed2));
+        Yii::warning('Прошли 3 этап отбраковки: '.count($passed3));
         return $professions;
     }
 

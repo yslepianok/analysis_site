@@ -318,10 +318,10 @@ class PythagorasSquare
             $levels[$relation->userRelated->id] = $relation->relationType->level;
         }
 
-        foreach ($squares as $key=>$sqr)
+        /*foreach ($squares as $key=>$sqr)
         {
             Yii::warning('Level['.$key.'] = '.$levels[$key].' KP: '.implode(' ', $sqr));
-        }
+        }*/
 
         // Вычисление всех данных для каждого родственника
         foreach ($levels as $key=>$level) {
@@ -329,7 +329,7 @@ class PythagorasSquare
             $accLevelPerson = [];
             $gPerson = [];
             $hPerson = [];
-            Yii::warning($relation->birth_date);
+            //Yii::warning($relation->birth_date);
             for ($i=1;$i<=23;$i++)
             {
                 // Вычисление уровней доступа
@@ -364,7 +364,7 @@ class PythagorasSquare
             $h[$key]= $hPerson;
             $g[$key]= $gPerson;
 
-            Yii::warning('Key = '.$key.' Level: '.$level.' Acc[1] = '.$accLevelPerson[1].' G[1] = '.$gPerson[1].' H[1] = '.$hPerson[1]);
+            //Yii::warning('Key = '.$key.' Level: '.$level.' Acc[1] = '.$accLevelPerson[1].' G[1] = '.$gPerson[1].' H[1] = '.$hPerson[1]);
         }
 
         // Рассчет средневзвешенной матрицы
@@ -425,7 +425,7 @@ class PythagorasSquare
         foreach ($kp as $key=>$item) {
             $befSort .= ' key='.$keys[$key].' val='.$item;
         }
-        Yii::warning('After sorting: '.$befSort);
+        //Yii::warning('After sorting: '.$befSort);
 
         $pairs = [];
         if ($kp[0]>=($kp[1]*1.5))
@@ -433,9 +433,9 @@ class PythagorasSquare
         else
             $pairs = self::getNonDominatingPairs($kp,$keys);
 
-        foreach ($pairs as $pair) {
+        /*foreach ($pairs as $pair) {
             Yii::warning('Pair:'.$pair[0].'-'.$pair[1]);
-        }
+        }*/
         
         return $pairs;
     }
@@ -472,7 +472,7 @@ class PythagorasSquare
             array_push($elements, $keys[$i]);
             $i++;
         }
-        Yii::warning('Elements: '.implode(', ',$elements));
+        //Yii::warning('Elements: '.implode(', ',$elements));
 
         for ($i=0;$i<count($elements);$i++)
         {
@@ -498,7 +498,7 @@ class PythagorasSquare
                     $specialityList[$pair] = $key;
             }
         }
-        Yii::warning('Список пар цифр для специализаций: '.implode(' ',$specialityList));
+        //Yii::warning('Список пар цифр для специализаций: '.implode(' ',$specialityList));
         return $specialityList;
     }
 

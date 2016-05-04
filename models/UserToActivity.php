@@ -88,7 +88,7 @@ class UserToActivity extends \yii\db\ActiveRecord
             $arr = array_slice($specialities,$i+1);
             foreach ($arr as $key2=>$itemSecond)
             {
-                Yii::warning('Текущая пара пар цифр:'.$itemFirst.' '.$itemSecond);
+                //Yii::warning('Текущая пара пар цифр:'.$itemFirst.' '.$itemSecond);
                 $elements = [];
                 $activity = ActivityType::find()->where('(pair_one=:pair1 AND pair_two=:pair2) OR (pair_one=:pair2 AND pair_two=:pair1)',[':pair1'=>$itemFirst,':pair2'=>$itemSecond])->one();
                 if ($activity!=null && !in_array($activity, $specials))
