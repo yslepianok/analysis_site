@@ -425,7 +425,7 @@ class PythagorasSquare
         foreach ($kp as $key=>$item) {
             $befSort .= ' key='.$keys[$key].' val='.$item;
         }
-        //Yii::warning('After sorting: '.$befSort);
+        Yii::warning('After sorting: '.$befSort);
 
         $pairs = [];
         if ($kp[0]>=($kp[1]*1.5))
@@ -443,6 +443,8 @@ class PythagorasSquare
     // Этап 3 - для сверхдоминирующего случая
     public static function getDominatingPairs($kp,$keys)
     {
+        Yii::warning('Сверхдоминирующий алгоритм');
+
         $arr = [];
         $i = 1;
         
@@ -453,21 +455,29 @@ class PythagorasSquare
                 array_push($elements, $keys[$i]);
         }
 
+        $debugStr = '';
+        foreach ($elements as $pair) {
+            $debugStr .=($pair+1).', ';
+        }
+        Yii::warning('Выбраны элементы: '.$debugStr);
+
         foreach ($elements as $element) {
             $arr []= [$keys[0]+1,$element+1];
         }
 
         $debugStr = '';
         foreach ($arr as $pair) {
-            $debugStr .=' пара:'.$pair[0].'-'.$pair[1];
+            $debugStr .=' '.$pair[0].'-'.$pair[1];
         }
-        Yii::warning('Пары: сверхдоминирующий алгоритм, итог: '.$debugStr);
+        Yii::warning('Пары, итог: '.$debugStr);
         return $arr;
     }
 
     // Этап 3 - для НЕ сверхдоминирующего случая
     public static function getNonDominatingPairs($kp,$keys)
     {
+        Yii::warning('Доминирующий алгоритм');
+
         $elements = [];
         $arr = [];
         $i = 1;
@@ -477,8 +487,12 @@ class PythagorasSquare
             array_push($elements, $keys[$i]);
             $i++;
         }
-        //Yii::warning('Elements: '.implode(', ',$elements));
 
+        $debugStr = '';
+        foreach ($elements as $pair) {
+            $debugStr .=($pair+1).', ';
+        }
+        Yii::warning('Выбраны элементы: '.$debugStr);
         for ($i=0;$i<count($elements);$i++)
         {
             for ($j=$i+1;$j<count($elements);$j++) {
@@ -488,9 +502,9 @@ class PythagorasSquare
 
         $debugStr = '';
         foreach ($arr as $pair) {
-            $debugStr .=' пара:'.$pair[0].'-'.$pair[1];
+            $debugStr .=' '.$pair[0].'-'.$pair[1];
         }
-        Yii::warning('Пары: доминирующий алгоритм, итог: '.$debugStr);
+        Yii::warning('Пары, итог: '.$debugStr);
         return $arr;
     }
 
