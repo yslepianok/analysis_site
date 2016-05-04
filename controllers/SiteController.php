@@ -68,6 +68,7 @@ class SiteController extends Controller
         $kv = [];
         $kvEx = [];
         $kvW = [];
+        $specials = [];
         $professions = [];
 
         if ($model->load(Yii::$app->request->post())) {
@@ -128,7 +129,8 @@ class SiteController extends Controller
             'kv' => $kv,
             'kvEx' => $kvEx,
             'kvW' => $kvW,
-            'professions'=>$professions
+            'specialities' => $specials,
+            'professions'=>$professions,
         ]);
     }
 
