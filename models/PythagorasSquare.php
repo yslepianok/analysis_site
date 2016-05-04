@@ -460,7 +460,7 @@ class PythagorasSquare
             Yii::warning('Элемент >= 5');
             $elements = [$keys[1]];
             for ($i = 2; $i < 9; $i++) {
-                if ($i!=8 && $kp[$i] >= 0.75)
+                if ($kp[$i] >= 0.75)
                     array_push($elements, $keys[$i]);
             }
         }
