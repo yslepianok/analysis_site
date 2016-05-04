@@ -200,6 +200,7 @@ class Profession extends \yii\db\ActiveRecord
             // Вычисление веса профессии
             $weight = 0;
             $r = self::rFunction($leader);
+
             foreach ($spc as $item) {
                 $w = self::getCellWeight($item, $kp);
                 $weight += $w * $r;
@@ -230,7 +231,8 @@ class Profession extends \yii\db\ActiveRecord
 
     public static function getCellWeight($key, $kp)
     {
-        $w = $kp[(integer)$key[0]-1] + $kp[(integer)$key[2]-1];
+        $k = PythagorasSquare::$specialityFunction[$key];
+        $w = $kp[(integer)$k[0]-1] + $kp[(integer)$k[2]-1];
         return $w;
     }
 

@@ -121,7 +121,7 @@ class PythagorasSquare
         '7.3'=>'1,6',
         '7.4'=>'1,4',
         '7.5'=>'1,9',
-        '36' =>'1,8',
+        '0.0'=>'1,8',
     ];
 
     public static $leaderBitsMask = [
@@ -447,12 +447,22 @@ class PythagorasSquare
 
         $arr = [];
         $i = 1;
-        
-        $elements = [$kp[1]];
-        for ($i=2;$i<9;$i++)
+        if ($kp[0]<5) {
+            Yii::warning('Элемент < 5');
+            $elements = [$keys[1]];
+            for ($i = 2; $i < 9; $i++) {
+                if ($kp[$i] >= (0.75 * $kp[1]))
+                    array_push($elements, $keys[$i]);
+            }
+        }
+        else
         {
-            if ($kp[$i]>= (0.75 * $kp[1]))
-                array_push($elements, $keys[$i]);
+            Yii::warning('Элемент >= 5');
+            $elements = [$keys[1]];
+            for ($i = 2; $i < 9; $i++) {
+                if ($i!=8 && $kp[$i] >= 0.75)
+                    array_push($elements, $keys[$i]);
+            }
         }
 
         $debugStr = '';
@@ -522,7 +532,7 @@ class PythagorasSquare
                     $specialityList[$pair] = $key;
             }
         }
-        //Yii::warning('Список пар цифр для специализаций: '.implode(' ',$specialityList));
+        Yii::warning('Список пар цифр для специализаций: '.implode(' ',$specialityList));
         return $specialityList;
     }
 

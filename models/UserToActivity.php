@@ -90,33 +90,44 @@ class UserToActivity extends \yii\db\ActiveRecord
             {
                 //Yii::warning('Текущая пара пар цифр:'.$itemFirst.' '.$itemSecond);
                 $elements = [];
-                $activity = ActivityType::find()->where('(pair_one=:pair1 AND pair_two=:pair2) OR (pair_one=:pair2 AND pair_two=:pair1)',[':pair1'=>$itemFirst,':pair2'=>$itemSecond])->one();
-                if ($activity!=null && !in_array($activity, $specials))
+                $activity = null;
+                if (($activity = ActivityType::find()->where('(pair_one=:pair1 AND pair_two=:pair2) OR (pair_one=:pair2 AND pair_two=:pair1)',[':pair1'=>$itemFirst,':pair2'=>$itemSecond])->one()) instanceof ActivityType && !in_array($activity, $specials))
                 {
-                    $specials []= $activity;
-                    $elements = [(integer)$key1[0],(integer)$key1[2],(integer)$key2[0],(integer)$key2[2]];
+                    if ($activity instanceof ActivityType) {
+                        $specials [] = $activity;
+                        $elements = [(integer)$key1[0], (integer)$key1[2], (integer)$key2[0], (integer)$key2[2]];
+                    }
                 }
-                elseif(($activity = ActivityType::find()->where('pair_one=:pair1 OR pair_two=:pair1',[':pair1'=>$itemFirst])->one())!=null && !in_array($activity, $specials))
+                elseif(($activity = ActivityType::find()->where('pair_one=:pair1 OR pair_two=:pair1',[':pair1'=>$itemFirst])->one()) instanceof ActivityType && !in_array($activity, $specials))
                 {
-                    $specials []= $activity;
-                    $elements = [(integer)$key1[0],(integer)$key1[2]];
+                    if ($activity instanceof ActivityType) {
+                        $specials [] = $activity;
+                        $elements = [(integer)$key1[0], (integer)$key1[2]];
+                    }
                 }
-                elseif($activity = (ActivityType::find()->where('pair_one=:pair1 OR pair_two=:pair1',[':pair1'=>$itemSecond])->one())!=null && !in_array($activity, $specials))
+                elseif($activity = (ActivityType::find()->where('pair_one=:pair1 OR pair_two=:pair1',[':pair1'=>$itemSecond])->one()) instanceof ActivityType && !in_array($activity, $specials))
                 {
-                    $specials []= $activity;
-                    $elements = [(integer)$key1[0],(integer)$key1[2]];
+                    if ($activity instanceof ActivityType) {
+                        $specials [] = $activity;
+                        $elements = [(integer)$key1[0], (integer)$key1[2]];
+                    }
                 }
-                $weight = 0;
-                foreach ($elements as $element) {
-                    $weight += $kvW[$element];
+                else continue;
+
+                if ($activity instanceof ActivityType)
+                {
+                    $weight = 0;
+                    foreach ($elements as $element) {
+                        $weight += $kvW[$element];
+                    }
+                    if ($weight != 0)
+                        $weights [] = $weight;
                 }
-                if ($weight!=0)
-                    $weights []= $weight;
             }
             $i++;
         }
         Yii::warning('Количество специализаций: '.count($specials));
-
+        
         // Сортировка полученных сфер деятельности с учетом их веса
         for ($i=0;$i<count($specials);$i++)
         {

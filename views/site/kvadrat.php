@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php
             $str = '';
             foreach ($kvEx as $key=>$element)
-                $str .= 'KP'.($key+1).' '.$element.' ';
+                $str .= 'KP'.($key+1).' <strong>'.$element.'</strong> ';
             echo $str;
             ?>
         </p>
@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php
             $str = '';
             foreach ($kvW as $key=>$element)
-                $str .= 'KP'.($key).' '.$element.' ';
+                $str .= 'KP'.($key+1).' <strong>'.$element.'</strong> ';
             echo $str;
             ?>
         </p>
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
         {
             foreach ($specialities[0] as $key=>$spc) {
                 echo '<div class="row">';
-                echo '<h2>' . $spc->name . ' Вес:' . $specialities[1][$key] . '</h2>';
+                echo '<h3>' . $spc->name . ' Вес:' . $specialities[1][$key] . '</h3>';
                 echo '</div>';
             }
         }
@@ -108,16 +108,16 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="panel square-simple">
     <h1>Ваши профессии:</h1>
     <p>
-    <?php
-    if ($professions != null && !empty($professions))
-    {
-        foreach ($professions as $element) {
-            echo '<div class="row">';
-            echo '<h2>' . $element[0]->name . ' Вес:' . $element[1] . '</h2>';
-            echo '</div>';
+        <?php
+        if ($professions != null && !empty($professions))
+        {
+            foreach ($professions as $element) {
+                echo '<div class="row">';
+                echo '<h3>' . $element[0]->name . ' Вес:' . $element[1] . '</h3>';
+                echo '</div>';
+            }
         }
-    }
-            ?>
+        ?>
         </p>
 </div>
 

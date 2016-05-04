@@ -25,4 +25,4 @@ INSERT INTO `analysis_site`.`activity_type` (`name`, `pair_one`, `pair_two`) VAL
 INSERT INTO `analysis_site`.`activity_type` (`name`, `pair_one`, `pair_two`) VALUES ('Государственно-правовая', '6.1', '2.4');
 INSERT INTO `analysis_site`.`activity_type` (`name`, `pair_one`, `pair_two`) VALUES ('Материальное производство', '6.3', '1.3');
 INSERT INTO `analysis_site`.`activity_type` (`name`, `pair_one`, `pair_two`) VALUES ('Идеологическая', '5.4', '6.2');
-INSERT INTO `analysis_site`.`activity_type` (`name`, `pair_one`, `pair_two`) VALUES ('Философская', '36', '7.3');
+INSERT INTO `analysis_site`.`activity_type` (`name`, `pair_one`, `pair_two`) VALUES ('Философская', '0.0', '7.3');
