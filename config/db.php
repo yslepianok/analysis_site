@@ -2,8 +2,8 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=analysis_site',
-    'username' => 'root',
-    'password' => '',
+    'dsn' => 'mysql:host=mysql.hostinger.ru;port=3306;dbname=u472889452_analy',
+    'username' => 'u472889452_psych',
+    'password' => 'AmKMT5bvUk',
     'charset' => 'utf8',
 ];
