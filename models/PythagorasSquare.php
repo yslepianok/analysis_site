@@ -383,7 +383,7 @@ class PythagorasSquare
                 $kp[$i]=$ch;
             }
             else
-                $kp[$i] = round($ch/$zn, 2);
+                $kp[$i-1] = round($ch/$zn, 2);
         }
 
         return $kp;

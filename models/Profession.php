@@ -238,9 +238,9 @@ class Profession extends \yii\db\ActiveRecord
 
     public static function rFunction($lead)
     {
-        if ($lead[3]==1 || ($lead[2]==1 && $lead[1]==1))
+        if ($lead[3]==1 || ($lead[1]==1 && $lead[1]==1))
             return 2;
-        elseif ($lead[4]==1 || ($lead[0]==1 && $lead[1]==1))
+        elseif ($lead[2]==1 || ($lead[0]==1 && $lead[1]==1))
             return 1.5;
         else return 1;
     }

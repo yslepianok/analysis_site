@@ -110,6 +110,9 @@ class SiteController extends Controller
 
             $kv = $square->simpleMatrix;
             $kvEx = $square->extendedMatrix;
+            Yii::warning(print_r($kv,true));
+            Yii::warning(print_r($kvEx,true));
+            Yii::warning(print_r($kvW,true));
             $professions = Profession::getUserProfessions($person);
             if ($professions!=null)
             {
