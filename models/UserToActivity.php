@@ -150,4 +150,75 @@ class UserToActivity extends \yii\db\ActiveRecord
         }
         return [$specials, $weights];
     }
+
+    public static function getUserSpecialitiesExtended($user)
+    {
+        $kvW = PythagorasSquare::countWeightedSquare($user);
+
+        $weights = self::getCellsWeight($kvW);
+
+        arsort($weights);
+
+        $arrPositive = [];
+        $i=0;
+        $lastEl = 0;
+        $lastKey = null;
+        foreach ($weights as $key=>$item) {
+            if ($i<7 || (($item>=($lastEl*0.5)) && $i<10) || (in_array($lastKey, $arrPositive) && $item>=$lastEl*0.85))
+                $arrPositive []= $key;
+            else
+                break;
+
+            $i++;
+            $lastEl = $item;
+            $lastKey = $key;
+        }
+        asort($weights);
+
+        $arrNegative = [];
+        $i=0;
+        $lastEl = 0;
+        $lastKey = null;
+        foreach ($weights as $key=>$item) {
+            if ($i<7 || (($lastEl>=($item*0.5)) && $i<10) || (in_array($lastKey, $arrNegative) && $item<=$lastEl*0.99))
+                $arrNegative []= $key;
+            else
+                break;
+
+            $i++;
+            $lastEl = $item;
+            $lastKey = $key;
+        }
+
+        arsort($weights);
+
+        Yii::warning('Positive: '.implode(' ',$arrPositive));
+        Yii::warning('Negative: '.implode(' ',$arrNegative));
+        return [$weights, $arrPositive, $arrNegative];
+    }
+
+    public static function getCellsWeight($kpW, $ss=null, $alf=null)
+    {
+        $res = PythagorasSquare::getMainSortedElements($kpW);
+        $kp = $res[0];
+        $keys = $res[1];
+
+        $result = [];
+        $arr = PythagorasSquare::$specialityFunction;
+        if ($ss!=null) {
+
+            foreach ($arr as $key => $item) {
+                $el = $ss[$key[0]][$key[2]];
+                $result[$key] = $el + $alf * (($kpW[$item[0]] + $kpW[$item[2]]) * 2 / $kp[0] - 2);
+            }
+        }
+        else
+        {
+            foreach ($arr as $key => $item) {
+                $result[$key] = ($kpW[$item[0]] + $kpW[$item[2]]) * 2 / $kp[0] - 2;
+            }
+        }
+
+        return $result;
+    }
 }

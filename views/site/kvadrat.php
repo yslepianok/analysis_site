@@ -105,6 +105,49 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 </div>
 
+<style>
+    table {
+        width: 30%; /* Ширина таблицы */
+        border: 1px solid #399; /* Граница вокруг таблицы */
+        border-spacing: 7px 5px; /* Расстояние между границ */
+    }
+</style>
+
+<div class="panel square-simple">
+    <h1>Ваши cферы деятельности (Другой алгоритм):</h1>
+    <p>
+        <?php
+        if ($bundle != null && !empty($bundle))
+        {
+            echo '<table cellspacing="5">';
+            echo '<thead>';
+            echo '<td>Ключ</td>';
+            echo '<td>Содержимое</td>';
+            echo '<td>Вес</td>';
+            echo '</thead>';
+            echo '<tbody>';
+            foreach ($bundle[0] as $key=>$element) {
+                /*echo '<div class="row">';
+                echo '<h3>' . $element[0]->name . ' Вес:' . $element[1] . '</h3>';
+                echo '</div>';*/
+                if (in_array($key, $bundle[1]))
+                    echo '<tr bgcolor="green">';
+                elseif (in_array($key,$bundle[2]))
+                    echo '<tr bgcolor="red">';
+                else
+                    echo '<tr>';
+                echo '<td>'.$key.'</td>';
+                echo '<td>'.\app\models\PythagorasSquare::$specialityFunction[$key].'</td>';
+                echo '<td>'.round($element,2).'</td>';
+                echo '</tr>';
+            }
+            echo '</tbody>';
+            echo '</table>';
+        }
+        ?>
+    </p>
+</div>
+
 <div class="panel square-simple">
     <h1>Ваши профессии:</h1>
     <p>
@@ -120,6 +163,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
         </p>
 </div>
+
 
 
 

@@ -121,7 +121,7 @@ class PythagorasSquare
         '7.3'=>'1,6',
         '7.4'=>'1,4',
         '7.5'=>'1,9',
-        '0.0'=>'1,8',
+        '8.1'=>'1,8',
     ];
 
     public static $leaderBitsMask = [
