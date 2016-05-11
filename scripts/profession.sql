@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS profession;
 CREATE TABLE `profession` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(250) NOT NULL,

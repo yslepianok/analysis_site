@@ -82,7 +82,7 @@ class UserToActivity extends \yii\db\ActiveRecord
         $specials = [];
         $weights = [];
 
-        $i = 0;
+        /*$i = 0;
         foreach ($specialities as $key1=>$itemFirst)
         {
             $arr = array_slice($specialities,$i+1);
@@ -102,6 +102,8 @@ class UserToActivity extends \yii\db\ActiveRecord
                 {
                     if ($activity instanceof ActivityType) {
                         $specials [] = $activity;
+                        $p1 = $activity->pair_one;
+                        $p2 = $activity->pair_two;
                         $elements = [(integer)$key1[0], (integer)$key1[2]];
                     }
                 }
@@ -116,8 +118,10 @@ class UserToActivity extends \yii\db\ActiveRecord
 
                 if ($activity instanceof ActivityType)
                 {
+                    Yii::warning('вес:');
                     $weight = 0;
                     foreach ($elements as $element) {
+                        Yii::warning($kvW[$element]);
                         $weight += $kvW[$element];
                     }
                     if ($weight != 0)
@@ -125,6 +129,19 @@ class UserToActivity extends \yii\db\ActiveRecord
                 }
             }
             $i++;
+        }*/
+
+        $arr = ActivityType::find()->all();
+        $arr_to_find = PythagorasSquare::$specialityFunction;
+        foreach ($arr as $item) {
+            if (array_search($item->pair_one, $specialities) || array_search($item->pair_two, $specialities))
+            {
+                Yii::warning('Найдено '.$item->pair_one.' или/и '.$item->pair_two);
+                $specials []= $item;
+                $a = $arr_to_find[$item->pair_one];
+                $b = $arr_to_find[$item->pair_two];
+                $weights []= $kvW[$a[0]-1] + $kvW[$a[2]-1] + $kvW[$b[0]-1] + $kvW[$b[2]-1];
+            }
         }
         Yii::warning('Количество специализаций: '.count($specials));
         
@@ -209,13 +226,13 @@ class UserToActivity extends \yii\db\ActiveRecord
 
             foreach ($arr as $key => $item) {
                 $el = $ss[$key[0]][$key[2]];
-                $result[$key] = $el + $alf * (($kpW[$item[0]] + $kpW[$item[2]]) * 2 / $kp[0] - 2);
+                $result[$key] = $el + $alf * (($kpW[$item[0]-1] + $kpW[$item[2]-1]) * 2 / $kp[0] - 2);
             }
         }
         else
         {
             foreach ($arr as $key => $item) {
-                $result[$key] = ($kpW[$item[0]] + $kpW[$item[2]]) * 2 / $kp[0] - 2;
+                $result[$key] = ($kpW[$item[0]-1] + $kpW[$item[2]-1]) * 2 / $kp[0] - 2;
             }
         }
 
