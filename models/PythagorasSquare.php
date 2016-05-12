@@ -231,16 +231,13 @@ class PythagorasSquare
             array_push($square,$c);
         }
 
-        Yii::warning($date);
         if ($date->format('Y-m-d')<'2000')
         {
-            Yii::warning('less');
             $square[0] -= 1;
             $square[8] -= 0.2;
         }
         else
         {
-            Yii::warning('more');
             $square[1] -= 1;
         }
         return $square;
