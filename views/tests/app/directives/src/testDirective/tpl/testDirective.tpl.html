@@ -1,0 +1,27 @@
+<div>
+    <h3 class="text-center">{{testName}}</h3>
+    <div>
+        <p>{{testDescription}}</p>
+        <ul>
+            <li ng-repeat="gradation in gradationDescription"><span class="glyphicon glyphicon-asterisk {{gradation.color}}"></span> : {{gradation.value}}</li>
+        </ul>
+    </div>
+    <form ng-submit="submitForm()">
+        <table class="table">
+            <tr ng-repeat="item in itemList">
+                <td>
+                    <button class="btn btn-default ng-class:{ 'selected-button': $index == selectedPosButton };" ng-click="selectPositiveLetter($index)" type="button">+</button>
+                    <button class="btn btn-default ng-class:{ 'selected-button': $index == selectedNegButton };" ng-click="selectNegativeLetter($index)" type="button">-</button>
+                </td>
+                <td>
+                    <span ng-repeat="gradation in gradationDescription" class="glyphicon glyphicon-asterisk {{gradation.color}} ng-class:{ 'selected-color': $index == selectedColors[$parent.$index] };" ng-click="selectColor($parent.$index, $index)"></span>
+                </td>
+                <td>
+                   <div ng-include="$parent.contentUrl"></div>
+                </td>
+            </tr>
+        </table>
+        <div ng-show="!isValid" class="alert alert-danger animate-show" role="alert">Вы должны заполнить все необходимые данные, прежде чем отправить информацию</div>
+        <button type="submit" class="btn btn-default center-block">Отправить данные</button>
+    </form>
+</div>

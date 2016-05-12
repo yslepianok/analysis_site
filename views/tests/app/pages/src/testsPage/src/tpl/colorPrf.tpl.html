@@ -1,0 +1,32 @@
+<h3 class="text-center">{{testName}}</h3>
+<div>
+    <p>Цель применения теста: выявление индивидуально-типологических различий на основе предпочтения цвета </p>
+    <p>Инструкция проведения теста. </p>
+    <p>Выделите один самый привлекательный (+) для вас цвет сначала из первых 7, а затем - из последних 5. Аналогично этому выделите наименее привлекательный из первых 7, а затем - из последнийх 5.</p>
+    <p>Используя градации: </p>
+    <ul>
+        <li><span class="glyphicon glyphicon-asterisk red"></span> : не нравится</li>
+        <li><span class="glyphicon glyphicon-asterisk white"></span> : нейтрально</li>
+        <li><span class="glyphicon glyphicon-asterisk green"></span> : нравится</li>
+    </ul>
+    <p>поставьте около каждого из 12 цветов соответствующую Вашему предпочтению отметку, используя радиокнопки.</p>
+</div>
+<form ng-submit="submitForm()">
+    <table class="table" ng-repeat="colorList in colorsList">
+      <tr ng-repeat="color in colorList">
+          <td>
+              <button class="btn btn-default ng-class:{ 'selected-button': $index == selectedPosButton[$parent.$index] };" ng-click="selectPositiveColor($index, $parent.$index)" type="button">+</button>
+              <button class="btn btn-default ng-class:{ 'selected-button': $index == selectedNegButton[$parent.$index] };" ng-click="selectNegativeColor($index, $parent.$index)" type="button">-</button>
+          </td>
+          <td>
+              <span ng-repeat="gradation in gradations" class="glyphicon glyphicon-asterisk {{gradation}} ng-class:{ 'selected-color': $index == selectedColors[$parent.$parent.$index][$parent.$index] };" ng-click="selectColor($parent.$parent.$index, $parent.$index, $index)"></span>
+          </td>
+          <td>
+             <span> {{color}} </span>
+          </td>
+      </tr>
+    </table>
+    <div ng-show="!isValid" class="alert alert-danger" role="alert">Вы должны заполнить все необходимые данные, прежде чем отправить информацию</div>
+    <button type="submit" class="btn btn-default center-block">Отправить данные</button>
+</form>
+

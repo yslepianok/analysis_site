@@ -1,0 +1,10 @@
+<div class="btn-group" ng-class="{ open: openDropdown }">
+  <div ng-click="dropdownToggle()">
+    {{ 'MAIN_PAGE.MENU_LABEL' | translate }} <span class="caret"></span>
+  </div>
+  <ul class="dropdown-menu">
+    <li ng-repeat-start="menuItem in menu"><a ng-click="sendRequestMenu(menuItem)" class="menuItem">{{menuItem.menuLabel}} <span class="glyphicon pull-right" id="{{menuItem.menuId}}"></span> </a></li>
+    
+    <li ng-if="!$last" role="separator" class="divider" ng-repeat-end></li>
+  </ul>
+</div>

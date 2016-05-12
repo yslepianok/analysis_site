@@ -1,0 +1,177 @@
+/* this file contains custom styles */
+a[ng-click] {
+    cursor: pointer;
+}
+.ng-invalid { 
+    border-color: #FF0000 !important;
+}
+
+.vert-offset-top-5 {
+    margin-top: 5em;
+}
+.vert-offset-top-2 { 
+    margin-top: 2em;
+}
+
+.loading { 
+  font-size: 3em; 
+  font-family: Georgia; 
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.group { 
+    padding: 10px;
+}
+.center-img { 
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.loginLabel {
+  font-size: 5em; 
+  font-family: Georgia; 
+}
+
+.resetPasswordLabel { 
+  font-size: 1.5em; 
+  font-family: Georgia; 
+}
+
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+  transition: all linear 0.3s;
+}
+
+.animate-show.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}
+.languages { 
+    float: right;
+    padding-top: 7px;
+}
+.session-expired-notification { 
+    color: red; 
+    text-align: center;
+}
+
+line {
+    stroke-dasharray: 1000;
+    animation: dash 1000ms linear forwards;
+}
+#SVGgraph .ng-leave { 
+    display: none;
+}
+
+@keyframes dash {
+    from {
+        stroke-dashoffset: 1000;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.ng-enter { 
+    display: none;
+}
+
+
+
+.green { 
+    color: green;
+}
+.red { 
+    color: red;
+}
+.white { 
+    color: #5B9292;
+}
+
+.user-default-img { 
+    background-image: url('../images/default_user_image.jpg'); 
+    background-repeat: no-repeat;
+    width: 70%;
+    height: 350px;
+    background-size: 100% 100%;
+}
+
+.btn-group {
+    
+}
+.dropdown-menu { 
+    display: block !important;
+    transform: scale(1, 0);
+    transition: transform ease 250ms;
+    margin-left: -16px !important;
+    margin-top: 10px !important;
+}
+.open > .dropdown-menu { 
+    transform: scale(1, 1);
+    
+}
+
+
+.glyphicon-loading-mask {
+    background-image: url('../images/ajax-loader.gif'); 
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: 30px 20px;
+}
+
+.clearfix:after {
+  content: "."; /* добавить содержимое: "." */
+  display: block;  /* сделать блоком, т.к. inline не может иметь clear */
+  clear: both;  /* с обеих сторон clear */
+  visibility: hidden; /* сделать невидимым, зачем нам точка внизу? */
+  height: 0;  /* сделать высоту 0, чтобы не занимал место */
+}
+
+.relations { 
+    padding: 20px;
+}
+
+.modal-body { 
+    padding: 40px;
+}
+.relation { 
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.remove-relation-button { 
+  float: right;  
+}
+
+.remove-relation-button:hover { 
+  cursor: pointer;
+  color: azure;
+}
+.selected-color { 
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    background-color: #989898;
+    text-align: center;
+}
+.selected-button {
+    background-color: #B1B1B1;
+}
+.selected-button:focus { 
+    background-color: #B1B1B1;
+}
+
+.large-text-container .custom-style {
+    font-size: 20px;
+}

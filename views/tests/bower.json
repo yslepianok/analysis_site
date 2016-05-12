@@ -1,0 +1,22 @@
+{
+  "name": "Angular-training-task-3",
+  "description": "implementing user-info functionality",
+  "main": "jsApp.js",
+  "author": [
+    "Pavel_Datsenka"
+  ],
+  "dependencies": {
+    "angular": "1.4.*",
+    "angular-ui-router": "1.0.0alpha0",
+    "bootstrap": "3.3.6",
+    "lodash": "4.0.0",
+    "angular-animate": "~1.4.8",
+    "angular-translate": "~2.8.1",
+    "angular-translate-loader-static-files": "~2.8.1",
+    "ng-idle": "~1.1.1",
+    "angularjs-datepicker": "~0.2.16",
+    "angular-ui-bootstrap": "~1.1.1",
+    "angular-bootstrap": "~1.1.2",
+    "jquery": "~2.2.0"
+  }
+}

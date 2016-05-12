@@ -1,0 +1,22 @@
+<div>
+    <h3 class="text-center">{{testName}}</h3>
+    <div>
+        <p>{{testDescription}}</p>
+
+    </div>
+    <form ng-submit="submitForm()" name="{{testName}}">
+        <table class="table">
+            <!--<th></th>
+            <th ng-repeat="title in titleList">{{title}}</th>-->
+            <tr ng-repeat="item in itemList">
+                <td>{{$index + 1}}</td>
+                <td>{{item[0]}}</td>
+                <td><input ng-model="grades[$index][0]" type="number" min="0" max="10" required></td>
+                <td>{{item[1]}}</td>
+                <td><input ng-model="grades[$index][1]" type="number" min="0" max="10" required></td>
+            </tr>
+        </table>
+        <div ng-show="!isValid" class="alert alert-danger" role="alert">Вы должны заполнить все необходимые данные, прежде чем отправить информацию</div>
+        <button type="submit" class="btn btn-default center-block">Отправить данные</button>
+    </form>
+</div>

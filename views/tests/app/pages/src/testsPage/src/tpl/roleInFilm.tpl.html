@@ -1,0 +1,33 @@
+<h3 class="text-center">{{testName}}</h3>
+<div>
+    <p>Цель применения теста: выявление индивидуально-типологических различий на основе пред-почтения ролей в кинопроизводстве.
+    Инструкция проведения теста.
+    Представьте, что Вы являетесь участником кинопроизводства.
+    Выберите 2 блока, в которых находятся самые привлекательная и непривлекательная, соответ-ственно, для Вас роли.
+    Напротив каждой роли отметьте по 3-бальной шкале Вашу потенциальную готовность к одной из списка в блоке:</p>
+    <ul>
+        <li><span class="glyphicon glyphicon-asterisk red"></span> : не готов</li>
+        <li><span class="glyphicon glyphicon-asterisk white"></span> : готов условно только при благоприятном стечении обствоятельств</li>
+        <li><span class="glyphicon glyphicon-asterisk green"></span> : готов</li>
+    </ul>
+
+</div>
+<form ng-submit="submitForm()">
+    <table class="table">
+      <tr ng-repeat="role in roleList">
+          <td>
+              <button class="btn btn-default ng-class:{ 'selected-button': $index == selectedPosButton };" ng-click="selectPositiveLetter($index)" type="button">+</button>
+              <button class="btn btn-default ng-class:{ 'selected-button': $index == selectedNegButton };" ng-click="selectNegativeLetter($index)" type="button">-</button>
+          </td>
+          <td>
+              <span ng-repeat="gradation in gradations" class="glyphicon glyphicon-asterisk {{gradation}} ng-class:{ 'selected-color': $index == selectedColors[$parent.$index] };" ng-click="selectColor($parent.$index, $index)"></span>
+          </td>
+          <td>
+             <span custom-tooltip title="{{ role.description }}"> {{role.title}} </span>
+
+          </td>
+      </tr>
+    </table>
+    <div ng-show="!isValid" class="alert alert-danger" role="alert">Вы должны заполнить все необходимые данные, прежде чем отправить информацию</div>
+    <button type="submit" class="btn btn-default center-block">Отправить данные</button>
+</form>

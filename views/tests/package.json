@@ -1,0 +1,16 @@
+{
+  "name": "angular-trainig-task-3",
+  "description": "implementing user-info functionality",
+  "version": "0.0.1",
+  "author": {
+    "name": "Pavel Datsenka",
+    "email": "Pavel_Datsenka@epam.com"
+  },
+  "dependencies": {
+    "angularjs-datepicker": "^0.2.21-beta",
+    "body-parser": "1.14.2",
+    "bower": "1.7.2",
+    "express": "4.13.3",
+    "password-hash": "^1.2.2"
+  }
+}

@@ -1,0 +1,57 @@
+{
+    "RU" : "Russian",
+    "EN" : "English",
+    "LOG_IN_FORM" : {
+        "LOG_IN" : "Log in",
+        "EMAIL" : "Email",
+        "PASSWORD" : "Password",
+        "FORGOT_PASSWORD_LINK" : "Forgot Password?",
+        "RESET_PASSWORD" : "Password has been sent to your email address",
+        "LOGIN_FAILED" : "You entered wrong email or password. Please provide correct data"
+    },
+    "RESET_PASSWORD_FORM" : { 
+        "RESET_PASSWORD_DESCRIPTION" : "To reset your password, please provide the email you use to sign in. We will send you a link to reset your password.",   
+        "RESET_PASSWORD_LABEL" : "Enter your email here to reset password",
+        "RESET_PASSWORD_EMAIL" : "Email", 
+        "RESET_PASSWORD_BUTTON" : "Reset", 
+        "RESET_PASSWORD_BACK_LOGIN" : "Back to the login page"
+    },
+    "MAIN_PAGE" : { 
+        "HOME" : "Home",
+        "EDIT_PROFILE_BUTTON" : "Edit Profile", 
+        "SVG_GRAPH" : "SVG Graph",
+        "MENU_LABEL" : "Menu",
+        "LOG_OUT" : "Log out",
+        "LOADING" : "Loading...",
+        "LOG_OUT_SURETY" : "Are you sure you want to log out?",
+        "USER_INFO" : { 
+            "EMAIL" : "Email:", 
+            "AGE" : "Age:",
+            "BIRTH_DATE" : "Birth of date:",
+            "DESCRIPTION" : "About user:"
+        },
+        "EDIT_PROFILE" : { 
+            "EMAIL" : "Email:", 
+            "AGE" : "Age:",
+            "BIRTH_DATE" : "Birth of date:",
+            "DESCRIPTION" : "About user: ",
+            "DESCRIPTION_LABEL" : "You are allowed to use date only in YYYY/MM/DD format and your description text should contain: only russian symbols, more than 3 symbols, only first letter in uppercase of the word",
+            "SUBMIT_BUTTON" : "Submit",
+            "EDIT_FORM_INVALID" : "Your entered data isn't valid. Please, provide correct data"
+        }
+    },
+    "DATE_VALIDATOR" : { 
+        "EMPTY_FIELD" : "Your date text is empty, fill in this field",
+        "WRONG_FORMAT" : "You are allowed to input date only in YYYY/MM/DD format, please input date in correct format",
+        "WRONG_DATE" : "You entered wrong date, please input exist date"
+    },
+    "DESCRIPTION_VALIDATOR" : { 
+        "EMPTY_FIELD" : "Your description text is empty, fill in this field",
+        "UP_FIRST" : "First letter of the text should be UPPERCASE",
+        "ONLY_RUSSIAN" : "Description should be only in Russian",
+        "THREE_SYMBOLS" : "Description should contain more than three symbols",
+        "ONLY_FIRST_UP" : "Only first symbols should be UPPERCASE"
+        
+    }
+    
+}

@@ -1,0 +1,8 @@
+<div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4 vert-offset-top-5">
+    <div class="list-group">
+      <button type="button" ng-repeat="(title, testInformation) in tests" class="list-group-item" ng-click="open(testInformation)">
+          {{testInformation.title}}
+          <span ng-show="!passedTest($index)" class="glyphicon glyphicon-ok green pull-right"></span>
+      </button>
+    </div>
+</div>

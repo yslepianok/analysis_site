@@ -1,0 +1,25 @@
+<h3 class="text-center">{{testName}}</h3>
+<div>
+    <p>Цель применения теста: выявление индивидуально-типологических различий выявления при-чин отказа в разрешении проблем. </p>
+    <p>Инструкция проведения теста. </p>
+    <p>Если Вам приходится иногда пасовать перед проблемой, какие из перечисленных причин отказа для Вас более свойственны. Отметьте пять причин.
+
+Аналогично отметьте пять наименее свойственных Вам причин.</p>
+
+</div>
+<form ng-submit="submitForm()">
+    <table class="table">
+        <tr ng-repeat="trouble in troubleList">
+            <td>{{$index}}</td>
+            <td>
+                {{trouble}}
+            </td>
+            <td>
+                <button class="btn btn-default ng-class:{ 'selected-button': arrButtons[0][$index] == true };" ng-click="setButton(0,$index)" type="button">+</button>
+                <button class="btn btn-default ng-class:{ 'selected-button': arrButtons[1][$index] == true };" ng-click="setButton(1,$index)" type="button">-</button>
+            </td>
+        </tr>
+    </table>
+    <div ng-show="!isValid" class="alert alert-danger animate-show" role="alert">{{invalidMessage}}</div>
+    <button type="submit" class="btn btn-default center-block">Отправить данные</button>
+</form>

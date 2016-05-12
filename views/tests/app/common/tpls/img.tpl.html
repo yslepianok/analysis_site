@@ -1,0 +1,6 @@
+
+<img ng-if="ifString(item)" src="{{item}}" alt="">
+<div ng-if="!ifString(item)">
+   <span>{{item.name}}</span>
+   <img src="{{item.imgPath}}" alt="">
+</div>

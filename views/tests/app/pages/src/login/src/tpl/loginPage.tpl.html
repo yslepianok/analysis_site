@@ -1,0 +1,29 @@
+<div class="col-sm-6 col-sm-offset-3 vert-offset-top-5">
+    <div>
+        <a ng-click="changeLanguage('ru')" class="label label-default">{{ 'RU' | translate }}</a>
+        <a ng-click="changeLanguage('en')" class="label label-default">{{ 'EN' | translate }}</a>
+        <a ui-sref="registrationPageState">Регистрация</a>
+    </div>
+    <span class="loginLabel">{{ 'LOG_IN_FORM.LOG_IN' | translate }}</span>
+    
+    <div ng-show="emailHasBeenSent" class="alert alert-info animate-show" role="alert">{{ 'LOG_IN_FORM.RESET_PASSWORD' | translate }}</div>
+    <div ng-show="registrationComplete" class="alert alert-info animate-show" role="alert"> Регистрация завершена. Вы можете зайти в систему используя свои учетные данные</div>
+    <form novalidate ng-submit="submit()">
+      <div class="form-group">
+        <label for="inputEmail">{{ 'LOG_IN_FORM.EMAIL' | translate }}</label>
+        <input type="email" class="form-control" id="inputEmail" placeholder="{{ 'LOG_IN_FORM.EMAIL' | translate }}" ng-model="email">
+      </div>
+      <div class="form-group">
+        <label for="inputPassword">{{ 'LOG_IN_FORM.PASSWORD' | translate }}</label>
+        <input type="password" class="form-control" id="inputPassword" placeholder="{{ 'LOG_IN_FORM.PASSWORD' | translate }}" ng-model="password">
+      </div>
+      <div class="form-group" ng-show="loginFailed">
+          <div class="alert alert-danger" role="alert" >{{ 'LOG_IN_FORM.LOGIN_FAILED' | translate }}</div>
+      </div>
+      <div class="form-group">
+          <button type="submit" class="btn btn-default">{{ 'LOG_IN_FORM.LOG_IN' | translate }}</button>
+          
+          <a ui-sref="forgotPasswordPageState">{{ 'LOG_IN_FORM.FORGOT_PASSWORD_LINK' | translate }}</a>
+      </div>
+    </form>
+</div>

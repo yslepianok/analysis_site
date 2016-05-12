@@ -1,0 +1,17 @@
+<div> 
+     <div class="languages">
+        <a ng-click="changeLanguage('ru')" class="label label-default">{{ 'RU' | translate }}</a>
+        <a ng-click="changeLanguage('en')" class="label label-default">{{ 'EN' | translate }}</a>
+     </div>
+     <ul class="nav nav-tabs">
+      <li ng-class="{active: $state.includes('^.userProfile')}" ng-click="sendRequest()"><a ui-sref="mainPageState.userProfile">Страница профиля</a></li>
+      <li ng-class="{active: $state.includes('^.editProfile')}" ng-click="sendRequest()"><a ui-sref="mainPageState.editProfile">{{ 'MAIN_PAGE.EDIT_PROFILE_BUTTON' | translate }}</a></li>
+      <li ng-class="{active: $state.includes('^.tests')}" ng-click="sendRequest()"><a ui-sref="mainPageState.tests">Тесты</a></li>
+      <li ng-controller="drpdownController"><a><drpdown></drpdown></a></li>
+      
+      <li ng-click="logOut()"><a>{{ 'MAIN_PAGE.LOG_OUT' | translate }}</a></li>
+    </ul>
+    <div ng-show="countdown" class="animate-show alert alert-danger col-sm-4 col-sm-offset-4 text-center">Your session will be expired in {{countdown}} seconds</div>
+    <div ui-view ng-show="!hasPendingRequests" class="animate-show"></div>
+    <div class="loading animate-show" ng-show="hasPendingRequests">{{ 'MAIN_PAGE.LOADING' | translate }}</div>
+</div>

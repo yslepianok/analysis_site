@@ -1,0 +1,56 @@
+<div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4 vert-offset-top-5">
+
+
+    <img src="" alt="" class="user-default-img center-img img-responsive img-circle">
+
+    <ul class="list-group">
+
+        <div class="group">
+            <span class="label label-default">{{ 'MAIN_PAGE.USER_INFO.EMAIL' | translate }}</span>
+            <li class="list-group-item">{{username}}</li>
+        </div>
+
+        <div class="group">
+            <span class="label label-default">Имя</span>
+            <li class="list-group-item">{{firstName}}</li>
+        </div>
+
+        <div class="group">
+            <span class="label label-default">Фамилия</span>
+            <li class="list-group-item">{{lastName}}</li>
+        </div>
+
+        <div class="group">
+            <span class="label label-default">{{ 'MAIN_PAGE.USER_INFO.BIRTH_DATE' | translate }}</span>
+            <li class="list-group-item">{{birthDate}}</li>
+        </div>
+
+
+    </ul>
+
+    <div class="relations">
+        <div ng-repeat="relation in relations" class="relation">
+            <!-- group for user name field -->
+            <div class="group">
+                <span class="label label-default">Родственник</span>
+                <li class="list-group-item">{{relation.relationType}}</li>
+            </div>
+
+            <div class="group">
+                <span class="label label-default">Имя</span>
+                <li class="list-group-item">{{relation.firstName}}</li>
+            </div>
+
+            <div class="group">
+                <span class="label label-default">Фамилия</span>
+                <li class="list-group-item">{{relation.lastName}}</li>
+            </div>
+
+            <div class="group">
+                <span class="label label-default">{{ 'MAIN_PAGE.USER_INFO.BIRTH_DATE' | translate }}</span>
+                <li class="list-group-item">{{relation.birthDate}}</li>
+            </div>
+        </div>
+    </div>
+
+</div>

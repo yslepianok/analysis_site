@@ -1,0 +1,1 @@
+[{"email":"pahvalka@mail.ru","tests":[{"testName":"person_picture_test","testResults":["Круги","Прямоугольники","Треугольники"]},{"testName":"color_preferences","testResults":[0,-1,0,-1,-1,0,-1,0,0,-1,-1,0,3,3,2,2]},{"testName":"schoold_classes","testResults":[75,0,0,0,0,75,75,0,100,0,0,0,75,100,100,75,100,0]},{"testName":"temperament_test","testResults":[null,[],null]}]}]
