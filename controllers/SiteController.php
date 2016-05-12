@@ -70,6 +70,7 @@ class SiteController extends Controller
         $kvW = [];
         $specials = [];
         $professions = [];
+        $bundle = [];
 
         if ($model->load(Yii::$app->request->post())) {
             $date = \DateTime::createFromFormat('d-m-Y',$model->birth_date);
