@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\TestedPerson */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Tested People', 'url' => ['index']];
+$this->title = 'Просмотр протестированного человека '.$model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Протестированные', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tested-person-view">
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -34,4 +34,18 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <p>
+    <?php
+    echo $this->render('/partial/_testresults', [
+        'model' => $model,
+        'kv' => $kv,
+        'kvEx' => $kvEx,
+        'kvW' => $kvW,
+        'specialities' => $specialities,
+        'professions'=>$professions,
+        'bundle'=>$bundle,
+        'professionsNew'=>$professionsNew
+    ]);
+    ?>
+    </p>
 </div>

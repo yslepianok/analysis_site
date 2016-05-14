@@ -113,6 +113,7 @@ class SiteController extends Controller
             $kvEx = $square->extendedMatrix;
             $bundle = UserToActivity::getUserSpecialitiesExtended($person);
             $professions = Profession::getUserProfessions($person);
+            $professionsNew = Profession::getUserProfessionsLite($person);
             if ($professions!=null)
             {
                 $s = count($professions);
@@ -134,6 +135,7 @@ class SiteController extends Controller
             'specialities' => $specials,
             'professions'=>$professions,
             'bundle'=>$bundle,
+            'professionsNew'=>$professionsNew,
         ]);
     }
 

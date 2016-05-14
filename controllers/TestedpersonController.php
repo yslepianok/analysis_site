@@ -2,11 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\PythagorasSquare;
 use Yii;
 use app\models\TestedPerson;
 use app\models\TestedPersonSearch;
 use yii\helpers\Json;
 use yii\web\Controller;
+use app\models\UserToActivity;
+use app\models\Profession;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -49,9 +52,32 @@ class TestedpersonController extends Controller
      */
     public function actionView($id)
     {
+        $person = $this->findModel($id);
+        $date = \DateTime::createFromFormat('Y-m-d H:i:s',$person->birth_date);
+        $square = new PythagorasSquare($date);
+
+        $kv = $square->simpleMatrix;
+        $kvEx = $square->extendedMatrix;
+        $kvW = PythagorasSquare::countWeightedSquare($person);
+        $specials = UserToActivity::getUserSpecialities($person);
+        $bundle = UserToActivity::getUserSpecialitiesExtended($person);
+        $professions = Profession::getUserProfessions($person);
+        $professionsNew = Profession::getUserProfessionsLite($person);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $person,
+            'kv' => $kv,
+            'kvEx' => $kvEx,
+            'kvW' => $kvW,
+            'specialities' => $specials,
+            'professions'=>$professions,
+            'bundle'=>$bundle,
+            'professionsNew'=>$professionsNew
         ]);
+
+        /*return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);*/
     }
 
     /**

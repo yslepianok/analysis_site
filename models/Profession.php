@@ -213,6 +213,100 @@ class Profession extends \yii\db\ActiveRecord
         return $professions;
     }
 
+    public static function getUserProfessionsLite($user)
+    {
+        $bundle = UserToActivity::getUserSpecialitiesExtended($user);
+        $arr = Profession::find()->all();
+
+        $professions = [];
+        $weights = [];
+
+        $passed1 = 0;
+        $passed2 = 0;
+        foreach ($arr as $profession) {
+            $spc = [];
+            $weight = 0;
+
+            $i = 0;
+            if ($profession->additional_cell_1!=null) {
+                $spc [] = $profession->additional_cell_1;
+                $i++;
+            }
+            if ($profession->additional_cell_2!=null){
+                $spc []= $profession->additional_cell_2;
+                $i++;
+            }
+            if ($profession->additional_cell_3!=null){
+                $spc []= $profession->additional_cell_3;
+                $i++;
+            }
+            if ($profession->additional_cell_4!=null){
+                $spc []= $profession->additional_cell_4;
+                $i++;
+            }
+            if ($profession->additional_cell_5!=null){
+                $spc []= $profession->additional_cell_5;
+                $i++;
+            }
+            if ($profession->additional_cell_6!=null){
+                $spc []= $profession->additional_cell_6;
+                $i++;
+            }
+
+            $j=0;
+            $continue= false;
+            foreach ($spc as $item) {
+                if (in_array($item, $bundle[1]))
+                {
+                    $weight += $bundle[0][$item];
+                    $j++;
+                }
+                else {
+                    break;
+                    $continue = true;
+                }
+            }
+            if ($continue)
+                continue;
+            $passed1++;
+
+            $failed = true;
+            switch ($i)
+            {
+                case 1:
+                    $failed = ($j <= 0);
+                    break;
+                case 2:
+                    $failed = ($j <= 1);
+                    break;
+                case 3:
+                    $failed = ($j <= 1);
+                    break;
+                case 4:
+                    $failed = ($j <= 1);
+                    break;
+                case 5:
+                    $failed = ($j <= 2);
+                    break;
+                case 6:
+                    $failed = ($j <= 2);
+                    break;
+            }
+            if ($failed)
+                continue;
+            $passed2++;
+
+            $professions[$profession->id] = $profession->name;
+            $weights[$profession->id] = $weight;
+        }
+
+        Yii::warning('Прошли этап 1: '.$passed1);
+        Yii::warning('Прошли этап 2: '.$passed2);
+
+        arsort($weights);
+        return [$professions, $weights];
+    }
+
     public static function getCellWeights($specialities, $kp)
     {
         $weight = [];
