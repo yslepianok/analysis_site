@@ -62,10 +62,17 @@
         <?php
         if ($professions != null && !empty($professions))
         {
+            $i = 0;
             foreach ($professions as $element) {
-                echo '<div class="row">';
-                echo '<h3>' . $element[0]->name . ' Вес:' . $element[1] . '</h3>';
-                echo '</div>';
+                if ($i<6 || (($element[1]<=($lastItem*0.5)) && $i<7) || ($element[1]==$lastItem)) {
+                    echo '<div class="row">';
+                    echo '<h3>' . $element[0]->name . ' Вес:' . $element[1] . '</h3>';
+                    echo '</div>';
+
+                    $i++;
+                    $lastItem = $element[1];
+                }
+                else break;
             }
         }
         ?>
@@ -166,12 +173,19 @@
         echo '<td width="20%">Вес профессии:</td>';
         echo '</thead>';
         echo '<tbody>';
+        $i = 0;
         foreach ($professionsNew[1] as $key=>$element) {
-            $item = $professionsNew[0][$key];
-            echo '<tr>';
-            echo '<td>'.$item.'</td>';
-            echo '<td>'.round($element,2).'</td>';
-            echo '</tr>';
+            if ($i<6 || (($element<=($lastItem*0.5)) && $i<7) || ($element==$lastItem)) {
+                $item = $professionsNew[0][$key];
+                echo '<tr>';
+                echo '<td>' . $item . '</td>';
+                echo '<td>' . round($element, 2) . '</td>';
+                echo '</tr>';
+
+                $i++;
+                $lastItem = $element;
+            }
+            else break;
         }
         echo '</tbody>';
         echo '</table>';
