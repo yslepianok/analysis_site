@@ -39,8 +39,8 @@ class TestedPerson extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'birth_date' => 'Birth Date',
+            'name' => 'Имя',
+            'birth_date' => 'Дата рождения',
         ];
     }
 

@@ -59,7 +59,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->redirect('/site/kvadrat');
     }
 
     public function actionKvadrat()
@@ -71,6 +71,7 @@ class SiteController extends Controller
         $specials = [];
         $professions = [];
         $bundle = [];
+        $professionsNew = [];
 
         if ($model->load(Yii::$app->request->post())) {
             $date = \DateTime::createFromFormat('d-m-Y',$model->birth_date);

@@ -327,18 +327,12 @@ class PythagorasSquare
             $levels[$relation->userRelated->id] = $relation->relationType->level;
         }
 
-        /*foreach ($squares as $key=>$sqr)
-        {
-            Yii::warning('Level['.$key.'] = '.$levels[$key].' KP: '.implode(' ', $sqr));
-        }*/
-
         // Вычисление всех данных для каждого родственника
         foreach ($levels as $key=>$level) {
             $relation = TestedPerson::find()->where('id=:id',[':id'=>$key])->one();
             $accLevelPerson = [];
             $gPerson = [];
             $hPerson = [];
-            //Yii::warning($relation->birth_date);
             for ($i=1;$i<=23;$i++)
             {
                 // Вычисление уровней доступа
@@ -372,8 +366,6 @@ class PythagorasSquare
             $accessLevels[$key]= $accLevelPerson;
             $h[$key]= $hPerson;
             $g[$key]= $gPerson;
-
-            //Yii::warning('Key = '.$key.' Level: '.$level.' Acc[1] = '.$accLevelPerson[1].' G[1] = '.$gPerson[1].' H[1] = '.$hPerson[1]);
         }
 
         // Рассчет средневзвешенной матрицы
@@ -441,10 +433,6 @@ class PythagorasSquare
             $pairs = self::getDominatingPairs($kp,$keys);
         else
             $pairs = self::getNonDominatingPairs($kp,$keys);
-
-        /*foreach ($pairs as $pair) {
-            Yii::warning('Pair:'.$pair[0].'-'.$pair[1]);
-        }*/
         
         return $pairs;
     }
@@ -556,16 +544,6 @@ class PythagorasSquare
         $acc = '';
         foreach ($keys as $key) {
             $acc .= self::getElementAccessLevel($key, $kp[$key-1], $user);
-            /*if ($kp[$key-1]>=15)
-                $acc .= 3;
-            elseif ($user->birth_date<'2000')
-            {
-                $acc .= self::$acceptableLevelOld[$key][$kw[$key-1]];
-            }
-            elseif($user->birth_date>='2000')
-            {
-                $acc .= self::$acceptableLevelNew[$key][$kw[$key-1]];
-            }*/
         }
 
         Yii::warning('Маска уровней допустимости лидерских качеств пользователя='.$acc);

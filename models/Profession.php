@@ -170,7 +170,7 @@ class Profession extends \yii\db\ActiveRecord
             $passed1 []= $profession->name;
 
             // Этап отбраковки 2: Допустимость элементов профессии
-            $failed = false;
+            /*$failed = false;
             foreach ($spc as $item) {
                 $element = PythagorasSquare::$specialityFunction[$item];
                 $s1 = (integer)((string)$element[0]);
@@ -184,7 +184,7 @@ class Profession extends \yii\db\ActiveRecord
             }
             if ($failed)
                 continue;
-            $passed2 []= $profession->name;
+            $passed2 []= $profession->name;*/
 
             // Этам отбраковки 3: управляющие биты
             if ($profession->boss_flags[0]>$leader[0] &&

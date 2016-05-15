@@ -21,4 +21,11 @@ class SquareForm extends Model
             ['birth_date', 'required'],
         ];
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'birth_date' => 'Дата рождения',
+        ];
+    }
 }
