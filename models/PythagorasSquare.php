@@ -462,6 +462,16 @@ class PythagorasSquare
             }
         }
 
+        if (count($elements)<3)
+        {
+            $elem = $kp[count($elements)];
+            array_push($elements,$keys[count($elements)]);
+            for ($i = (count($elements)+1); $i < 9; $i++) {
+                if ($kp[$i] == $elem)
+                    array_push($elements, $keys[$i]);
+            }
+        }
+
         $debugStr = '';
         foreach ($elements as $pair) {
             $debugStr .=($pair+1).', ';
@@ -493,6 +503,16 @@ class PythagorasSquare
         while ($kp[$i]>=(0.5 * $kp[0])) {
             array_push($elements, $keys[$i]);
             $i++;
+        }
+
+        if (count($elements)<3)
+        {
+            $elem = $kp[count($elements)];
+            array_push($elements,$keys[count($elements)]);
+            for ($i = (count($elements)+1); $i < 9; $i++) {
+                if ($kp[$i] == $elem)
+                    array_push($elements, $keys[$i]);
+            }
         }
 
         $debugStr = '';
