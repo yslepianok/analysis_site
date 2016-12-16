@@ -7,6 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use app\models\UserRelation;
+use kartik\date\DatePicker;
 
 $this->title = 'Квадрат пифагора';
 $this->params['breadcrumbs'][] = $this->title;
@@ -25,7 +26,18 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'birth_date')->textInput(['autofocus' => true]); ?>
+    <?php
+    //$form->field($model, 'birth_date')->textInput(['autofocus' => true]);
+    echo DatePicker::widget([
+        'name' => 'SquareForm[birth_date]',
+        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+        'value' => '24-05-1994',
+        'pluginOptions' => [
+            'autoclose'=>true,
+            'format' => 'dd-mm-yyyy'
+        ]
+    ]);
+    ?>
 
     <p>Информация о родственниках (увеличивает точность)</p>
 

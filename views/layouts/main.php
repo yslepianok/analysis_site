@@ -41,7 +41,7 @@ AppAsset::register($this);
             ['label' => 'Посчитать квадрат пифагора', 'url' => ['/site/kvadrat']],
             ['label' => 'Просмотр протестированных персон', 'url' => ['/testedperson']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Войти', 'url' => ['/site/login']]
+                ['label' => 'Войти', 'url' => ['/user/security/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')

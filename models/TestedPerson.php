@@ -16,7 +16,7 @@ class TestedPerson extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'user';
+        return 'user_info';
     }
 
     /**
