@@ -48,6 +48,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'testingapi'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'testingresults'],
             ],
         ],
     ],

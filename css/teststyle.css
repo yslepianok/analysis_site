@@ -1,0 +1,41 @@
+.z1{
+  -size: 38px;
+}
+
+
+#my1{
+  background-image: url(../img/background/fon1.jpg);
+}
+
+
+#start1{
+    font-size: 28px;
+    text-decoration: none;
+    border: 3px solid darkgreen;
+}
+
+.test-description{
+  font-size: 20px;
+  text-align: center;;
+}
+
+#but1{
+  margin-left: 39%; 
+  border: 5px solid darkblue;
+  width:22%;
+  text-align: center;
+}
+
+.allcenter{
+  text-align: center;
+}
+
+.test_el{
+  width: 10%;
+  float: left;
+  padding-left: 1%;
+}
+
+.vert_al{
+  vertical-align: center;
+}

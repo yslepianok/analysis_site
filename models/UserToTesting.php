@@ -10,11 +10,9 @@ use Yii;
  * @property integer $id
  * @property integer $user_id
  * @property integer $testing_id
+ * @property string $raw_results
+ * @property string $calculated_results
  * @property string $date
- * @property string $raw_result
- * @property string $calculated_result
- *
- * @property Testing $testing
  */
 class UserToTesting extends \yii\db\ActiveRecord
 {
@@ -32,10 +30,10 @@ class UserToTesting extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'testing_id', 'date', 'raw_result'], 'required'],
-            [['user_id', 'testing_id'], 'integer'],
-            [['date'], 'safe'],
-            [['raw_result', 'calculated_result'], 'string']
+            [['id', 'user_id', 'testing_id'], 'required'],
+            [['id', 'user_id', 'testing_id'], 'integer'],
+            [['raw_results', 'calculated_results'], 'string'],
+            [['date'], 'safe']
         ];
     }
 
@@ -48,17 +46,9 @@ class UserToTesting extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'testing_id' => 'Testing ID',
+            'raw_results' => 'Raw Results',
+            'calculated_results' => 'Calculated Results',
             'date' => 'Date',
-            'raw_result' => 'Raw Result',
-            'calculated_result' => 'Calculated Result',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTesting()
-    {
-        return $this->hasOne(Testing::className(), ['id' => 'testing_id']);
     }
 }
