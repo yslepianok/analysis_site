@@ -144,7 +144,7 @@ class UserToActivity extends \yii\db\ActiveRecord
             }
         }
         Yii::warning('Количество специализаций: '.count($specials));
-        
+
         // Сортировка полученных сфер деятельности с учетом их веса
         for ($i=0;$i<count($specials);$i++)
         {
@@ -268,13 +268,13 @@ class UserToActivity extends \yii\db\ActiveRecord
 
             foreach ($arr as $key => $item) {
                 $el = $ss[$key[0]][$key[2]];
-                $result[$key] = $el + $alf * (($kpW[$item[0]-1] + $kpW[$item[2]-1]) * 2 / $kp[0] - 2);
+                $result[$key] = round (($el + $alf * (($kpW[$item[0]-1] + $kpW[$item[2]-1]) * 2 / $kp[0] - 2)),2);
             }
         }
         else
         {
             foreach ($arr as $key => $item) {
-                $result[$key] = ($kpW[$item[0]-1] + $kpW[$item[2]-1]) * 2 / $kp[0] - 2;
+                $result[$key] = round((($kpW[$item[0]-1] + $kpW[$item[2]-1]) * 2 / $kp[0] - 2),2);
             }
         }
 

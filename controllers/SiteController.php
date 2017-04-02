@@ -57,6 +57,16 @@ class SiteController extends Controller
         ];
     }
 
+  public function beforeAction($action)
+   {
+       // ...set `$this->enableCsrfValidation` here based on some conditions...
+       // call parent method that will check CSRF if such property is true.
+       if ($action->id === 'matrix') {
+           $this->enableCsrfValidation = false;
+       }
+       return parent::beforeAction($action);
+   }
+
     public function actionIndex()
     {
         return $this->redirect('site/kvadrat');
@@ -178,5 +188,22 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionMatrix()
+    {
+      $this->enableCsrfValidation = false;
+      $request = Yii::$app->request;
+      if ($request->isPost) {
+        $bdate = $request->getBodyParam('bdate');
+        $date = \DateTime::createFromFormat('d-m-Y',$bdate);
+        $kvW = PythagorasSquare::countExtendedSquare($date);
+        $return_json = UserToActivity::getCellsWeight($kvW);
+      }
+      else {
+        $return_json = ['status'=>'error_not_post'];
+      }
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      return $return_json;
     }
 }
