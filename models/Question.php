@@ -11,6 +11,7 @@ use Yii;
  * @property integer $test_id
  * @property string $name
  * @property string $text
+ * @property string $url
  *
  * @property Answer[] $answers
  * @property Test $test
@@ -34,7 +35,8 @@ class Question extends \yii\db\ActiveRecord
             [['test_id', 'name'], 'required'],
             [['test_id'], 'integer'],
             [['text'], 'string'],
-            [['name'], 'string', 'max' => 50]
+            [['name'], 'string', 'max' => 50],
+            [['url'], 'string', 'max' => 250]
         ];
     }
 
@@ -48,6 +50,7 @@ class Question extends \yii\db\ActiveRecord
             'test_id' => 'Test ID',
             'name' => 'Name',
             'text' => 'Text',
+            'url' => 'Url',
         ];
     }
 

@@ -17,24 +17,69 @@ use yii\filters\VerbFilter;
 use app\models\Test;
 use app\models\Question;
 use app\models\Answer;
+use app\models\UserToTesting;
 
 
 class TestingController extends \yii\web\Controller
 {
+  public function beforeAction($action)
+  {
+      if ($action->id == 'saveresults') {
+          $this->enableCsrfValidation = false;
+      }
+
+      return parent::beforeAction($action);
+  }
+
   public function actionTest()
   {
     $this->enableCsrfValidation = false;
     $testName = Yii::$app->request->get('name');
     $test =  Test::find()->where(['name' => $testName])->with('questions','questions.answers')->all();
 
-    $test = $test[0]->toArray();
-
     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-    return $test;
+
+    if (!empty($test))
+      return  $test[0];
+    else
+      return "no such test";
   }
 
-  public function actionT(){
-    return 10;
+  public function actionSaveresults()
+  {
+    $this->enableCsrfValidation = false;
+    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    $request = \Yii::$app->request;
+    $data = json_decode($request->rawBody);
+
+    if (!$data)
+    {
+      \Yii::$app->response->statusCode=400;
+      return "Wrong request";
+    }
+
+    $results = new UserToTesting();
+    $results->user_id = $data->user_id;
+    $results->testing_id = $data->testing_id;
+    $results->raw_results = json_encode($data->data->raw);
+    $results->calculated_results = json_encode($data->data->matrix);
+
+    if (!$results->save()){
+      \Yii::$app->response->statusCode=500;
+      //return "Error with saving data";
+      return $results->errors;
+    }
+    else
+      return $results;
   }
 
+  public function actionIndex()
+  {
+      return $this->render('index');
+  }
+
+  public function actionColors()
+  {
+      return $this->render('colors');
+  }
 }

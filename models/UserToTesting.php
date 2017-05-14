@@ -30,7 +30,7 @@ class UserToTesting extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'user_id', 'testing_id'], 'required'],
+            [['user_id', 'testing_id'], 'required'],
             [['id', 'user_id', 'testing_id'], 'integer'],
             [['raw_results', 'calculated_results'], 'string'],
             [['date'], 'safe']
