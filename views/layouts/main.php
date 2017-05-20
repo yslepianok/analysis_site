@@ -46,6 +46,7 @@ AppAsset::register($this);
                       ['label' => 'Ответы', 'url' => ['/answer']],
                 ],
             ],
+            ['label' => 'Подбор профессий', 'url' => ['/testing/index']],
             ['label' => 'О нас', 'url' => ['/site/about']],
             ['label' => 'Посчитать квадрат пифагора', 'url' => ['/site/kvadrat']],
             ['label' => 'Просмотр протестированных персон', 'url' => ['/testedperson']],

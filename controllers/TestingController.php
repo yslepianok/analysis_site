@@ -27,7 +27,6 @@ class TestingController extends \yii\web\Controller
       if ($action->id == 'saveresults') {
           $this->enableCsrfValidation = false;
       }
-
       return parent::beforeAction($action);
   }
 
@@ -43,6 +42,31 @@ class TestingController extends \yii\web\Controller
       return  $test[0];
     else
       return "no such test";
+  }
+
+  public function actionTests()
+  {
+    $this->enableCsrfValidation = false;
+    $test =  Test::find()->all();
+    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    if (!empty($test))
+      return  $test;
+    else
+      return "no such test";
+  }
+
+  public function actionSelected()
+  {
+    $this->enableCsrfValidation = false;
+    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    $request = \Yii::$app->request;
+    $data = json_decode($request->rawBody);
+    if (!$data)
+    {
+      \Yii::$app->response->statusCode=200;
+      return "Wrong request";
+    }
+    return $data;
   }
 
   public function actionSaveresults()
@@ -70,7 +94,9 @@ class TestingController extends \yii\web\Controller
       return $results->errors;
     }
     else
-      return $results;
+    {
+      return $result;
+    }
   }
 
   public function actionIndex()

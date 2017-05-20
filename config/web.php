@@ -56,6 +56,25 @@ $config = [
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
+            'controllerMap' => [
+                            'admin' => [
+                                'class' => 'dektrium\user\controllers\AdminController',
+                                'as access' => [
+                                    'class' => 'yii\filters\AccessControl',
+                                    'rules' => [
+                                        [
+                                            'allow' => true,
+                                            'roles' => ['administrateUser'],
+                                        ],
+                                        [
+                                            'actions' => ['switch'],
+                                            'allow' => true,
+                                            'roles' => ['@'],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
             'admins' => ['admin','slepianok2'],
             "enableConfirmation" => false,
         ],

@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <?php ActiveForm::end(); ?>
-    <?php echo Html::dropDownList('RelativeTypeDropdown',null,UserRelation::getRelationoptions())?>
+    <?php //echo Html::dropDownList('RelativeTypeDropdown',null,UserRelation::getRelationoptions())?>
     <input type="text" id="itemCount">
     <button type="button" name="itemAdd" id="itemAdd">Добавить родственника </button>
 </div>
