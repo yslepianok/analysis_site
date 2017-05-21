@@ -58,29 +58,6 @@ class TestingController extends \yii\web\Controller
       return "no such test";
   }
 
-  public function actionSelected()
-  {
-    $this->enableCsrfValidation = false;
-    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-    $request = \Yii::$app->request;
-    $data = json_decode($request->rawBody);
-
-    if (!$data)
-    {
-      \Yii::$app->response->statusCode=400;
-      return "Wrong request";
-    }
-
-    $test = new Test();
-    $test->name = $data->test_name;
-    if (!$test)
-    {
-      \Yii::$app->response->statusCode=400;
-      return $test->errors;
-    }
-    return $test->name;
-  }
-
   public function actionSaveresults()
   {
     $this->enableCsrfValidation = false;
@@ -107,7 +84,7 @@ class TestingController extends \yii\web\Controller
     }
     else
     {
-      return $result;
+      return $results;
     }
   }
 
