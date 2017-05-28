@@ -47,9 +47,10 @@ AppAsset::register($this);
                 ],
             ],
             ['label' => 'Подбор профессий', 'url' => ['/testing/index']],
-            ['label' => 'О нас', 'url' => ['/site/about']],
+            ['label' => 'Сферы деятельности', 'url' => ['/areasofactivity/index']],
+            //['label' => 'О нас', 'url' => ['/site/about']],
             ['label' => 'Посчитать квадрат пифагора', 'url' => ['/site/kvadrat']],
-            ['label' => 'Просмотр протестированных персон', 'url' => ['/testedperson']],
+            //['label' => 'Просмотр протестированных персон', 'url' => ['/testedperson']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Войти', 'url' => ['/user/security/login']]
             ) : (
