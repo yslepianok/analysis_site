@@ -1,7 +1,7 @@
 <script type="text/javascript" src="../js/areasofactivityController.js"></script>
 <div  ng-app="areasofactivityApp">
 	<div ng-controller="areasofactivityController">
-		<div>
+		<div ng-if="flag==1">
 			<h1 class="z1">Сферы деятельности:</h1>
 		</div>
     <div ng-if="flag!=1" ng-click="getInformation()" style="border-left : 5px solid grey;

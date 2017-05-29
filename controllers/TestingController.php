@@ -97,4 +97,9 @@ class TestingController extends \yii\web\Controller
   {
       return $this->render('colors');
   }
+
+  public function actionAntropometric()
+  {
+      return $this->render('antropometric');
+  }
 }
