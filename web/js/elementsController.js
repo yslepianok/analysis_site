@@ -1,7 +1,7 @@
-var myApp = angular.module('colorsApp', []);
+var myApp = angular.module('elementsApp', []);
 
-myApp.controller('colorsController', ['$scope', '$http', function($scope, $http) {
-    $http.get("../testing/test?name=colors").then(function (response) {
+myApp.controller('elementsController', ['$scope', '$http', function($scope, $http) {
+    $http.get("../testing/test?name=elements").then(function (response) {
         $scope.testData = response.data;
     });
 
@@ -34,7 +34,7 @@ myApp.controller('colorsController', ['$scope', '$http', function($scope, $http)
 	};
 
 	$scope.start = angular.element(document.querySelector('.st'));
-  
+
 	$scope.Start = function()
 	{
     $scope.answers = {
@@ -45,7 +45,7 @@ myApp.controller('colorsController', ['$scope', '$http', function($scope, $http)
       },
       raw:{}
     };
-    console.log("in start colors testing")
+    console.log("in start elements testing")
 			$scope.flag = 1;
 			$scope.flag2 = 1;
 			$scope.currentTest = 0;
