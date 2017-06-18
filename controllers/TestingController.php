@@ -98,8 +98,34 @@ class TestingController extends \yii\web\Controller
       return $this->render('colors');
   }
 
-  public function actionAntropometric()
+  public function actionSence()
   {
-      return $this->render('antropometric');
+      return $this->render('sence');
+  }
+
+  public function actionTaste()
+  {
+      return $this->render('taste');
+
+  }
+
+  public function actionPlatonic_solids()
+  {
+      return $this->render('platonic_solids');
+  }
+
+  public function actionElements()
+  {
+      return $this->render('elements');
+  }
+
+  public function actionAspects()
+  {
+      return $this->render('aspects');
+  }
+
+  public function actionActivity_levels()
+  {
+      return $this->render('Activity_levels');
   }
 }
