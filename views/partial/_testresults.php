@@ -3,12 +3,15 @@
       <h2>Квадрат пифагора:</h2>
       <table>
         <thead>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
+          <th>
+            <td data-toggle="tooltip" title="">*</td>
+            <td data-toggle="tooltip" title="">*</td>
+            <td data-toggle="tooltip" title="">*</td>
+          </th>
         </thead>
         <tbody>
           <tr>
+            <td data-toggle="tooltip" title="Способность к переменам">*</td>
             <td data-toggle="tooltip" title="Воля">
               КП1: <?php echo $kv[0]; ?>
             </td>
@@ -20,6 +23,7 @@
             </td>
           </tr>
           <tr>
+            <td data-toggle="tooltip" title="Баланс">*</td>
             <td data-toggle="tooltip" title="Энергия">
               КП2: <?php echo $kv[1]; ?>
             </td>
@@ -31,6 +35,7 @@
             </td>
           </tr>
           <tr>
+            <td data-toggle="tooltip" title="Консерватизм">*</td>
             <td data-toggle="tooltip" title="Склонность к технологии">
               КП3: <?php echo $kv[2]; ?>
             </td>
