@@ -50,7 +50,7 @@ class TestingController extends \yii\web\Controller
   public function actionTests()
   {
     $this->enableCsrfValidation = false;
-    $test =  Test::find()->all();
+    $test =  Test::find()->select('name, comment')->all();
     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     if (!empty($test))
       return  $test;
@@ -128,4 +128,19 @@ class TestingController extends \yii\web\Controller
   {
       return $this->render('Activity_levels');
   }
+
+  public function actionMan_from_shapes()
+ {
+     return $this->render('man_from_shapes');
+ }
+
+  public function actionTemperament()
+ {
+     return $this->render('temperament');
+ }
+
+  public function actionFilm_genre()
+ {
+     return $this->render('film_genre');
+ }
 }

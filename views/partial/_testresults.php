@@ -1,16 +1,54 @@
-<? if ($kv!=null && !empty($kv)) {?>
-    <div class="panel square-simple">
-        <h2>Квадрат пифагора:</h2>
-        <p>
-            <?php
-            $str = '';
-            foreach ($kv as $element)
-                $str .= $element.' ';
-            echo $str;
-            ?>
-        </p>
-    </div>
-<? } ?>
+<?php if ($kv!=null && !empty($kv)) {?>
+  <div class="panel square-simple">
+      <h2>Квадрат пифагора:</h2>
+      <table>
+        <thead>
+          <tr></tr>
+          <tr></tr>
+          <tr></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-toggle="tooltip" title="Воля">
+              КП1: <?php echo $kv[0]; ?>
+            </td>
+            <td data-toggle="tooltip" title="Выносливость">
+              КП4: <?php echo $kv[3]; ?>
+            </td>
+            <td data-toggle="tooltip" title="Удачливость">
+              КП7: <?php echo $kv[6]; ?>
+            </td>
+          </tr>
+          <tr>
+            <td data-toggle="tooltip" title="Энергия">
+              КП2: <?php echo $kv[1]; ?>
+            </td>
+            <td data-toggle="tooltip" title="Практический ум">
+              КП5: <?php echo $kv[4]; ?>
+            </td>
+            <td data-toggle="tooltip" title="Ответственность">
+              КП8: <?php echo $kv[7]; ?>
+            </td>
+          </tr>
+          <tr>
+            <td data-toggle="tooltip" title="Склонность к технологии">
+              КП3: <?php echo $kv[2]; ?>
+            </td>
+            <td data-toggle="tooltip" title="Материальные ценности">
+              КП6: <?php echo $kv[5]; ?>
+            </td>
+            <td data-toggle="tooltip" title="Испытываемые эмоции внутри.Внутренняя память">
+              КП9: <?php echo $kv[8]; ?>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+<?php } ?>
+
+<div class="tooltip">Hover over me
+  <span class="tooltiptext">Tooltip text</span>
+</div>
 
 <? if ($kvEx!=null && !empty($kvEx)) {?>
     <div class="panel square-simple">
