@@ -4,49 +4,27 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "User".
- *
- * @property integer $id
- * @property string $name
- * @property string $birth_date
- * @property string $email
- * @property string $password
- */
-class User extends \yii\db\ActiveRecord
+use dektrium\user\models\User as BaseUser;
+
+class User extends BaseUser
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
+    public function scenarios()
     {
-        return 'User';
+        $scenarios = parent::scenarios();
+        // add field to scenarios
+        $scenarios['create'][]   = 'birthDate';
+        $scenarios['update'][]   = 'birthDate';
+        $scenarios['register'][] = 'birthDate';
+        return $scenarios;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
-        return [
-            [['birth_date', 'password'], 'required'],
-            [['birth_date'], 'safe'],
-            [['name', 'email'], 'string', 'max' => 45],
-            [['password'], 'string', 'max' => 255]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'birth_date' => 'Birth Date',
-            'email' => 'Email',
-            'password' => 'Password',
-        ];
+        $rules = parent::rules();
+        // add some rules
+        $rules['fieldRequired'] = ['birthDate', 'required'];
+        $rules['fieldLength']   = ['birthDate', 'date', 'max' => 10];
+        
+        return $rules;
     }
 }

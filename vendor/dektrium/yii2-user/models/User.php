@@ -195,10 +195,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $scenarios = parent::scenarios();
         return ArrayHelper::merge($scenarios, [
-            'register' => ['username', 'email', 'password'],
+            'register' => ['username', 'email', 'password', 'birthDate'],
             'connect'  => ['username', 'email'],
             'create'   => ['username', 'email', 'password'],
-            'update'   => ['username', 'email', 'password'],
+            'update'   => ['username', 'email', 'password', 'birthDate'],
             'settings' => ['username', 'email', 'password'],
         ]);
     }

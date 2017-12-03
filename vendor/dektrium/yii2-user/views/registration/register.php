@@ -11,6 +11,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
+
 
 /**
  * @var yii\web\View              $this
@@ -37,6 +39,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'email') ?>
 
                 <?= $form->field($model, 'username') ?>
+
+                <div class="form-group field-register-form-birthdate required">
+                    <label class="control-label" for="register-form-birthdate">Birth Date</label>
+                    <?php echo DatePicker::widget([
+                        'name' => 'register-form[birthDate]',
+                        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                        'value' => '24-05-1994',
+                        'pluginOptions' => [
+                            'autoclose'=>true,
+                            'format' => 'dd-mm-yyyy'
+                        ]
+                    ]);?>
+                </div>
 
                 <?php if ($module->enableGeneratingPassword == false): ?>
                     <?= $form->field($model, 'password')->passwordInput() ?>

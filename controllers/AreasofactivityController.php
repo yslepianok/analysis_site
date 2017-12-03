@@ -29,6 +29,9 @@ class AreasofactivityController extends \yii\web\Controller
       if ($action->id == 'activity') {
           $this->enableCsrfValidation = false;
       }
+      if ($action->id == 'rawSpecialitiesFromDate') {
+        $this->enableCsrfValidation = false;
+    }
       return parent::beforeAction($action);
   }
 
@@ -62,5 +65,19 @@ class AreasofactivityController extends \yii\web\Controller
   public function actionIndex()
   {
       return $this->render('index');
+  }
+
+  public function actionRawSpecialitiesFromDate()
+  {
+    $this->enableCsrfValidation = false;
+    $user_id = Yii::$app->user->identity->id
+    // $inform =  UserToTesting::find()->where(['user_id' => $user_id])->all();
+
+    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+    if (!empty($inform))
+      return  $inform;
+    else
+      return "You do not test!";
   }
 }

@@ -280,4 +280,45 @@ class UserToActivity extends \yii\db\ActiveRecord
 
         return $result;
     }
+
+    public static function getCellsWeightSorted($kpW, $ss=null, $alf=null) {
+        $weights = self::getCellsWeight($kvW, $ss, $alf);
+        
+        arsort($weights);
+
+        $arrPositive = [];
+        $i=0;
+        $lastEl = 0;
+        $lastKey = null;
+        foreach ($weights as $key=>$item) {
+            if ($i<7 || (($item>=($lastEl*0.5)) && $i<10) || (in_array($lastKey, $arrPositive) && $item>=$lastEl*0.85))
+                $arrPositive []= $key;
+            else
+                break;
+
+            $i++;
+            $lastEl = $item;
+            $lastKey = $key;
+        }
+
+        asort($weights);
+        $arrNegative = [];
+        $i=0;
+        $lastEl = 0;
+        $lastKey = null;
+        foreach ($weights as $key=>$item) {
+            if ($i<7 || (($lastEl>=($item*0.5)) && $i<10) || (in_array($lastKey, $arrNegative) && $item<=$lastEl*0.99))
+                $arrNegative []= $key;
+            else
+                break;
+
+            $i++;
+            $lastEl = $item;
+            $lastKey = $key;
+        }
+
+        arsort($weights);
+
+        return $weights;
+    }
 }

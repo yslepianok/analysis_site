@@ -39,6 +39,11 @@ class RegistrationForm extends Model
     public $password;
 
     /**
+     * @var date Birth Date
+     */
+    public $birthDate;
+
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -136,5 +141,7 @@ class RegistrationForm extends Model
     protected function loadAttributes(User $user)
     {
         $user->setAttributes($this->attributes);
+        //TODO very bad way
+        $user->birthDate = $this->birthDate;
     }
 }
