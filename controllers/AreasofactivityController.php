@@ -70,7 +70,7 @@ class AreasofactivityController extends \yii\web\Controller
   public function actionRawSpecialitiesFromDate()
   {
     $this->enableCsrfValidation = false;
-    $user_id = Yii::$app->user->identity->id
+    $user_id = Yii::$app->user->identity->id;
     // $inform =  UserToTesting::find()->where(['user_id' => $user_id])->all();
 
     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
