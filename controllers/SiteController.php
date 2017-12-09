@@ -6,10 +6,12 @@ use app\models\ActivityType;
 use app\models\Profession;
 use app\models\PythagorasSquare;
 use app\models\SquareForm;
+use app\models\Test;
 use app\models\TestedPerson;
 use app\models\UserRelation;
 use app\models\UserToActivity;
 use app\models\UserToUser;
+use app\models\UserToTesting;
 use Faker\Provider\DateTime;
 use Yii;
 use yii\filters\AccessControl;
@@ -205,5 +207,56 @@ class SiteController extends Controller
       }
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       return $return_json;
+    }
+
+    public function actionTestdatamerge() {
+        $personId = 150;// TODO use in future Yii::$app->user->identity->id;
+        $person = TestedPerson::find()->where(['id' => $personId])->one();
+        
+        // Старые данные из Квадрата Пифагора
+        $kvW = PythagorasSquare::countWeightedSquare($person);
+        $oldWeightedCells = UserToActivity::getCellsWeight($kvW);
+
+        // Новые данные из психологических тестов
+        $testWeightedCells = UserToTesting::getUserTestResultsMatrix($personId);
+
+        // Теперь мержим старые и новые результаты
+        $mergedWeights = UserToTesting::mergeKvAndTesting($oldWeightedCells, $testWeightedCells);
+
+        // Теперь можно и профессии посчитать
+        $oldSpecializations = UserToActivity::getUserSpecialitiesByMatrix($oldWeightedCells);
+        Yii::warning($oldSpecializations);
+        // Получаем наиболее и наименее рекомендуемые сферы деятельности
+        $oldSpecsTmp = array_slice($oldSpecializations[5], 0, 4);
+        $oldSpecsRcmnd = [];
+        foreach($oldSpecsTmp as $key=>$val) {
+            // Получаем массив с ключом-именем и значением-весом
+            $spec = $oldSpecializations[4][$key];
+            $oldSpecsRcmnd[$spec->name] = $val;
+        }
+
+        $oldSpecsTmp = array_slice($oldSpecializations[5], count($oldSpecializations[5])-5, 4);
+        $oldSpecsNotRcmnd = [];
+        foreach($oldSpecsTmp as $key=>$val) {
+            // Получаем массив с ключом-именем и значением-весом
+            $spec = $oldSpecializations[4][$key];
+            $oldSpecsRcmnd[$spec->name] = $val;
+        }
+
+        arsort($mergedWeights);
+        $newSpecializations = UserToActivity::getUserSpecialitiesByMatrix($mergedWeights);
+
+        $oldProfessions = Profession::getUserProfessionsLiteByMatrix($oldSpecializations);
+        $newProfessions = Profession::getUserProfessionsLiteByMatrix($newSpecializations);
+
+        return $this->render('testdatamerge', [
+            'user' => $person,
+            'oldWeightedCells' => $oldWeightedCells,
+            'testWeightedCells' => $testWeightedCells,
+            'mergedWeightedCells' => $mergedWeights,
+            'oldSpecsRcmnd' => $oldSpecsRcmnd,
+            'oldSpecsNotRcmnd' => $oldSpecsNotRcmnd,
+            'oldProf' => $oldProfessions,
+        ]);
     }
 }

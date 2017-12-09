@@ -216,8 +216,14 @@ class Profession extends \yii\db\ActiveRecord
     public static function getUserProfessionsLite($user)
     {
         $bundle = UserToActivity::getUserSpecialitiesExtended($user);
-        $arr = Profession::find()->all();
 
+        return self::getUserProfessionsLiteByMatrix($bundle);
+        
+    }
+
+    public static function getUserProfessionsLiteByMatrix($bundle) {
+        $arr = Profession::find()->all();
+        
         $professions = [];
         $weights = [];
 

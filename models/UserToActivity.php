@@ -281,7 +281,7 @@ class UserToActivity extends \yii\db\ActiveRecord
         return $result;
     }
 
-    public static function getCellsWeightSorted($kpW, $ss=null, $alf=null) {
+    public static function getCellsWeightSorted($kvW, $ss=null, $alf=null) {
         $weights = self::getCellsWeight($kvW, $ss, $alf);
         
         arsort($weights);
@@ -320,5 +320,51 @@ class UserToActivity extends \yii\db\ActiveRecord
         arsort($weights);
 
         return $weights;
+    }
+
+    public static function getUserSpecialitiesByMatrix($weights) {
+        $weightSpecial = [];
+        $itemsSpecial = [];
+        $arr = ActivityType::find()->all();
+        foreach ($arr as $item) {
+            $weightSpecial[$item->id] = $weights[$item->pair_one] + $weights[$item->pair_two];
+            $itemsSpecial[$item->id] = $item;
+        }
+
+        arsort($weightSpecial);
+        $arrSpecPositive = [];
+        $i=0;
+        $lastEl = 0;
+        $lastKey = null;
+        foreach ($weightSpecial as $key=>$item) {
+            if ($i<3 || (($item>=($lastEl*0.5)) && $i<4) || (in_array($lastKey, $arrSpecPositive) && $item==$lastEl))
+                $arrSpecPositive []= $key;
+            else
+                break;
+
+            $i++;
+            $lastEl = $item;
+            $lastKey = $key;
+        }
+
+        asort($weightSpecial);
+        $arrSpecNegative = [];
+        $i=0;
+        $lastEl = 0;
+        $lastKey = null;
+        foreach ($weightSpecial as $key=>$item) {
+            if ($i<3 || (($item<=($lastEl*0.5)) && $i<4) || (in_array($lastKey, $arrSpecNegative) && $item==$lastEl))
+                $arrSpecNegative []= $key;
+            else
+                break;
+
+            $i++;
+            $lastEl = $item;
+            $lastKey = $key;
+        }
+
+        arsort($weightSpecial);
+
+        return [$weights, [], [], $itemsSpecial, $weightSpecial, $arrSpecPositive, $arrSpecNegative];
     }
 }

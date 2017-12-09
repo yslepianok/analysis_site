@@ -51,4 +51,37 @@ class UserToTesting extends \yii\db\ActiveRecord
             'date' => 'Date',
         ];
     }
+
+    public static function getUserTestResultsMatrix($userId) {
+        // Новые данные из психологических тестов
+        $testResults = self::find()->where(['user_id' => $userId])->all();
+        $testWeightedCells = [];
+        Yii::warning('User has passed '.count($testResults).' tests:');
+        // Сначала цикл по самим тестам
+        foreach($testResults as $test) {
+            $testResult = json_decode($test->calculated_results, true);
+            $passedTest = Test::find()->where(['id' => $test->id])->one();
+            Yii::warning('User has passed test #'.$passedTest->id.' , "'.$passedTest->name.'"; with testWeight='.$passedTest->weight);
+            // Цикл по той самой матрице(вектору)
+            foreach(PythagorasSquare::$specialityFunction as $key=>$val) {
+                if (!array_key_exists($key, $testWeightedCells)) {
+                    $testWeightedCells[$key] = 0;
+                }
+
+                $testWeightedCells[$key] = round($testWeightedCells[$key] +  $testResult[$key] * $passedTest->weight, 2);
+            }
+        }
+
+        return $testWeightedCells;
+    }
+
+    public static function mergeKvAndTesting($weightsKv, $weightsTesting) {
+        $result = [];
+        $pythagorasSquareWeight = Yii::$app->params['pythagorasSquareWeight'];
+        foreach(PythagorasSquare::$specialityFunction as $key=>$value) {
+            $result[$key] = round(($weightsKv[$key] * $pythagorasSquareWeight + $weightsTesting[$key])/$pythagorasSquareWeight, 2);
+        }
+
+        return $result;
+    }
 }
