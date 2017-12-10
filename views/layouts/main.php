@@ -38,16 +38,17 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-              [
+              !Yii::$app->user->isGuest ? [
                 'label' => 'Редактирование тестов',
                 'items' => [
                       ['label' => 'Тесты', 'url' => ['/testdata']],
                       ['label' => 'Вопросы', 'url' => ['/question']],
                       ['label' => 'Ответы', 'url' => ['/answer']],
                 ],
-            ],
-            ['label' => 'Подбор профессий', 'url' => ['/testing/index']],
-            ['label' => 'Сферы деятельности', 'url' => ['/areasofactivity/index']],
+            ] : '',
+            ['label' => 'Психологические тесты', 'url' => ['/testing/index']],
+            //['label' => 'Рекомендуемые сферы деятельности', 'url' => ['/areasofactivity/index']],
+            ['label' => 'Совмещенные результаты', 'url' => ['/site/testdatamerge']],
             //['label' => 'О нас', 'url' => ['/site/about']],
             ['label' => 'Посчитать квадрат пифагора', 'url' => ['/site/kvadrat']],
             //['label' => 'Просмотр протестированных персон', 'url' => ['/testedperson']],

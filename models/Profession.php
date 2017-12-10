@@ -234,6 +234,17 @@ class Profession extends \yii\db\ActiveRecord
             $weight = 0;
 
             $i = 0;
+
+            // Just for test
+            if ($profession->main_cell_1!=null) {
+                $spc [] = $profession->main_cell_1;
+                $i++;
+            }
+            if ($profession->main_cell_2!=null) {
+                $spc [] = $profession->main_cell_2;
+                $i++;
+            }
+
             if ($profession->additional_cell_1!=null) {
                 $spc [] = $profession->additional_cell_1;
                 $i++;
@@ -260,7 +271,7 @@ class Profession extends \yii\db\ActiveRecord
             }
 
             $j=0;
-            $continue= false;
+            $continue = false;
             foreach ($spc as $item) {
                 if (in_array($item, $bundle[1]))
                 {
@@ -274,7 +285,8 @@ class Profession extends \yii\db\ActiveRecord
             }
             if ($continue)
                 continue;
-            $passed1++;
+            else 
+                $passed1++;
 
             $failed = true;
             switch ($i)

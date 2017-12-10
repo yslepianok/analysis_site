@@ -225,26 +225,42 @@ class SiteController extends Controller
 
         // Теперь можно и профессии посчитать
         $oldSpecializations = UserToActivity::getUserSpecialitiesByMatrix($oldWeightedCells);
-        Yii::warning($oldSpecializations);
+
         // Получаем наиболее и наименее рекомендуемые сферы деятельности
-        $oldSpecsTmp = array_slice($oldSpecializations[5], 0, 4);
+        $oldSpecsTmp = $oldSpecializations[5];
         $oldSpecsRcmnd = [];
         foreach($oldSpecsTmp as $key=>$val) {
             // Получаем массив с ключом-именем и значением-весом
-            $spec = $oldSpecializations[4][$key];
-            $oldSpecsRcmnd[$spec->name] = $val;
+            $spec = $oldSpecializations[3][$val];
+            $oldSpecsRcmnd[$spec->name] = $oldSpecializations[4][$val];
         }
 
-        $oldSpecsTmp = array_slice($oldSpecializations[5], count($oldSpecializations[5])-5, 4);
+        $oldSpecsTmp = $oldSpecializations[6];
         $oldSpecsNotRcmnd = [];
         foreach($oldSpecsTmp as $key=>$val) {
             // Получаем массив с ключом-именем и значением-весом
-            $spec = $oldSpecializations[4][$key];
-            $oldSpecsRcmnd[$spec->name] = $val;
+            $spec = $oldSpecializations[3][$val];
+            $oldSpecsNotRcmnd[$spec->name] = $oldSpecializations[4][$val];
         }
 
         arsort($mergedWeights);
         $newSpecializations = UserToActivity::getUserSpecialitiesByMatrix($mergedWeights);
+        // Получаем наиболее и наименее рекомендуемые сферы деятельности
+        $newSpecsTmp = $newSpecializations[5];
+        $newSpecsRcmnd = [];
+        foreach($newSpecsTmp as $key=>$val) {
+            // Получаем массив с ключом-именем и значением-весом
+            $spec = $newSpecializations[3][$val];
+            $newSpecsRcmnd[$spec->name] = $newSpecializations[4][$val];
+        }
+
+        $newSpecsTmp = $newSpecializations[6];
+        $newSpecsNotRcmnd = [];
+        foreach($newSpecsTmp as $key=>$val) {
+            // Получаем массив с ключом-именем и значением-весом
+            $spec = $newSpecializations[3][$val];
+            $newSpecsNotRcmnd[$spec->name] = $newSpecializations[4][$val];
+        }
 
         $oldProfessions = Profession::getUserProfessionsLiteByMatrix($oldSpecializations);
         $newProfessions = Profession::getUserProfessionsLiteByMatrix($newSpecializations);
@@ -257,6 +273,9 @@ class SiteController extends Controller
             'oldSpecsRcmnd' => $oldSpecsRcmnd,
             'oldSpecsNotRcmnd' => $oldSpecsNotRcmnd,
             'oldProf' => $oldProfessions,
+            'newSpecsRcmnd' => $newSpecsRcmnd,
+            'newSpecsNotRcmnd' => $newSpecsNotRcmnd,
+            'newProf' => $newProfessions,
         ]);
     }
 }

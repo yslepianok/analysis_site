@@ -286,6 +286,17 @@ class UserToActivity extends \yii\db\ActiveRecord
         
         arsort($weights);
 
+        return $weights;
+    }
+
+    public static function getUserSpecialitiesByMatrix($weights) {
+        $weightSpecial = [];
+        $itemsSpecial = [];
+        $arr = ActivityType::find()->all();
+
+        arsort($weights);
+
+        // Без понятия зачем это надо, но надо
         $arrPositive = [];
         $i=0;
         $lastEl = 0;
@@ -295,6 +306,17 @@ class UserToActivity extends \yii\db\ActiveRecord
                 $arrPositive []= $key;
             else
                 break;
+            /*if ($i<6) {
+                $lastEl = $item;
+                $lastKey = $key;
+                $arrPositive []= $key;
+            } else if ($i == 6 && $item>) {
+
+            } else if (1) {
+
+            } else {
+
+            }*/
 
             $i++;
             $lastEl = $item;
@@ -319,13 +341,7 @@ class UserToActivity extends \yii\db\ActiveRecord
 
         arsort($weights);
 
-        return $weights;
-    }
 
-    public static function getUserSpecialitiesByMatrix($weights) {
-        $weightSpecial = [];
-        $itemsSpecial = [];
-        $arr = ActivityType::find()->all();
         foreach ($arr as $item) {
             $weightSpecial[$item->id] = $weights[$item->pair_one] + $weights[$item->pair_two];
             $itemsSpecial[$item->id] = $item;
@@ -365,6 +381,6 @@ class UserToActivity extends \yii\db\ActiveRecord
 
         arsort($weightSpecial);
 
-        return [$weights, [], [], $itemsSpecial, $weightSpecial, $arrSpecPositive, $arrSpecNegative];
+        return [$weights, $arrPositive, $arrNegative, $itemsSpecial, $weightSpecial, $arrSpecPositive, $arrSpecNegative];
     }
 }
