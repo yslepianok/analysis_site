@@ -4,27 +4,70 @@ namespace app\models;
 
 use Yii;
 
-use dektrium\user\models\User as BaseUser;
-
-class User extends BaseUser
+/**
+ * This is the model class for table "user".
+ *
+ * @property integer $id
+ * @property string $birthDate
+ * @property string $password
+ * @property string $username
+ * @property string $email
+ * @property string $scope
+ *
+ * @property Profile $profile
+ * @property SocialAccount[] $socialAccounts
+ */
+class User extends \yii\db\ActiveRecord
 {
-    public function scenarios()
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
     {
-        $scenarios = parent::scenarios();
-        // add field to scenarios
-        $scenarios['create'][]   = 'birthDate';
-        $scenarios['update'][]   = 'birthDate';
-        $scenarios['register'][] = 'birthDate';
-        return $scenarios;
+        return 'user';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
-        $rules = parent::rules();
-        // add some rules
-        $rules['fieldRequired'] = ['birthDate', 'required'];
-        $rules['fieldLength']   = ['birthDate', 'date', 'max' => 10];
-        
-        return $rules;
+        return [
+            [['birthDate', 'password', 'username', 'email'], 'required'],
+            [['birthDate'], 'safe'],
+            [['password', 'username', 'email'], 'string', 'max' => 50],
+            [['scope'], 'string', 'max' => 10]
+        ];
     }
-}
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'birthDate' => 'Birth Date',
+            'password' => 'Password',
+            'username' => 'Username',
+            'email' => 'Email',
+            'scope' => 'Scope',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(Profile::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSocialAccounts()
+    {
+        return $this->hasMany(SocialAccount::className(), ['user_id' => 'id']);
+    }
+} 

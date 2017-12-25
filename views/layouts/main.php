@@ -32,37 +32,44 @@ AppAsset::register($this);
         'brandLabel' => 'Домой',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-inverse',
         ],
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-              !Yii::$app->user->isGuest ? [
-                'label' => 'Редактирование тестов',
+            Yii::$app->session->get('user') ? (
+              Yii::$app->session->get('user')->scope=="admin" ?
+              ['label' => 'Добавление тестов в БД', 'url' => ['/testing/testadd']
+              ] : '') : '',
+            Yii::$app->session->get('user') ? (
+              Yii::$app->session->get('user')->scope=="admin" ?
+              ['label' => 'Редактирование тестов',
                 'items' => [
                       ['label' => 'Тесты', 'url' => ['/testdata']],
                       ['label' => 'Вопросы', 'url' => ['/question']],
                       ['label' => 'Ответы', 'url' => ['/answer']],
-                ],
-            ] : '',
-            ['label' => 'Психологические тесты', 'url' => ['/testing/index']],
+                  ],
+              ] : '') : '',
+            Yii::$app->session->get('user') ? (
+            ['label' => 'Психологические тесты', 'url' => ['/testing/index']]) : '',
             //['label' => 'Рекомендуемые сферы деятельности', 'url' => ['/areasofactivity/index']],
-            ['label' => 'Совмещенные результаты', 'url' => ['/site/testdatamerge']],
+            Yii::$app->session->get('user') ? (
+            ['label' => 'Совмещенные результаты', 'url' => ['/site/testdatamerge']]) : '',
             //['label' => 'О нас', 'url' => ['/site/about']],
-            ['label' => 'Посчитать квадрат пифагора', 'url' => ['/site/kvadrat']],
+            Yii::$app->session->get('user') ? (
+            ['label' => 'Посчитать квадрат пифагора', 'url' => ['/site/kvadrat']]) : '',
+
             //['label' => 'Просмотр протестированных персон', 'url' => ['/testedperson']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Войти', 'url' => ['/user/security/login']]
+            !Yii::$app->session->get('user') ? (
+                ['label' => 'Войти', 'url' => ['/authentication/login']]
             ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Выйти (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
+                ['label' => Yii::$app->session->get('user')->username,
+                'items' => [
+                      ['label' => 'Профиль', 'url' => ['/authentication/profile']],
+                      ['label' => 'Выйти', 'url' => ['/authentication/logout']],
+                  ],
+                ]
             )
         ],
     ]);

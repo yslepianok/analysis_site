@@ -32,13 +32,19 @@ class QuestionController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Question::find(),
-        ]);
+        $session = Yii::$app->session;
+        if ($session->get('user')) {
+          if ($session->get('user')->scope == "admin") {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Question::find(),
+            ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+            ]);
+          }
+        }
+        return $this->goBack();
     }
 
     /**
@@ -48,9 +54,15 @@ class QuestionController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $session = Yii::$app->session;
+        if ($session->get('user')) {
+          if ($session->get('user')->scope == "admin") {
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+          }
+        }
+        return $this->goBack();
     }
 
     /**
@@ -60,15 +72,21 @@ class QuestionController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Question();
+        $session = Yii::$app->session;
+        if ($session->get('user')) {
+          if ($session->get('user')->scope == "admin") {
+            $model = new Question();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+          }
         }
+        return $this->goBack();
     }
 
     /**
@@ -79,15 +97,21 @@ class QuestionController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $session = Yii::$app->session;
+        if ($session->get('user')) {
+          if ($session->get('user')->scope == "admin") {
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+          }
         }
+        return $this->goBack();
     }
 
     /**
@@ -98,9 +122,15 @@ class QuestionController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $session = Yii::$app->session;
+        if ($session->get('user')) {
+          if ($session->get('user')->scope == "admin") {
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+          }
+        }
+        return $this->goBack();
     }
 
     /**
@@ -112,10 +142,16 @@ class QuestionController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Question::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+        $session = Yii::$app->session;
+        if ($session->get('user')) {
+          if ($session->get('user')->scope == "admin") {
+            if (($model = Question::findOne($id)) !== null) {
+                return $model;
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
+          }
         }
+        return $this->goBack();
     }
 }
