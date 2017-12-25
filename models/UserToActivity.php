@@ -301,26 +301,41 @@ class UserToActivity extends \yii\db\ActiveRecord
         $i=0;
         $lastEl = 0;
         $lastKey = null;
-        foreach ($weights as $key=>$item) {
+        /*foreach ($weights as $key=>$item) {
             if ($i<7 || (($item>=($lastEl*0.5)) && $i<10) || (in_array($lastKey, $arrPositive) && $item>=$lastEl*0.85))
                 $arrPositive []= $key;
             else
                 break;
-            /*if ($i<6) {
-                $lastEl = $item;
-                $lastKey = $key;
-                $arrPositive []= $key;
-            } else if ($i == 6 && $item>) {
-
-            } else if (1) {
-
-            } else {
-
-            }*/
 
             $i++;
             $lastEl = $item;
             $lastKey = $key;
+        }*/
+        foreach($weights as $key=>$item) {
+            if ($i<4) {
+                $arrPositive[] = $key;
+                $i++;                
+                $lastEl = $item;
+                $lastKey = $key;
+            }
+            
+            if ($i >= 4 && $i < 7 && ($item >= 0.5*$lastEl)) {
+                if (!in_array($key, $arrPositive)) {
+                    $arrPositive[] = $key;
+                    $i++;                
+                    $lastEl = $item;
+                    $lastKey = $key;
+                }
+            }
+
+            if ($i >= 7 && $i < 10 && ($item >= 0.99*$lastEl)) {
+                if (!in_array($key, $arrPositive)) {                    
+                    $arrPositive[] = $key;
+                    $i++;                
+                    $lastEl = $item;
+                    $lastKey = $key;
+                }
+            }
         }
 
         asort($weights);
@@ -328,7 +343,7 @@ class UserToActivity extends \yii\db\ActiveRecord
         $i=0;
         $lastEl = 0;
         $lastKey = null;
-        foreach ($weights as $key=>$item) {
+        /*foreach ($weights as $key=>$item) {
             if ($i<7 || (($lastEl>=($item*0.5)) && $i<10) || (in_array($lastKey, $arrNegative) && $item<=$lastEl*0.99))
                 $arrNegative []= $key;
             else
@@ -337,6 +352,32 @@ class UserToActivity extends \yii\db\ActiveRecord
             $i++;
             $lastEl = $item;
             $lastKey = $key;
+        }*/
+        foreach($weights as $key=>$item) {
+            if ($i<4) {
+                $arrNegative[] = $key;
+                $i++;                
+                $lastEl = $item;
+                $lastKey = $key;
+            }
+            
+            if ($i >= 4 && $i < 7 && ($item <= 0.75*$lastEl)) {
+                if (!in_array($key, $arrNegative)) {
+                    $arrNegative[] = $key;
+                    $i++;                
+                    $lastEl = $item;
+                    $lastKey = $key;
+                }
+            }
+
+            if ($i >= 7 && $i < 10 && ($item <= 0.99*$lastEl)) {
+                if (!in_array($key, $arrNegative)) {                    
+                    $arrNegative[] = $key;
+                    $i++;                
+                    $lastEl = $item;
+                    $lastKey = $key;
+                }
+            }
         }
 
         arsort($weights);

@@ -78,10 +78,15 @@ class UserToTesting extends \yii\db\ActiveRecord
     public static function mergeKvAndTesting($weightsKv, $weightsTesting) {
         $result = [];
         $pythagorasSquareWeight = Yii::$app->params['pythagorasSquareWeight'];
-        foreach(PythagorasSquare::$specialityFunction as $key=>$value) {
-            $result[$key] = round(($weightsKv[$key] * $pythagorasSquareWeight + $weightsTesting[$key])/$pythagorasSquareWeight, 2);
-        }
 
+        foreach(PythagorasSquare::$specialityFunction as $key=>$value) {
+            if (count($weightsTesting) == 0) {
+                $result[$key] = round(($weightsKv[$key] * $pythagorasSquareWeight)/$pythagorasSquareWeight, 2);
+            } else {
+                $result[$key] = round(($weightsKv[$key] * $pythagorasSquareWeight + $weightsTesting[$key])/$pythagorasSquareWeight, 2);
+            }
+        }
+        
         return $result;
     }
 }

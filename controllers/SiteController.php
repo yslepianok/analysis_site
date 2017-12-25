@@ -210,7 +210,7 @@ class SiteController extends Controller
     }
 
     public function actionTestdatamerge() {
-        $personId = 150;// TODO use in future Yii::$app->user->identity->id;
+        $personId = 150;//Yii::$app->session->get('user')->id;// TODO use in future Yii::$app->user->identity->id;
         $person = TestedPerson::find()->where(['id' => $personId])->one();
 
         // Старые данные из Квадрата Пифагора
