@@ -79,7 +79,7 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
   			headers: 'Content-Type : application/json'
   		}).then(function successCallback(response) {
         if (response.data === "success") {
-          $scope.sign_login = 3;
+          $scope.sign_login = 2;
           $scope.error = null;
         }
   		  }, function errorCallback(response) {

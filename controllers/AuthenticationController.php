@@ -7,6 +7,9 @@ use Faker\Provider\DateTime;
 use Yii;
 
 use app\models\User;
+use app\models\UserInfo;
+use app\models\UserToUser;
+use app\models\UserRelation;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -27,7 +30,73 @@ class AuthenticationController extends \yii\web\Controller
       if ($action->id == 'check') {
           $this->enableCsrfValidation = false;
       }
+      if ($action->id == 'addrelative') {
+          $this->enableCsrfValidation = false;
+      }
       return parent::beforeAction($action);
+  }
+
+  public function actionGetuserinfo() {
+    $session = Yii::$app->session;
+    if ($session->get('user')) {
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $response = [];
+      $user = new User();
+      $user = $session->get('user');
+      $userInfo =  UserInfo::find()->where(['user_id' => $user->id])->one();
+      $userToUser = UserToUser::find()->where(['user_id' => $userInfo->id])->all();
+      $relatives = [];
+      for ($i=0; $i < count($userToUser); $i++) {
+        $relatives[$i] = UserInfo::find()->where(['id' => $userToUser[$i]->user_related_id])->one();
+      }
+      $userRelation = UserRelation::find()->all();
+      $response['user'] = $user;
+      $response['userInfo'] = $userInfo;
+      $response['userToUser'] = $userToUser;
+      $response['relations'] = $userRelation;
+      $response['relatives'] = $relatives;
+      return $response;
+    }
+    else {
+      return $this->goBack();
+    }
+  }
+
+  public function actionAddrelative() {
+    $session = Yii::$app->session;
+    if ($session->get('user')) {
+      $this->enableCsrfValidation = false;
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $request = \Yii::$app->request;
+      $data = json_decode($request->rawBody);
+      $userInfo = new UserInfo();
+      $userInfo->birth_date = $data->birthDate;
+      $userInfo->user_id = ($session->get('user')->id)*(-1);
+      if ($userInfo->save()) {
+        $userToUser = new UserToUser();
+        $userToUser->user_id = $data->user_id;
+        $userInfo = UserInfo::find()->where(['user_id' => ($session->get('user')->id)*(-1)])->andWhere(['birth_date' => $data->birthDate])->one();
+        $userToUser->user_related_id = $userInfo->id;
+        $userToUser->relation_id = $data->relative_id;
+        if ($userToUser->save()) {
+          return "success";
+        }
+        else {
+          \Yii::$app->response->statusCode=500;
+          //return "Error with saving data";
+          return $userToUser->errors;
+        }
+        return $userToUser;
+      }
+      else {
+        \Yii::$app->response->statusCode=500;
+        //return "Error with saving data";
+        return $userInfo->errors;
+      }
+    }
+    else {
+      return $this->goBack();
+    }
   }
 
   public function actionLogin()
@@ -55,10 +124,11 @@ class AuthenticationController extends \yii\web\Controller
     $data = json_decode($request->rawBody);
 
     $user = new User();
+    $userInfo = new UserInfo();
     $user->username = $data->username;
     $user->password = $data->password;
     $user->email = $data->email;
-    $user->birthDate = $data->birthDate;
+    $userInfo->birth_date = $data->birthDate;
 
     if (!$user->save()){
       \Yii::$app->response->statusCode=500;
@@ -67,7 +137,14 @@ class AuthenticationController extends \yii\web\Controller
     }
     else
     {
-      return "success";
+      $user = User::find()->where(['username' => $data->username])->one();
+      $userInfo->user_id = $user->id;
+      if(!$userInfo->save()) {
+        \Yii::$app->response->statusCode=500;
+        //return "Error with saving data";
+        return $userInfo->errors;
+      }
+      return 'success';
     }
   }
 

@@ -33,9 +33,6 @@
       <a ng-click="swap(0)">Вернуться к авторизации</a>
     </div>
 		<div class="" ng-if="sign_login==2">
-			<p style="font-size : 50px;">Velcome <i>{{authData.username}}</i></p>
-		</div>
-		<div class="" ng-if="sign_login==3">
 			<p style="font-size : 50px;">Аккаунт <i>{{authData.username}}</i> создан успешно.</p>
 		</div>
 	</div>

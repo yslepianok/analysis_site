@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "user_relation".
@@ -54,12 +53,5 @@ class UserRelation extends \yii\db\ActiveRecord
     public function getUserToUsers()
     {
         return $this->hasMany(UserToUser::className(), ['relation_id' => 'id']);
-    }
-
-    public static function getRelationoptions()
-    {
-        $relations = self::find()->all();
-        $items = ArrayHelper::map($relations,'id','name');
-        return $items;
     }
 }
