@@ -12,7 +12,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', function(
       $scope.userInfo = response.data;
       for (let i = 0; i < $scope.userInfo.userToUser.length; i++) {
         let nameR = "";
-        let birthDateR;
+        let birthDateR = "";
         for (let j = 0; j <$scope.userInfo.relations.length; j++) {
           if ($scope.userInfo.userToUser[i].relation_id == $scope.userInfo.relations[j].id) {
             nameR = $scope.userInfo.relations[j].name;
@@ -20,7 +20,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', function(
         }
         for (let j = 0; j < $scope.userInfo.relatives.length; j++) {
           if ($scope.userInfo.userToUser[i].user_related_id == $scope.userInfo.relatives[j].id) {
-            birthDateR = new Date($scope.userInfo.relatives[j].birth_date.replace(/-/g,"/"));
+            birthDateR = $scope.userInfo.relatives[j].birth_date;
           }
         }
         $scope.relatives[$scope.relatives.length] = {

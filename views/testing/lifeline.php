@@ -1,8 +1,8 @@
-<script type="text/javascript" src="../js/film_genreController.js"></script>
-<div  ng-app="film_genreApp">
-	<div ng-controller="film_genreController">
+<script type="text/javascript" src="../js/lifelineController.js"></script>
+<div  ng-app="lifelineApp">
+	<div ng-controller="lifelineController">
 		<div class="allcenter">
-			<p class="h1">Предпочтения жанров фильмов</p>
+			<p class="h1">Дорога жизни</p>
 		</div>
 		<div class="allcenter" ng-if="flag==0 || currentTest >= testData.questions.length">
 			<button type="button" class="btn btn-primary btn-lg btn-block" ng-click="Start()" style="font-weight: bold; font-size: 24px;" >Начать тест</button>

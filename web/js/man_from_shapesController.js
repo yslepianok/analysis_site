@@ -36,7 +36,7 @@ myApp.controller('man_from_shapesController', ['$scope', '$http', function($scop
 	$scope.start = angular.element(document.querySelector('.st'));
 
 	$scope.Start = function(){
-		console.log("in start man_from_shapes testing")
+		console.log("in start man_from_shapes testing");
 		$scope.flag = 1;
 		$scope.flag2 = 1;
 		$scope.currentTest = 0;
