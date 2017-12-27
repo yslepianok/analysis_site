@@ -299,4 +299,20 @@ class TestingController extends \yii\web\Controller
    }
    return $this->redirect(Yii::$app->homeUrl);
  }
+ public function actionPreferences_of_school_subjects()
+{
+  $session = Yii::$app->session;
+  if ($session->get('user')) {
+    return $this->render('preferences_of_school_subjects');
+  }
+  return $this->redirect(Yii::$app->homeUrl);
+}
+public function actionLifeline()
+{
+ $session = Yii::$app->session;
+ if ($session->get('user')) {
+   return $this->render('lifeline');
+ }
+ return $this->redirect(Yii::$app->homeUrl);
+}
 }
