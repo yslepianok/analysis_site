@@ -55,7 +55,7 @@ AppAsset::register($this);
             ['label' => 'Психологические тесты', 'url' => ['/testing/index']]) : '',
             //['label' => 'Рекомендуемые сферы деятельности', 'url' => ['/areasofactivity/index']],
             Yii::$app->session->get('user') ? (
-            ['label' => 'Совмещенные результаты', 'url' => ['/site/testdatamerge']]) : '',
+            ['label' => 'Рекомендации профессий', 'url' => ['/site/profresults']]) : '',
             //['label' => 'О нас', 'url' => ['/site/about']],
             Yii::$app->session->get('user') ? (
             ['label' => 'Посчитать квадрат пифагора', 'url' => ['/site/kvadrat']]) : '',

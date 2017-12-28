@@ -209,7 +209,7 @@ class SiteController extends Controller
       return $return_json;
     }
 
-    public function actionTestdatamerge() {
+    public function actionProfresults() {
         $personId = 150;//Yii::$app->session->get('user')->id;// TODO use in future Yii::$app->user->identity->id;
         $person = TestedPerson::find()->where(['id' => $personId])->one();
 
@@ -265,7 +265,7 @@ class SiteController extends Controller
         $oldProfessions = Profession::getUserProfessionsLiteByMatrix($oldSpecializations);
         $newProfessions = Profession::getUserProfessionsLiteByMatrix($newSpecializations);
 
-        return $this->render('testdatamerge', [
+        return $this->render('profresults', [
             'user' => $person,
             'oldWeightedCells' => $oldWeightedCells,
             'testWeightedCells' => $testWeightedCells,

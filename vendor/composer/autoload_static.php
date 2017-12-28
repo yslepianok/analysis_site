@@ -33,6 +33,7 @@ class ComposerStaticInit32b8eb537f8e12e57c5e7bade69d01f0
         ),
         'd' => 
         array (
+            'dosamigos\\chartjs\\' => 18,
             'dektrium\\user\\' => 14,
         ),
         'c' => 
@@ -97,6 +98,10 @@ class ComposerStaticInit32b8eb537f8e12e57c5e7bade69d01f0
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
+        ),
+        'dosamigos\\chartjs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/yii2-chartjs-widget/src',
         ),
         'dektrium\\user\\' => 
         array (
