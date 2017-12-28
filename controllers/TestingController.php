@@ -185,9 +185,7 @@ class TestingController extends \yii\web\Controller
   {
     $session = Yii::$app->session;
     if ($session->get('user')) {
-      if ($session->get('user')->scope == "admin") {
-        return $this->render('index');
-      }
+      return $this->render('index');
     }
     return $this->redirect(Yii::$app->homeUrl);
   }
