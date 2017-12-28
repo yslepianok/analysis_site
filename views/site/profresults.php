@@ -1,5 +1,6 @@
 <?php $this->title = 'Рекомендуемые профессии';?>
 <?php use dosamigos\chartjs\ChartJs; ?>
+
 <h1>Рекомендуемые профессии и сферы деятельности</h1>
 <p>Прохождение психологического тестирования значительно улучшает результаты рекомендаций!</p>
 
@@ -7,8 +8,10 @@
 
 <div class="panel">
 <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#oldSpecs" aria-controls="oldSpecs" role="tab" data-toggle="tab">Взвешенные результаты</a></li>
-    <li role="presentation"><a href="#newSpecs" aria-controls="newSpecs" role="tab" data-toggle="tab">Взвешенные результаты с тестами</a></li>
+    <li role="presentation" class="active"><a href="#oldSpecs" aria-controls="oldSpecs" role="tab" data-toggle="tab">Результат по дате рождения</a></li>
+    <?php if ($wasTested) { ?>
+        <li role="presentation"><a href="#newSpecs" aria-controls="newSpecs" role="tab" data-toggle="tab">Результат по дате рождения и тестам</a></li>
+    <?php } ?>
 </ul>
 
 <div class="tab-content">
@@ -33,7 +36,7 @@
                     <?= ChartJs::widget([
                         'type' => 'bar',
                         'options' => [
-                            'height' => 300,
+                            'height' => 125,
                             'width' => 600,
                             'scales' => [
                                 'yAxes' => [
@@ -93,7 +96,7 @@
                     <?= ChartJs::widget([
                         'type' => 'bar',
                         'options' => [
-                            'height' => 300,
+                            'height' => 125,
                             'width' => 600,
                             'scales' => [
                                 'yAxes' => [
@@ -157,7 +160,7 @@
                 <?= ChartJs::widget([
                     'type' => 'bar',
                     'options' => [
-                        'height' => 300,
+                        'height' => 125,
                         'width' => 600,
                         'scales' => [
                             'yAxes' => [
@@ -217,7 +220,7 @@
                 <?= ChartJs::widget([
                     'type' => 'bar',
                     'options' => [
-                        'height' => 300,
+                        'height' => 125,
                         'width' => 600,
                         'scales' => [
                             'yAxes' => [
@@ -270,8 +273,10 @@
 
 <div class="panel">
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#oldProfs" aria-controls="oldProfs" role="tab" data-toggle="tab">Взвешенные результаты</a></li>
-        <li role="presentation"><a href="#newProfs" aria-controls="newProfs" role="tab" data-toggle="tab">Взвешенные результаты с тестами</a></li>
+        <li role="presentation" class="active"><a href="#oldProfs" aria-controls="oldProfs" role="tab" data-toggle="tab">Результаты по дате рождения</a></li>
+        <?php if ($wasTested) { ?>
+            <li role="presentation"><a href="#newProfs" aria-controls="newProfs" role="tab" data-toggle="tab">Результаты по дате рождения с психологическими тестами</a></li>
+        <?php } ?>
     </ul>
 
     <div class="tab-content">
@@ -296,7 +301,7 @@
                         'type' => 'bar',
                         'options' => [
                             'height' => 300,
-                            'width' => 600,
+                            'width' => 900,
                             'scales' => [
                                 'yAxes' => [
                                     'ticks' => [
@@ -359,7 +364,7 @@
                         'type' => 'bar',
                         'options' => [
                             'height' => 300,
-                            'width' => 600,
+                            'width' => 900,
                             'scales' => [
                                 'yAxes' => [
                                     'ticks' => [

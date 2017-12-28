@@ -57,8 +57,8 @@ AppAsset::register($this);
             Yii::$app->session->get('user') ? (
             ['label' => 'Рекомендации профессий', 'url' => ['/site/profresults']]) : '',
             //['label' => 'О нас', 'url' => ['/site/about']],
-            Yii::$app->session->get('user') ? (
-            ['label' => 'Посчитать квадрат пифагора', 'url' => ['/site/kvadrat']]) : '',
+            //Yii::$app->session->get('user') ? (
+            //['label' => 'Посчитать квадрат пифагора', 'url' => ['/site/kvadrat']]) : '',
 
             //['label' => 'Просмотр протестированных персон', 'url' => ['/testedperson']],
             !Yii::$app->session->get('user') ? (

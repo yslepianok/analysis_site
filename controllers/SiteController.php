@@ -210,7 +210,7 @@ class SiteController extends Controller
     }
 
     public function actionProfresults() {
-        $personId = 150;//Yii::$app->session->get('user')->id;// TODO use in future Yii::$app->user->identity->id;
+        $personId = Yii::$app->session->get('user')->id;// TODO use in future Yii::$app->user->identity->id;
         $person = TestedPerson::find()->where(['id' => $personId])->one();
 
         // Старые данные из Квадрата Пифагора
@@ -265,6 +265,11 @@ class SiteController extends Controller
         $oldProfessions = Profession::getUserProfessionsLiteByMatrix($oldSpecializations);
         $newProfessions = Profession::getUserProfessionsLiteByMatrix($newSpecializations);
 
+        if (count($testWeightedCells) == 0)
+            $wasTested = false;
+        else 
+            $wasTested = true;
+
         return $this->render('profresults', [
             'user' => $person,
             'oldWeightedCells' => $oldWeightedCells,
@@ -276,6 +281,7 @@ class SiteController extends Controller
             'newSpecsRcmnd' => $newSpecsRcmnd,
             'newSpecsNotRcmnd' => $newSpecsNotRcmnd,
             'newProf' => $newProfessions,
+            'wasTested' => $wasTested
         ]);
     }
 }
