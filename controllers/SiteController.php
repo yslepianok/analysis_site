@@ -210,8 +210,12 @@ class SiteController extends Controller
     }
 
     public function actionProfresults() {
-        $personId = Yii::$app->session->get('user')->id;// TODO use in future Yii::$app->user->identity->id;
-        $person = TestedPerson::find()->where(['id' => $personId])->one();
+        $accountId = Yii::$app->session->get('user')->id;// TODO use in future Yii::$app->user->identity->id;
+        Yii::warning('Account ID: '.$accountId);
+
+        $person = TestedPerson::find()->where(['user_id' => $accountId])->one();
+        $personId = $person->id;
+        Yii::warning('Person ID: '.$personId);
 
         // Старые данные из Квадрата Пифагора
         $kvW = PythagorasSquare::countWeightedSquare($person);

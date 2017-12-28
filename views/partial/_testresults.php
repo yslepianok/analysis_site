@@ -165,7 +165,6 @@
         echo '</tbody>';
         echo '</table>';
     }
-    echo '<h1> Юзер:'.print_r(Yii::$app->user->identity).'</h1>';
     ?>
     </p>
     <p>
