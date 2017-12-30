@@ -118,7 +118,7 @@ myApp.controller('preferences_of_school_subjectsController', ['$scope', '$http',
 	$scope.saveResults = function () {
 		$scope.treatment();
 		data = {
-			user_id:1,
+			user_id:localStorage.getItem('userId'),
 			testing_id:$scope.testData.id,
 			data:$scope.answers
 		};

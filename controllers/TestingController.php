@@ -43,7 +43,6 @@ class TestingController extends \yii\web\Controller
   {
     $session = Yii::$app->session;
     if ($session->get('user')) {
-      if ($session->get('user')->scope == "admin") {
         $this->enableCsrfValidation = false;
         $testName = Yii::$app->request->get('name');
         $test =  Test::find()->where(['name' => $testName])->with('questions','questions.answers')->all();
@@ -54,7 +53,6 @@ class TestingController extends \yii\web\Controller
           return  $test[0];
         else
           return $testName;
-      }
     }
     return $this->redirect(Yii::$app->homeUrl);
   }
@@ -63,7 +61,6 @@ class TestingController extends \yii\web\Controller
   {
     $session = Yii::$app->session;
     if ($session->get('user')) {
-      if ($session->get('user')->scope == "admin") {
         $this->enableCsrfValidation = false;
         $test =  Test::find()->select('name, comment')->all();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -72,7 +69,6 @@ class TestingController extends \yii\web\Controller
         else
           return "no such test";
       }
-    }
     return $this->redirect(Yii::$app->homeUrl);
   }
 
@@ -80,7 +76,6 @@ class TestingController extends \yii\web\Controller
   {
     $session = Yii::$app->session;
     if ($session->get('user')) {
-      if ($session->get('user')->scope == "admin") {
         $this->enableCsrfValidation = false;
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $request = \Yii::$app->request;
@@ -107,7 +102,6 @@ class TestingController extends \yii\web\Controller
         {
           return $results;
         }
-      }
     }
     return $this->redirect(Yii::$app->homeUrl);
   }

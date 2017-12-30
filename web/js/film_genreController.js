@@ -194,7 +194,7 @@ myApp.controller('film_genreController', ['$scope', '$http', function($scope, $h
 	$scope.saveResults = function () {
 		$scope.treatment();
 		data = {
-			user_id:1,
+			user_id:localStorage.getItem('userId'),
 			testing_id:$scope.testData.id,
 			data:$scope.answers
 		};

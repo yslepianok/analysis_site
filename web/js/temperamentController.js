@@ -193,7 +193,7 @@ myApp.controller('temperamentController', ['$scope', '$http', function($scope, $
 	$scope.saveResults = function () {
 		$scope.treatment();
 		data = {
-			user_id:1,
+			user_id:localStorage.getItem('userId'),
 			testing_id:$scope.testData.id,
 			data:$scope.answers
 		};

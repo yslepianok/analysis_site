@@ -222,7 +222,7 @@ class SiteController extends Controller
         $oldWeightedCells = UserToActivity::getCellsWeight($kvW);
 
         // Новые данные из психологических тестов
-        $testWeightedCells = UserToTesting::getUserTestResultsMatrix($personId);
+        $testWeightedCells = UserToTesting::getUserTestResultsMatrix($accountId);
 
         // Теперь мержим старые и новые результаты
         $mergedWeights = UserToTesting::mergeKvAndTesting($oldWeightedCells, $testWeightedCells);

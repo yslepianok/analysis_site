@@ -75,6 +75,15 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
+    <script>
+        <?php if (Yii::$app->session->get('user')) {
+            echo 'console.log("setting userID");';
+            echo 'localStorage.setItem("userId", '.Yii::$app->session->get('user')->id.');';
+        } else {
+            echo 'console.log("unsetting userID");';
+            echo 'localStorage.removeItem("userId");';
+        }?>
+    </script>
 
     <div class="container">
         <?= Breadcrumbs::widget([

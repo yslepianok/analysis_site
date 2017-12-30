@@ -53,7 +53,7 @@ myApp.controller('senceController', ['$scope', '$http', function($scope, $http) 
 
 	$scope.saveResults = function () {
 		data = {
-			user_id:1,
+			user_id:localStorage.getItem('userId'),
 			testing_id:$scope.testData.id,
 			data:$scope.answers
 		};
