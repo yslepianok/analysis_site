@@ -45,12 +45,11 @@ class TestingController extends \yii\web\Controller
     if ($session->get('user')) {
         $this->enableCsrfValidation = false;
         $testName = Yii::$app->request->get('name');
-        $test =  Test::find()->where(['name' => $testName])->with('questions','questions.answers')->all();
-
+        $test =  Test::find()->where(['name' => $testName])->one();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         if (!empty($test))
-          return  $test[0];
+          return  $test;
         else
           return $testName;
     }
@@ -62,7 +61,7 @@ class TestingController extends \yii\web\Controller
     $session = Yii::$app->session;
     if ($session->get('user')) {
         $this->enableCsrfValidation = false;
-        $test =  Test::find()->select('name, comment')->all();
+        $test =  Test::find()->select('name, description')->all();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if (!empty($test))
           return  $test;

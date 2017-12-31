@@ -11,6 +11,7 @@ use Yii;
  * @property string $name
  * @property double $weight
  * @property string $comment
+ * @property string $description
  *
  * @property Question[] $questions
  * @property UserToTest[] $userToTests
@@ -34,7 +35,8 @@ class Test extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['weight'], 'number'],
             [['comment'], 'string'],
-            [['name'], 'string', 'max' => 50]
+            [['name'], 'string', 'max' => 50],
+            [['description'], 'string', 'max' => 30]
         ];
     }
 
@@ -48,6 +50,7 @@ class Test extends \yii\db\ActiveRecord
             'name' => 'Name',
             'weight' => 'Weight',
             'comment' => 'Comment',
+            'description' => 'Description'
         ];
     }
 
