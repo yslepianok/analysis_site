@@ -4,17 +4,12 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
 
   $scope.sign_login = 0;
   $scope.flag = 1;
-  $scope.error = null;
+  $scope.passCofirmed = null;
+  $scope.logError = null;
+  $scope.regError = null;
   $scope.used = {
     "username" : 0,
     "email" : 0,
-  }
-
-  $scope.authData = {
-    "username" : "",
-    "email" : "",
-    "password" : "",
-    "birthDate" : "",
   }
 
   $scope.empty = [0,0,0,0];
@@ -24,73 +19,102 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
     for (var i = 0; i < 3; i++) {
       $scope.empty[i] = 0;
     }
+    $scope.logError = null;
+    $scope.regError = null;
   }
 
-  $scope.login = function() {
-    let user_info = document.getElementsByName('login');
+  $scope.login = function(username, password) {
     $scope.flag = 1;
-    if (user_info[0].value === "") {
+    if (typeof username == "undefined") {
       $scope.empty[0] = 1;
       $scope.flag = 0;
+      $scope.logError = null;
     }
-    if (user_info[1].value === "") {
+    else {
+      $scope.empty[0] = 0;	
+    }
+    if (typeof password == "undefined") {
       $scope.empty[2] = 1;
       $scope.flag = 0;
+      $scope.logError = null;
+    }
+    else {
+    	$scope.empty[2] = 0;
     }
     if ($scope.flag == 1) {
-      $scope.authData.username = user_info[0].value;
-      $scope.authData.password = user_info[1].value;
       $http({
   			method: 'POST',
   			url: 'sign',
-  			data: $scope.authData,
+  			data: {
+  			  "username" : username,
+  			  "password" : password
+  			},
   			headers: 'Content-Type : application/json'
   		}).then(function successCallback(response) {
           if (response.data === "success") {
-            //$scope.sign_login = 2;
             window.location.href = '/';
             window.location.reload();
           }
   		  }, function errorCallback(response) {
-  		    console.log("Fail connect");
+  		    $scope.logError = 1;
   		  });
     }
   }
 
-  $scope.registration = function() {
-    let user_info = document.getElementsByName('register');
+  $scope.registration = function(username, email, password, birthDate) {
     $scope.flag = 1;
-    for (var i = 0; i < user_info.length; i++) {
-      if (user_info[i].value === "") {
-        $scope.empty[i] = 1;
-        $scope.flag = 0;
-      }
+    if (typeof username == "undefined") {
+      $scope.empty[0] = 1;
+      $scope.flag = 0;
     }
+    else {
+      $scope.empty[0] = 0;
+    }
+    if (typeof email == "undefined") {
+      $scope.empty[1] = 1;
+      $scope.flag = 0;
+    }
+    else {
+      $scope.empty[1] = 0;
+    }
+    if (typeof password == "undefined") {
+      $scope.empty[2] = 1;
+      $scope.flag = 0;
+    }
+    else {
+      $scope.empty[2] = 0;
+    }
+    if (typeof email == "undefined") {
+      $scope.empty[3] = 1;
+      $scope.flag = 0;
+    }
+    else {
+      $scope.empty[3] = 0;
+    }            
     if ($scope.flag == 1) {
-      $scope.authData.username = user_info[0].value;
-      $scope.authData.email = user_info[1].value;
-      $scope.authData.password = user_info[2].value;
-      $scope.authData.birthDate = user_info[3].value;
-      console.log($scope.authData);
       $http({
   			method: 'POST',
   			url: 'registration',
-  			data: $scope.authData,
+  			data: {
+  			  "username" : username,
+  			  "email" : email,
+  			  "password" : password,
+  			  "birthDate" : birthDate
+  			},
   			headers: 'Content-Type : application/json'
   		}).then(function successCallback(response) {
         if (response.data === "success") {
           $scope.sign_login = 2;
-          $scope.error = null;
+          $scope.regError = null;
         }
   		  }, function errorCallback(response) {
           console.log(response.data);
-          $scope.error = response.data.message;
+          $scope.RegError = response.data.message;
   		  });
     }
   }
 
-  $scope.check = function (field, n) {
-    let value = document.getElementsByName('register')[n].value;
+  $scope.checkUserEmail = function (value, field) {
     if (value == "") {
       return;
     }
@@ -110,5 +134,63 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
       });
   }
 
+  $scope.doPasConfirm = function(field1, field2) {
+  	let text = document.getElementById('pasConfirmText');
+  	if (field1 !== field2) {
+  		text.innerHTML = "Пароли не совпадают";
+  		text.style.color = "red";
+  	}
+  	else {
+  		text.innerHTML = "Пароли совпадают";
+  		text.style.color = "green";
+  	}
+  }
+
+  $scope.validateInputData = function(value, field) {
+  	let text,
+  		regExp;
+  	switch (field) {
+  	  case "username" : text = document.getElementById('username');
+  	  regExp = /[^a-zA-Z0-9_]/g;
+  	  if (value.match(regExp) || value.length < 5 || value.length > 25) {
+  	    text.style.display = "block";	
+  	  }
+  	  else {
+  	    text.style.display = "none";
+  	    $scope.checkUserEmail(value, 'username');
+  	  }
+  	  break;
+  	  case "email" : text = document.getElementById('email');
+  	    regExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  	    if (!regExp.test(value) || value.length < 7 || value.length > 25) {
+  	      text.style.display = "block";	
+  	    }
+  	    else {
+  	      text.style.display = "none";
+  	      $scope.checkUserEmail(value, 'email');
+  	    }
+  	  break;
+  	  case "password" : text = document.getElementById('password');
+  	    regExp = /[^a-zA-Z0-9]/g;
+  	    if (value.match(regExp)) {
+  	      text.style.display = "block";	
+  	    }
+  	    else {
+  	      text.style.display = "none";
+  	      $scope.checkUserEmail(value, 'password');
+  	    }
+  	  break;
+  	  case "birthDate" : text = document.getElementById('birthDate');
+  	    regExp = /(\d{4})-(\d{2})-(\d{2})/;
+  	    if (!value.match(regExp)) {
+  	      text.style.display = "block";	
+  	    }
+  	    else {
+  	      text.style.display = "none";
+  	      $scope.checkUserEmail(value, 'birthDate');
+  	    }
+  	  break;
+  	}
+  }
 
 }]);

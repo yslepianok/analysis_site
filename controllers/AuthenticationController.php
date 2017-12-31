@@ -171,9 +171,9 @@ class AuthenticationController extends \yii\web\Controller
         }
         return "success";
       }
-      return "passwordErr";
     }
-    return "usernameErr";
+    \Yii::$app->response->statusCode=500;
+    return;
   }
 
   public function actionLogout()
