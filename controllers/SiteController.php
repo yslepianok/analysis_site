@@ -276,16 +276,54 @@ class SiteController extends Controller
 
         return $this->render('profresults', [
             'user' => $person,
-            'oldWeightedCells' => $oldWeightedCells,
-            'testWeightedCells' => $testWeightedCells,
-            'mergedWeightedCells' => $mergedWeights,
-            'oldSpecsRcmnd' => $oldSpecsRcmnd,
-            'oldSpecsNotRcmnd' => $oldSpecsNotRcmnd,
-            'oldProf' => $oldProfessions,
-            'newSpecsRcmnd' => $newSpecsRcmnd,
-            'newSpecsNotRcmnd' => $newSpecsNotRcmnd,
-            'newProf' => $newProfessions,
+            'oldBundle' => $this->prepareViewResults($oldSpecsRcmnd, $oldSpecsNotRcmnd, $oldProfessions),
+            'newBundle' => $this->prepareViewResults($newSpecsRcmnd, $newSpecsNotRcmnd, $newProfessions),
             'wasTested' => $wasTested
         ]);
+    }
+
+    private function prepareViewResults($specsRcmnd, $specsNotRcmnd, $prof) {
+        $returnBunble = [
+            'specRcmnd' => [],
+            'specNotRcmnd' => [],
+            'prof'=> []
+        ];
+
+        $key = array_keys($specsRcmnd)[0];
+        $multipler = 100 / $specsRcmnd[$key];
+        foreach ($specsRcmnd as $key=>$val) {
+            $spec = [];
+            $spec['name'] = $key;
+            $spec['sign'] = 0;
+            $spec['value'] = round($val * $multipler, 1);
+
+            $returnBunble['specRcmnd'] []= $spec;
+        };
+
+        $key = array_keys($specsNotRcmnd)[0];
+        $multipler = 100 / $specsNotRcmnd[$key];
+        foreach ($specsNotRcmnd as $key=>$val) {
+            $spec = [];
+            $spec['name'] = $key;
+            $spec['sign'] = 0;
+            $spec['value'] = round($val * $multipler, 1);
+
+            $returnBunble['specNotRcmnd'] []= $spec;
+        };
+
+        $profnames = [];
+        $profvalues = [];
+        $values = array_values($prof[1]);                    
+        $multipler = 100 / $values[0];
+        foreach ($prof[1] as $key=>$val) {
+            $profItem = [];
+            $profItem['name'] = $prof[0][$key];
+            $profItem['sign'] = 0;
+            $profItem['value'] = round($val * $multipler, 1);
+
+            $returnBunble['prof'] []= $profItem;
+        };
+
+        return $returnBunble;
     }
 }
