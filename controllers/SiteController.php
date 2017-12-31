@@ -205,7 +205,7 @@ class SiteController extends Controller
             $newBundle = ($wasTested) ? json_decode($testResultsData->newRawResults, true) : null;
             if ($newBundle)
                 $newBundle['id'] = $model['id'];
-                
+
         } else {
             //is get
             $person = TestedPerson::find()->where(['user_id' => $accountId])->one();
@@ -301,23 +301,29 @@ class SiteController extends Controller
         ];
 
         $key = array_keys($specsRcmnd)[0];
-        $multipler = 100 / $specsRcmnd[$key];
+        $max = $specsRcmnd[$key];
+        //$key = array_keys($specsRcmnd)[count($specsRcmnd)-1];
+        $key = array_keys($specsNotRcmnd)[0];
+        $min = $specsNotRcmnd[$key];
         foreach ($specsRcmnd as $key=>$val) {
             $spec = [];
             $spec['name'] = $key;
             $spec['sign'] = 0;
-            $spec['value'] = round($val * $multipler, 1);
+            $spec['value'] = round(($val-$min)/($max-$min) * 100, 1);
 
             $returnBunble['specRcmnd'] []= $spec;
         };
 
         $key = array_keys($specsNotRcmnd)[0];
-        $multipler = 100 / $specsNotRcmnd[$key];
+        $max = $specsNotRcmnd[$key];
+        //$key = array_keys($specsNotRcmnd)[count($specsNotRcmnd)-1];
+        $key = array_keys($specsRcmnd)[0];
+        $min = $specsRcmnd[$key];
         foreach ($specsNotRcmnd as $key=>$val) {
             $spec = [];
             $spec['name'] = $key;
             $spec['sign'] = 0;
-            $spec['value'] = round($val * $multipler, 1);
+            $spec['value'] = round(($val-$min)/($max-$min) * 100, 1);
 
             $returnBunble['specNotRcmnd'] []= $spec;
         };

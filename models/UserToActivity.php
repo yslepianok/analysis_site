@@ -319,7 +319,7 @@ class UserToActivity extends \yii\db\ActiveRecord
                 $lastKey = $key;
             }
             
-            if ($i >= 4 && $i < 7 && ($item >= 0.5*$lastEl)) {
+            if ($i >= 4 && $i < 7 && ($item >= 0.75*$lastEl)) {
                 if (!in_array($key, $arrPositive)) {
                     $arrPositive[] = $key;
                     $i++;                
@@ -328,7 +328,7 @@ class UserToActivity extends \yii\db\ActiveRecord
                 }
             }
 
-            if ($i >= 7 && $i < 10 && ($item >= 0.99*$lastEl)) {
+            if ($i >= 7 && $item >= 0.85*$lastEl && !($lastEl <= 0 && $item >= 0)) {
                 if (!in_array($key, $arrPositive)) {                    
                     $arrPositive[] = $key;
                     $i++;                
@@ -370,7 +370,7 @@ class UserToActivity extends \yii\db\ActiveRecord
                 }
             }
 
-            if ($i >= 7 && $i < 10 && ($item <= 0.99*$lastEl)) {
+            if ($i >= 7 && $item <= 0.85*$lastEl && !($lastEl <= 0 && $item >= 0)) {
                 if (!in_array($key, $arrNegative)) {                    
                     $arrNegative[] = $key;
                     $i++;                

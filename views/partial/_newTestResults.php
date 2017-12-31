@@ -131,7 +131,7 @@ use yii\bootstrap\ActiveForm;
 
         <div class="row">
             <div class="col-md-7"><h5>Сфера</h5></div>
-            <div class="col-md-3"><h5>Рекомендовано на</h5></div>
+            <div class="col-md-3"><h5>Нерекомендовано на</h5></div>
             <div class="col-md-2"><h5>Ваша оценка результата</h5></div>
         </div>
         <?php 
@@ -201,7 +201,7 @@ use yii\bootstrap\ActiveForm;
             ?>
 
             <div class="row">
-                <div class="col-md-7"><h5>Сфера</h5></div>
+                <div class="col-md-7"><h5>Профессия</h5></div>
                 <div class="col-md-3"><h5>Рекомендовано на</h5></div>
                 <div class="col-md-2"><h5>Ваша оценка результата</h5></div>
             </div>
