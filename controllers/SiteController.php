@@ -12,6 +12,7 @@ use app\models\UserRelation;
 use app\models\UserToActivity;
 use app\models\UserToUser;
 use app\models\UserToTesting;
+use app\models\UserToProfessionTesting;
 use Faker\Provider\DateTime;
 use Yii;
 use yii\filters\AccessControl;
@@ -152,28 +153,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /*public function actionLogin()
-    {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }*/
-
     public function actionContact()
     {
         $model = new ContactForm();
@@ -210,82 +189,158 @@ class SiteController extends Controller
     }
 
     public function actionProfresults() {
+        if (Yii::$app->session->get('user') == null)
+            return $this->redirect('index');
+
         $accountId = Yii::$app->session->get('user')->id;// TODO use in future Yii::$app->user->identity->id;
         Yii::warning('Account ID: '.$accountId);
 
-        $person = TestedPerson::find()->where(['user_id' => $accountId])->one();
-        $personId = $person->id;
-        Yii::warning('Person ID: '.$personId);
+        if (Yii::$app->request->post()) {
+            //is post
+            $model = Yii::$app->request->post()['testResults'];
+            $testResultsData = UserToProfessionTesting::find()->where(['id' => $model['id']])->one();
+            $oldBundle = json_decode($testResultsData->oldRawResults, true);
+            $oldBundle['id'] = $model['id'];
+            $wasTested = ($testResultsData->newRawResults) ? true : false;
+            $newBundle = ($wasTested) ? json_decode($testResultsData->newRawResults, true) : null;
+            if ($newBundle)
+                $newBundle['id'] = $model['id'];
 
-        // Старые данные из Квадрата Пифагора
-        $kvW = PythagorasSquare::countWeightedSquare($person);
-        $oldWeightedCells = UserToActivity::getCellsWeight($kvW);
+        } else {
+            //is get
+            $person = TestedPerson::find()->where(['user_id' => $accountId])->one();
+            $personId = $person->id;
+            Yii::warning('Person ID: '.$personId);
+    
+            // Старые данные из Квадрата Пифагора
+            $kvW = PythagorasSquare::countWeightedSquare($person);
+            $oldWeightedCells = UserToActivity::getCellsWeight($kvW);
+    
+            // Новые данные из психологических тестов
+            $testWeightedCells = UserToTesting::getUserTestResultsMatrix($accountId);
+    
+            // Теперь мержим старые и новые результаты
+            $mergedWeights = UserToTesting::mergeKvAndTesting($oldWeightedCells, $testWeightedCells);
+    
+            // Теперь можно и профессии посчитать
+            $oldSpecializations = UserToActivity::getUserSpecialitiesByMatrix($oldWeightedCells);
+    
+            // Получаем наиболее и наименее рекомендуемые сферы деятельности
+            $oldSpecsTmp = $oldSpecializations[5];
+            $oldSpecsRcmnd = [];
+            foreach($oldSpecsTmp as $key=>$val) {
+                // Получаем массив с ключом-именем и значением-весом
+                $spec = $oldSpecializations[3][$val];
+                $oldSpecsRcmnd[$spec->name] = $oldSpecializations[4][$val];
+            }
+    
+            $oldSpecsTmp = $oldSpecializations[6];
+            $oldSpecsNotRcmnd = [];
+            foreach($oldSpecsTmp as $key=>$val) {
+                // Получаем массив с ключом-именем и значением-весом
+                $spec = $oldSpecializations[3][$val];
+                $oldSpecsNotRcmnd[$spec->name] = $oldSpecializations[4][$val];
+            }
+    
+            arsort($mergedWeights);
+            $newSpecializations = UserToActivity::getUserSpecialitiesByMatrix($mergedWeights);
+            // Получаем наиболее и наименее рекомендуемые сферы деятельности
+            $newSpecsTmp = $newSpecializations[5];
+            $newSpecsRcmnd = [];
+            foreach($newSpecsTmp as $key=>$val) {
+                // Получаем массив с ключом-именем и значением-весом
+                $spec = $newSpecializations[3][$val];
+                $newSpecsRcmnd[$spec->name] = $newSpecializations[4][$val];
+            }
+    
+            $newSpecsTmp = $newSpecializations[6];
+            $newSpecsNotRcmnd = [];
+            foreach($newSpecsTmp as $key=>$val) {
+                // Получаем массив с ключом-именем и значением-весом
+                $spec = $newSpecializations[3][$val];
+                $newSpecsNotRcmnd[$spec->name] = $newSpecializations[4][$val];
+            }
+    
+            $oldProfessions = Profession::getUserProfessionsLiteByMatrix($oldSpecializations);
+            $newProfessions = Profession::getUserProfessionsLiteByMatrix($newSpecializations);
+    
+            if (count($testWeightedCells) == 0)
+                $wasTested = false;
+            else 
+                $wasTested = true;
+    
+            $oldBundle = $this->prepareViewResults($oldSpecsRcmnd, $oldSpecsNotRcmnd, $oldProfessions);
+            $testResultsData = new UserToProfessionTesting();
+            $testResultsData->user_id = $accountId;
+            $testResultsData->oldRawResults = json_encode($oldBundle);
 
-        // Новые данные из психологических тестов
-        $testWeightedCells = UserToTesting::getUserTestResultsMatrix($accountId);
+            if ($wasTested) {
+                $newBundle = $this->prepareViewResults($newSpecsRcmnd, $newSpecsNotRcmnd, $newProfessions);
+                $testResultsData->newRawResults = json_encode($newBundle);                
+            }
 
-        // Теперь мержим старые и новые результаты
-        $mergedWeights = UserToTesting::mergeKvAndTesting($oldWeightedCells, $testWeightedCells);
-
-        // Теперь можно и профессии посчитать
-        $oldSpecializations = UserToActivity::getUserSpecialitiesByMatrix($oldWeightedCells);
-
-        // Получаем наиболее и наименее рекомендуемые сферы деятельности
-        $oldSpecsTmp = $oldSpecializations[5];
-        $oldSpecsRcmnd = [];
-        foreach($oldSpecsTmp as $key=>$val) {
-            // Получаем массив с ключом-именем и значением-весом
-            $spec = $oldSpecializations[3][$val];
-            $oldSpecsRcmnd[$spec->name] = $oldSpecializations[4][$val];
-        }
-
-        $oldSpecsTmp = $oldSpecializations[6];
-        $oldSpecsNotRcmnd = [];
-        foreach($oldSpecsTmp as $key=>$val) {
-            // Получаем массив с ключом-именем и значением-весом
-            $spec = $oldSpecializations[3][$val];
-            $oldSpecsNotRcmnd[$spec->name] = $oldSpecializations[4][$val];
-        }
-
-        arsort($mergedWeights);
-        $newSpecializations = UserToActivity::getUserSpecialitiesByMatrix($mergedWeights);
-        // Получаем наиболее и наименее рекомендуемые сферы деятельности
-        $newSpecsTmp = $newSpecializations[5];
-        $newSpecsRcmnd = [];
-        foreach($newSpecsTmp as $key=>$val) {
-            // Получаем массив с ключом-именем и значением-весом
-            $spec = $newSpecializations[3][$val];
-            $newSpecsRcmnd[$spec->name] = $newSpecializations[4][$val];
-        }
-
-        $newSpecsTmp = $newSpecializations[6];
-        $newSpecsNotRcmnd = [];
-        foreach($newSpecsTmp as $key=>$val) {
-            // Получаем массив с ключом-именем и значением-весом
-            $spec = $newSpecializations[3][$val];
-            $newSpecsNotRcmnd[$spec->name] = $newSpecializations[4][$val];
-        }
-
-        $oldProfessions = Profession::getUserProfessionsLiteByMatrix($oldSpecializations);
-        $newProfessions = Profession::getUserProfessionsLiteByMatrix($newSpecializations);
-
-        if (count($testWeightedCells) == 0)
-            $wasTested = false;
-        else 
-            $wasTested = true;
-
+            $testResultsData->save();
+    
+            $oldBundle['id'] = $testResultsData->id;
+            if ($wasTested)
+                $newBundle['id'] = $testResultsData->id;
+        } 
+        
         return $this->render('profresults', [
-            'user' => $person,
-            'oldWeightedCells' => $oldWeightedCells,
-            'testWeightedCells' => $testWeightedCells,
-            'mergedWeightedCells' => $mergedWeights,
-            'oldSpecsRcmnd' => $oldSpecsRcmnd,
-            'oldSpecsNotRcmnd' => $oldSpecsNotRcmnd,
-            'oldProf' => $oldProfessions,
-            'newSpecsRcmnd' => $newSpecsRcmnd,
-            'newSpecsNotRcmnd' => $newSpecsNotRcmnd,
-            'newProf' => $newProfessions,
+            'oldBundle' => $oldBundle,
+            'newBundle' => ($wasTested) ? $newBundle : null,
             'wasTested' => $wasTested
         ]);
+    }
+
+    private function prepareViewResults($specsRcmnd, $specsNotRcmnd, $prof) {
+        $returnBunble = [
+            'specRcmnd' => [],
+            'specNotRcmnd' => [],
+            'prof'=> []
+        ];
+
+        $key = array_keys($specsRcmnd)[0];
+        $max = $specsRcmnd[$key];
+        //$key = array_keys($specsRcmnd)[count($specsRcmnd)-1];
+        $key = array_keys($specsNotRcmnd)[0];
+        $min = $specsNotRcmnd[$key];
+        foreach ($specsRcmnd as $key=>$val) {
+            $spec = [];
+            $spec['name'] = $key;
+            $spec['sign'] = 0;
+            $spec['value'] = round(($val-$min)/($max-$min) * 100, 1);
+
+            $returnBunble['specRcmnd'] []= $spec;
+        };
+
+        $key = array_keys($specsNotRcmnd)[0];
+        $max = $specsNotRcmnd[$key];
+        //$key = array_keys($specsNotRcmnd)[count($specsNotRcmnd)-1];
+        $key = array_keys($specsRcmnd)[0];
+        $min = $specsRcmnd[$key];
+        foreach ($specsNotRcmnd as $key=>$val) {
+            $spec = [];
+            $spec['name'] = $key;
+            $spec['sign'] = 0;
+            $spec['value'] = round(($val-$min)/($max-$min) * 100, 1);
+
+            $returnBunble['specNotRcmnd'] []= $spec;
+        };
+
+        $profnames = [];
+        $profvalues = [];
+        $values = array_values($prof[1]);                    
+        $multipler = 100 / $values[0];
+        foreach ($prof[1] as $key=>$val) {
+            $profItem = [];
+            $profItem['name'] = $prof[0][$key];
+            $profItem['sign'] = 0;
+            $profItem['value'] = round($val * $multipler, 1);
+
+            $returnBunble['prof'] []= $profItem;
+        };
+
+        return $returnBunble;
     }
 }
