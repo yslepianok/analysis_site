@@ -4,13 +4,13 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
 
   $scope.sign_login = 0;
   $scope.flag = 1;
-  $scope.passCofirmed = null;
+  $scope.rules = 1;
+  $scope.used = {
+  	"username" : 0,
+  	"email" : 0
+  }
   $scope.logError = null;
   $scope.regError = null;
-  $scope.used = {
-    "username" : 0,
-    "email" : 0,
-  }
 
   $scope.empty = [0,0,0,0];
 
@@ -91,7 +91,7 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
     else {
       $scope.empty[3] = 0;
     }            
-    if ($scope.flag == 1) {
+    if ($scope.flag == 1 && $scope.rules == 1) {
       $http({
   			method: 'POST',
   			url: 'registration',
@@ -115,9 +115,6 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
   }
 
   $scope.checkUserEmail = function (value, field) {
-    if (value == "") {
-      return;
-    }
     $http({
       method: 'POST',
       url: 'check',
@@ -126,9 +123,11 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
     }).then(function successCallback(response) {
         if (response.data == false) {
           $scope.used[field] = 1;
+          $scope.rules = 0;
         }
         else {
           $scope.used[field] = 0;
+          $scope.rules = 1;
         }
       }, function errorCallback(response) {
       });
@@ -139,10 +138,12 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
   	if (field1 !== field2) {
   		text.innerHTML = "Пароли не совпадают";
   		text.style.color = "red";
+  		$scope.rules = 0;
   	}
   	else {
   		text.innerHTML = "Пароли совпадают";
   		text.style.color = "green";
+  		$scope.rules = 1;
   	}
   }
 
@@ -153,41 +154,49 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
   	  case "username" : text = document.getElementById('username');
   	  regExp = /[^a-zA-Z0-9_]/g;
   	  if (value.match(regExp) || value.length < 5 || value.length > 25) {
-  	    text.style.display = "block";	
+  	    text.style.display = "block";
+  	    $scope.rules = 0;
+  	    $scope.used[field] = 0;	
   	  }
   	  else {
-  	    text.style.display = "none";
-  	    $scope.checkUserEmail(value, 'username');
+  	  	text.style.display = "none";
+  	  	$scope.checkUserEmail(value, 'username');
+  	   	$scope.rules = 1;
   	  }
   	  break;
   	  case "email" : text = document.getElementById('email');
   	    regExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  	    if (!regExp.test(value) || value.length < 7 || value.length > 25) {
-  	      text.style.display = "block";	
+  	    if (!regExp.test(value)) {
+  	      text.style.display = "block";
+  	      $scope.rules = 0;
+  	      $scope.used[field] = 0;
   	    }
   	    else {
   	      text.style.display = "none";
   	      $scope.checkUserEmail(value, 'email');
+  	      $scope.rules = 1;
   	    }
   	  break;
   	  case "password" : text = document.getElementById('password');
   	    regExp = /[^a-zA-Z0-9]/g;
-  	    if (value.match(regExp)) {
-  	      text.style.display = "block";	
+  	    if (value.match(regExp) || value.length < 5 || value.length > 25) {
+  	      text.style.display = "block";
+  	      $scope.rules = 0;
   	    }
   	    else {
   	      text.style.display = "none";
-  	      $scope.checkUserEmail(value, 'password');
+  	      $scope.rules = 1;
   	    }
   	  break;
   	  case "birthDate" : text = document.getElementById('birthDate');
   	    regExp = /(\d{4})-(\d{2})-(\d{2})/;
   	    if (!value.match(regExp)) {
-  	      text.style.display = "block";	
+  	      text.style.display = "block";
+  	      $scope.rules = 0;
   	    }
   	    else {
   	      text.style.display = "none";
-  	      $scope.checkUserEmail(value, 'birthDate');
+  	      $scope.rules = 1;
   	    }
   	  break;
   	}
