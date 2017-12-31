@@ -17,7 +17,8 @@
             <p>
                 <?php
                 echo $this->render('/partial/_newTestResults', [
-                    'bundle' => $oldBundle
+                    'bundle' => $oldBundle,
+                    'type'=> 'old'
                 ])
                 ?>
             </p>
@@ -28,7 +29,8 @@
             <p>
                 <?php
                 echo $this->render('/partial/_newTestResults', [
-                    'bundle' => $newBundle
+                    'bundle' => $newBundle,
+                    'type' => 'new'
                 ])
                 ?>
             </p>
