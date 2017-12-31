@@ -29,7 +29,10 @@
       <input class="thumbnail" type="text" value="" ng-model="username" ng-change="validateInputData(username, 'username');">
       <p ng-if="empty[0]!=0" class="error">Введите имя пользователя</p>
       <p ng-if="used.username==1" class="error">Пользователь с таким именем уже существует</p>
-      <p id="username" class="error do-not-show">Длина от 5 до 25 символов латинского алфавита, цифр и "_"</p>
+      <p id="username" class="error do-not-show">
+        Длина от 5 до 25 символов.<br>
+        Допустимы символы латинского алфавита, цифры и "_".
+      </p>
 
       <label for="">Email</label>
       <input class="thumbnail" type="text" value="" ng-model="email" ng-change="validateInputData(email, 'email');">
@@ -40,7 +43,10 @@
       <label for="">Password</label>
       <input class="thumbnail" type="password" value="" ng-model="pass" ng-change="validateInputData(pass, 'password'); doPasConfirm(pass,passConfirm);">
       <p ng-if="empty[2]!=0" class="error">Введите пароль</p>
-      <p id="password" class="error do-not-show">Длина от 7 до 25 символов латинского алфавита и цифр</p>
+      <p id="password" class="error do-not-show">
+        Длина от 7 до 25 символов.<br>
+        Допустимы символы латинского алфавита и цифры.
+      </p>
 
       <label for="">Password confirmation</label>
       <input class="thumbnail" type="password" value="" ng-model="passConfirm" ng-change="doPasConfirm(pass, passConfirm)">
