@@ -149,7 +149,7 @@ class TestingController extends \yii\web\Controller
             \Yii::$app->response->statusCode=500;
             return $question->errors;
             }
-            $question = question::findOne(['name' => $data->questions[$i]->name]);
+            $question = question::find()->where(['name' => $data->questions[$i]->name])->andwhere(['test_id' => $test->id])->one();
             for ($j=0;$j<count($data->questions[$i]->answers);$j++)
             {
               $answer = new answer();
