@@ -1,21 +1,8 @@
 <?php 
 use dosamigos\chartjs\ChartJs; 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-
 ?>
 
 <?php if ($bundle) { ?>
-    <?php $form = ActiveForm::begin([
-        'id' => $type.'-results-form',
-        'options' => ['class' => 'form-horizontal'],
-        'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
-        ],
-    ]); ?>
-    <input type="hidden" name="testResults[id]" value="<?php echo $bundle['id']?>">
-
     <?php if ($bundle['specRcmnd']) { ?>
         <h3>Наиболее рекомендуемые сферы деятельности:</h3>
 
@@ -135,7 +122,7 @@ use yii\bootstrap\ActiveForm;
             <div class="col-md-2"><h5>Ваша оценка результата</h5></div>
         </div>
         <?php 
-            foreach($bundle['specNotRcmnd'] as $item) {
+            foreach($bundle['specNotRcmnd'] as $key=>$item) {
         ?>
             <div class="row">
                 <div class="col-md-7">
@@ -206,31 +193,24 @@ use yii\bootstrap\ActiveForm;
                 <div class="col-md-2"><h5>Ваша оценка результата</h5></div>
             </div>
             <?php 
-                foreach($bundle['prof'] as $item) {
+                foreach($bundle['prof'] as $key=>$item) {
             ?>
                 <div class="row">
                     <div class="col-md-7">
                         <?php echo $item['name'] ?>
-                        <input type="hidden" name="testResults[<?php echo $type?>][specNotRcmnd][<?php echo $key?>][name]" value="<?php echo $item['name']?>">
+                        <input type="hidden" name="testResults[<?php echo $type?>][prof][<?php echo $key?>][name]" value="<?php echo $item['name']?>">
                     </div>
                     <div class="col-md-3">
                         <?php echo $item['value'] ?>%
-                        <input type="hidden" name="testResults[<?php echo $type?>][specNotRcmnd][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
+                        <input type="hidden" name="testResults[<?php echo $type?>][prof][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
                     </div>
                     <div class="col-md-2">
                         <?php echo $item['sign'] ?>
-                        <input type="hidden" name="testResults[<?php echo $type?>][specNotRcmnd][<?php echo $key?>][sign]" value="<?php echo $item['sign']?>">
+                        <input type="hidden" name="testResults[<?php echo $type?>][prof][<?php echo $key?>][sign]" value="<?php echo $item['sign']?>">
                     </div>
                 </div>
             <?php } ?>
     <?php } ?>
 
-    <br>
-    <div class="form-group">
-        <div class="col-md-offset-4 col-md-4">
-            <?= Html::submitButton('Сохранить мою оценку результатов', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-        </div>
-    </div>
-
-    <?php ActiveForm::end(); ?>
+    
 <?php } ?>

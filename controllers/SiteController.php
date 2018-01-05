@@ -195,17 +195,48 @@ class SiteController extends Controller
         $accountId = Yii::$app->session->get('user')->id;// TODO use in future Yii::$app->user->identity->id;
         Yii::warning('Account ID: '.$accountId);
 
+        $result = UserToProfessionTesting::find()->orderBy(['timestamp' => SORT_DESC])->one();
+        if ($result) {
+            $resDate = strtotime($result->timestamp) + 60 * 5; // add 5 minutes
+            $now = time();
+            if ($now <= $resDate)
+                $id = $result->id;
+        }
+
+        if (array_key_exists('resultId', Yii::$app->request->get())) {
+            $id = Yii::$app->request->get()['resultId'];
+        }
+
         if (Yii::$app->request->post()) {
             //is post
             $model = Yii::$app->request->post()['testResults'];
             $testResultsData = UserToProfessionTesting::find()->where(['id' => $model['id']])->one();
-            $oldBundle = json_decode($testResultsData->oldRawResults, true);
+            $oldBundle = Yii::$app->request->post()['testResults']['old'];//json_decode($testResultsData->oldRawResults, true);
             $oldBundle['id'] = $model['id'];
+            $testResultsData->oldRawResults = json_encode($oldBundle);
+            $wasTested = ($testResultsData->newRawResults) ? true : false;
+            $newBundle = ($wasTested) ? Yii::$app->request->post()['testResults']['new'] : null;//json_decode($testResultsData->newRawResults, true) : null;
+            if ($newBundle) {
+                $newBundle['id'] = $model['id'];
+                $testResultsData->oldRawResults = json_encode($newBundle);
+            }
+            
+            $testResultsData->newKnown = Yii::$app->request->post()['testResults']['newKnown'];
+            $testResultsData->impressedBy = Yii::$app->request->post()['testResults']['impressedBy'];
+            $testResultsData->save();
+
+            $resultsId = $testResultsData->id;            
+        } else if ($id) {
+            $resultsId = $id;
+            $testResultsData = UserToProfessionTesting::find()->where(['id' => $id])->one();
+            $oldBundle = json_decode($testResultsData->oldRawResults, true);
+            $oldBundle['id'] = $resultsId;
+            $testResultsData->oldRawResults = json_encode($oldBundle);
             $wasTested = ($testResultsData->newRawResults) ? true : false;
             $newBundle = ($wasTested) ? json_decode($testResultsData->newRawResults, true) : null;
-            if ($newBundle)
-                $newBundle['id'] = $model['id'];
-
+            if ($newBundle) {
+                $newBundle['id'] = $resultsId;
+            }
         } else {
             //is get
             $person = TestedPerson::find()->where(['user_id' => $accountId])->one();
@@ -280,6 +311,8 @@ class SiteController extends Controller
             }
 
             $testResultsData->save();
+
+            $resultsId = $testResultsData->id;
     
             $oldBundle['id'] = $testResultsData->id;
             if ($wasTested)
@@ -287,9 +320,12 @@ class SiteController extends Controller
         } 
         
         return $this->render('profresults', [
+            'resultsId' => $resultsId,
             'oldBundle' => $oldBundle,
             'newBundle' => ($wasTested) ? $newBundle : null,
-            'wasTested' => $wasTested
+            'wasTested' => $wasTested,
+            'impressedBy' => $testResultsData->impressedBy,
+            'newKnown' => $testResultsData->newKnown
         ]);
     }
 
