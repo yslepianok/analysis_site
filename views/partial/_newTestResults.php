@@ -64,8 +64,14 @@ use dosamigos\chartjs\ChartJs;
                         <input type="hidden" name="testResults[<?php echo $type?>][specRcmnd][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
                     </div>
                     <div class="col-md-2">
-                        <?php echo $item['sign'] ?>
-                        <input type="hidden" name="testResults[<?php echo $type?>][specRcmnd][<?php echo $key?>][sign]" value="<?php echo $item['sign']?>">
+                        <select form="results-form" name="testResults[<?php echo $type?>][specRcmnd][<?php echo $key?>][sign]">
+                            <?php for ($i=1;$i<11;$i++) {
+                                if ($i == $item['sign'])
+                                    echo '<option value="'.$i.'" selected>'.$i.'</option>';
+                                else 
+                                    echo '<option value="'.$i.'">'.$i.'</option>';
+                            }?>
+                        </select>
                     </div>
                 </div>
         <?php } ?>
@@ -134,8 +140,14 @@ use dosamigos\chartjs\ChartJs;
                     <input type="hidden" name="testResults[<?php echo $type?>][specNotRcmnd][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
                 </div>
                 <div class="col-md-2">
-                    <?php echo $item['sign'] ?>
-                    <input type="hidden" name="testResults[<?php echo $type?>][specNotRcmnd][<?php echo $key?>][sign]" value="<?php echo $item['sign']?>">
+                    <select form="results-form" name="testResults[<?php echo $type?>][specNotRcmnd][<?php echo $key?>][sign]">
+                        <?php for ($i=1;$i<11;$i++) {
+                            if ($i == $item['sign'])
+                                echo '<option value="'.$i.'" selected>'.$i.'</option>';
+                            else 
+                                echo '<option value="'.$i.'">'.$i.'</option>';
+                        }?>
+                    </select>
                 </div>
             </div>
         <?php } ?>
@@ -205,8 +217,14 @@ use dosamigos\chartjs\ChartJs;
                         <input type="hidden" name="testResults[<?php echo $type?>][prof][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
                     </div>
                     <div class="col-md-2">
-                        <?php echo $item['sign'] ?>
-                        <input type="hidden" name="testResults[<?php echo $type?>][prof][<?php echo $key?>][sign]" value="<?php echo $item['sign']?>">
+                        <select form="results-form" name="testResults[<?php echo $type?>][prof][<?php echo $key?>][sign]">
+                            <?php for ($i=1;$i<11;$i++) {
+                                if ($i == $item['sign'])
+                                    echo '<option value="'.$i.'" selected>'.$i.'</option>';
+                                else 
+                                    echo '<option value="'.$i.'">'.$i.'</option>';
+                            }?>
+                        </select>
                     </div>
                 </div>
             <?php } ?>

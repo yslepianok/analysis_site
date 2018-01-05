@@ -344,7 +344,7 @@ class SiteController extends Controller
         foreach ($specsRcmnd as $key=>$val) {
             $spec = [];
             $spec['name'] = $key;
-            $spec['sign'] = 0;
+            $spec['sign'] = 5;
             $spec['value'] = round(($val-$min)/($max-$min) * 100, 1);
 
             $returnBunble['specRcmnd'] []= $spec;
@@ -358,7 +358,7 @@ class SiteController extends Controller
         foreach ($specsNotRcmnd as $key=>$val) {
             $spec = [];
             $spec['name'] = $key;
-            $spec['sign'] = 0;
+            $spec['sign'] = 5;
             $spec['value'] = round(($val-$min)/($max-$min) * 100, 1);
 
             $returnBunble['specNotRcmnd'] []= $spec;
@@ -371,7 +371,7 @@ class SiteController extends Controller
         foreach ($prof[1] as $key=>$val) {
             $profItem = [];
             $profItem['name'] = $prof[0][$key];
-            $profItem['sign'] = 0;
+            $profItem['sign'] = 5;
             $profItem['value'] = round($val * $multipler, 1);
 
             $returnBunble['prof'] []= $profItem;
