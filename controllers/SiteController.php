@@ -72,7 +72,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->redirect('site/kvadrat');
+        return $this->render('index');
     }
 
     public function actionKvadrat()

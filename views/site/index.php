@@ -5,47 +5,30 @@
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
-
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
     <div class="body-content">
 
         <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <div class="col-lg-12">
+                <h2>Вы зашли на сайт Психологической Аналитики</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                <p>Мы используем экспериментальную концепцию, которая позволит, исходя из вашего характера, 
+                создавать невероятно точные и достоверные прогнозы, такие как: 
+                Прогноз подходящих профессий и сфер деятельности, подбор подходящих людей для вашей команды, и невероятное количество других функций.</p>
+                <p>В данный момент наш проект прошел долгий путь, в котором было создание концепции, разработка алгоритмов, ограниченное тестирование, пилотный проект, и, наконец, мы дошли до этапа открытого альфа-тестирования!</p>
+                <p>Очень надеемся на взаимовыгодное сотрудничество, и что мы сможем помочь Вам найти себя!</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+                <p>В данный момент, на нашем сайте работает только прогноз подходящих сфер деятельности и психологическое тестирование (результаты используются для увеличения точности рассчета)</p>
+                <P>Для просмотра результатов, вам необходимо:</P>
+                <p>1. Зарегистрироваться</p>
+                <p><a class="btn btn-default" href="/web/authentication/login">Регистрация и авторизация</a></p>
+                <p>2. Пройти так много психологических тестов как только возможно</p>
+                <p><a class="btn btn-default" href="/web/testing/index">Психологические тесты</a></p>
+                <p>3. Посмотреть результаты по предложениям профессий, а так же оставить отзыв на нашу оценку</p>
+                <p><a class="btn btn-default" href="/web/site/profresults">Предложения по профессиям и сферам деятельности</a></p>
+                <br>
+                <p>Мы так же будем очень рады вашему отзыву на наш почтовый ящик:</p>
+                <p><a class="btn btn-default" target="_blank" href="mailto:slepianok@gmail.com">Написать письмо</a></p>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
             </div>
         </div>
 
