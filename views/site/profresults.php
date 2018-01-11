@@ -7,6 +7,7 @@ use yii\bootstrap\ActiveForm;
 
 <h1>Рекомендуемые профессии и сферы деятельности</h1>
 <p>Прохождение психологического тестирования значительно улучшает результаты рекомендаций!</p>
+<p>Так же стоит обратить внимание на то, что результаты в процентах относительны самого большого.</p>
 <br>
 <p>Результаты автоматически перерассчитываются раз в 5 минут</p>
 <br>
@@ -36,7 +37,8 @@ use yii\bootstrap\ActiveForm;
                 <?php
                 echo $this->render('/partial/_newTestResults', [
                     'bundle' => $oldBundle,
-                    'type'=> 'old'
+                    'type' => 'old',
+                    'activitiesShortNames' => $activitiesShortNames
                 ])
                 ?>
             </p>
@@ -48,7 +50,8 @@ use yii\bootstrap\ActiveForm;
                 <?php
                 echo $this->render('/partial/_newTestResults', [
                     'bundle' => $newBundle,
-                    'type' => 'new'
+                    'type' => 'new',
+                    'activitiesShortNames' => $activitiesShortNames
                 ])
                 ?>
             </p>

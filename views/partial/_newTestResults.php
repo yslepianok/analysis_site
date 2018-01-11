@@ -10,7 +10,7 @@ use dosamigos\chartjs\ChartJs;
             $specnames = [];
             $specvalues = [];
             foreach($bundle['specRcmnd'] as $item) {
-                $specnames []= $item['name'];
+                $specnames []= $activitiesShortNames[$item['name']];
                 $specvalues []= $item['value'];
             }
         ?>
@@ -86,7 +86,7 @@ use dosamigos\chartjs\ChartJs;
             $specnames = [];
             $specvalues = [];
             foreach($bundle['specNotRcmnd'] as $item) {
-                $specnames []= $item['name'];
+                $specnames []= $activitiesShortNames[$item['name']];
                 $specvalues []= $item['value'];
             }
         ?>

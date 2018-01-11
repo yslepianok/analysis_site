@@ -226,7 +226,7 @@ class SiteController extends Controller
             $testResultsData->save();
 
             $resultsId = $testResultsData->id;            
-        } else if ($id) {
+        } else if (isset($id) && $id!=null) {
             $resultsId = $id;
             $testResultsData = UserToProfessionTesting::find()->where(['id' => $id])->one();
             $oldBundle = json_decode($testResultsData->oldRawResults, true);
@@ -324,6 +324,7 @@ class SiteController extends Controller
             'oldBundle' => $oldBundle,
             'newBundle' => ($wasTested) ? $newBundle : null,
             'wasTested' => $wasTested,
+            'activitiesShortNames' => $this->getAreasOfActivityShortNames(),
             'impressedBy' => $testResultsData->impressedBy,
             'newKnown' => $testResultsData->newKnown
         ]);
@@ -378,5 +379,16 @@ class SiteController extends Controller
         };
 
         return $returnBunble;
+    }
+
+    private function getAreasOfActivityShortNames() {
+        $returnArr = [];
+        $activities = ActivityType::find()->all();
+
+        foreach($activities as $activity) {
+            $returnArr[$activity->name] = $activity->shortname;
+        }
+
+        return $returnArr;
     }
 }
