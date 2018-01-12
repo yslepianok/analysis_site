@@ -207,6 +207,9 @@ class SiteController extends Controller
             $id = Yii::$app->request->get()['resultId'];
         }
 
+        $passedTestsCount = UserToTesting::getUserTestCount($accountId);
+        $overallTestsCount = Test::find()->count();
+
         if (Yii::$app->request->post()) {
             //is post
             $model = Yii::$app->request->post()['testResults'];
@@ -226,7 +229,7 @@ class SiteController extends Controller
             $testResultsData->save();
 
             $resultsId = $testResultsData->id;            
-        } else if (isset($id) && $id!=null) {
+        } else if (isset($id) && $id!=null && ($passedTestsCount == UserToProfessionTesting::find()->where(['id' => $id])->one()->passedTestsCount)) {
             $resultsId = $id;
             $testResultsData = UserToProfessionTesting::find()->where(['id' => $id])->one();
             $oldBundle = json_decode($testResultsData->oldRawResults, true);
@@ -303,6 +306,7 @@ class SiteController extends Controller
             $oldBundle = $this->prepareViewResults($oldSpecsRcmnd, $oldSpecsNotRcmnd, $oldProfessions);
             $testResultsData = new UserToProfessionTesting();
             $testResultsData->user_id = $accountId;
+            $testResultsData->passedTestsCount = $passedTestsCount;
             $testResultsData->oldRawResults = json_encode($oldBundle);
 
             if ($wasTested) {
@@ -325,6 +329,8 @@ class SiteController extends Controller
             'newBundle' => ($wasTested) ? $newBundle : null,
             'wasTested' => $wasTested,
             'activitiesShortNames' => $this->getAreasOfActivityShortNames(),
+            'passedTestsCount' => $passedTestsCount,
+            'overallTestsCount' => $overallTestsCount,
             'impressedBy' => $testResultsData->impressedBy,
             'newKnown' => $testResultsData->newKnown
         ]);

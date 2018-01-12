@@ -52,6 +52,10 @@ class UserToTesting extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getUserTestCount($userId) {
+        return self::find()->where(['user_id' => $userId])->count();
+    }
+
     public static function getUserTestResultsMatrix($userId) {
         // Новые данные из психологических тестов
         $testResults = self::find()->where(['user_id' => $userId])->all();
@@ -60,7 +64,7 @@ class UserToTesting extends \yii\db\ActiveRecord
         // Сначала цикл по самим тестам
         foreach($testResults as $test) {
             $testResult = json_decode($test->calculated_results, true);
-            $passedTest = Test::find()->where(['id' => $test->id])->one();
+            $passedTest = Test::find()->where(['id' => $test->testing_id])->one();
             Yii::warning('User has passed test #'.$passedTest->id.' , "'.$passedTest->name.'"; with testWeight='.$passedTest->weight);
             // Цикл по той самой матрице(вектору)
             foreach(PythagorasSquare::$specialityFunction as $key=>$val) {
