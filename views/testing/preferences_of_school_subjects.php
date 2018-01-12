@@ -21,31 +21,8 @@
     <!-- Конец логики цикла с вопросами-->
 
 		<div class="allcenter" ng-if="currentTest >= testData.questions.length">
-			<h3>Поздравляем! Вы ответили на все вопросы теста.</h3>
-			<!-- Кнопка, вызывающее модальное окно -->
-			<a href="#myModal" class="btn btn-warning btn-lg" data-toggle="modal">Ваши результаты</a>  
-			<!-- HTML-код модального окна -->
-			<div id="myModal" class="modal fade">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<!-- Заголовок модального окна -->
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							<h4 class="modal-title">Результаты</h4>
-						</div>
-						<!-- Основное содержимое модального окна -->
-						<div class="modal-body" ng-repeat="answer in answers.raw track by $index">
-							Тест {{$index+1}} - ответ {{answer+1}}
-						</div>
-						<!-- Футер модального окна -->
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-						</div>
-					</div>	
-				</div>
-			</div>
-			<br><br>
-			<button type="button" class="btn btn-primary btn-lg" ng-click="saveResults()">Сохранить результат</button>
+			<h3>Вы ответили на все вопросы тестов.</h3>
+			<button ng-click="saveResults()"> Назад к списку тестов</button>
 		</div>	
 	</div>
 </div>

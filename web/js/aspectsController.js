@@ -59,8 +59,9 @@ myApp.controller('aspectsController', ['$scope', '$http', function($scope, $http
 		};
 		$http.post('saveresults', data).then(
 	       function(response){
-	         console.log("success "+response)
-	       },
+           console.log("success "+response);
+           window.history.back();
+          },
 	       function(response){
            console.log("fail "+response)
 	       }

@@ -15,21 +15,22 @@
 		<div class="allcenter" ng-repeat="question in testData.questions" ng-if="$index==currentTest && flag==1">
 			<p class="allcenter">Вопрос {{$index+1}} из {{testData.questions.length}}</p>
 			<p class="test-description">{{question.text}}</p>
-      <img ng-if="question.url" src="{{question.url}}" alt="question.text">
+      <div class="allcenter">
+				<img ng-if="question.url" src="{{question.url}}" alt="question.text">
+			</div>
 			<br>
-			<div class="test_el thumbnail" ng-repeat="answer in question.answers" class="col-xs-10 col-md-10" ng-click="itemSelected(answer)">
-        {{answer.text}}
-        <img ng-if="answer.url" src="{{answer.url}}" alt="answer.text">
+			<div class="row" style="display:flex;justify-content:center">
+				<div class="test_el thumbnail text-center" ng-repeat="answer in question.answers" ng-click="itemSelected(answer)">
+					{{answer.text}}
+					<img ng-if="answer.url" src="{{answer.url}}" alt="answer.text">
+				</div>
 			</div>
 		</div>
     <!-- Конец логики цикла с вопросами-->
 
 		<div class="allcenter" ng-if="currentTest >= testData.questions.length">
-				<h3>Поздравляем! Вы ответили на все вопросы тестов. Ваши результаты:</h3>
-				<h4 ng-repeat="answer in answers.raw track by $index">
-					Тест {{$index+1}} - ответ {{answer}}
-				</h4>
-				<button ng-click="saveResults()"> Save results</button>
+			<h3>Вы ответили на все вопросы тестов.</h3>
+			<button ng-click="saveResults()"> Назад к списку тестов</button>
 		</div>
 	</div>
 </div>

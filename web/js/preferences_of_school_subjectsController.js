@@ -125,7 +125,8 @@ myApp.controller('preferences_of_school_subjectsController', ['$scope', '$http',
 		console.log(data);
 		$http.post('saveresults', data).then(
 	       function(response){
-	         console.log("success "+response)
+			 console.log("success "+response);
+			 window.history.back();			 
 	       },
 	       function(response){
            console.log("fail "+response)

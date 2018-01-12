@@ -70,13 +70,9 @@ class TestingController extends \yii\web\Controller
             WHERE NOT EXISTS (select * from user_to_testing t2 where t1.id=t2.testing_id AND t2.user_id=:user_id)", [':user_id' => Yii::$app->session->get('user')->id]);
         
         $result = $command->queryAll();
-        //print_r(json_encode($result));
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if (!empty($result))
-          return  $result;
-        else
-          return "no tests to pass";
+        return  $result;
       }
     return $this->redirect(Yii::$app->homeUrl);
   }

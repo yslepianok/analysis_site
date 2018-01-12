@@ -91,7 +91,8 @@ myApp.controller('lifelineController', ['$scope', '$http', function($scope, $htt
 		};
 		$http.post('saveresults', data).then(
 	       function(response){
-	         console.log("success "+response)
+			 console.log("success "+response);
+			 window.history.back();			 
 	       },
 	       function(response){
            console.log("fail "+response)
