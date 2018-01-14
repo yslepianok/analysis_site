@@ -40,7 +40,7 @@
       <p ng-if="used.email==1" class="error">Пользователь с такой электронной почтой уже существует</p>
       <p id="email" class="error do-not-show">Некорректный адресс электронной почты!</p>
 
-      <label for="">Password</label>
+      <label for="">Пароль</label>
       <input class="thumbnail" type="password" value="" ng-model="pass" ng-change="validateInputData(pass, 'password'); doPasConfirm(pass,passConfirm);">
       <p ng-if="empty[2]!=0" class="error">Введите пароль</p>
       <p id="password" class="error do-not-show">
@@ -48,17 +48,20 @@
         Допустимы символы латинского алфавита и цифры.
       </p>
 
-      <label for="">Password confirmation</label>
+      <label for="">Подтверждение пароля</label>
       <input class="thumbnail" type="password" value="" ng-model="passConfirm" ng-change="doPasConfirm(pass, passConfirm)">
       <p id="pasConfirmText" class="error"></p>
 
-      <label for="">BirthDate</label>
+      <label for="">ФИО (по желанию)</label>
+      <input class="thumbnail" type="text" value="" ng-model="fio">
+
+      <label for="">Дата рождения</label>
       <input class="thumbnail" type="text" value="" ng-model="birthDate" ng-change="validateInputData(birthDate, 'birthDate')">
       <p ng-if="empty[3]!=0">Введите дату рождения</p>
       <p id="birthDate" class="error do-not-show">гггг-мм-дд (только цифры и "-")</p>
 
       <p ng-if="regError!=null" class="error">{{error}}</p>
-      <button ng-click="registration(username, email, pass, birthDate)">Зарегистрироваться</button>
+      <button ng-click="registration(username, email, pass, fio, birthDate)">Зарегистрироваться</button>
       <a ng-click="swap(0)">Вернуться к авторизации</a>
     </div>
 		<div class="" ng-if="sign_login==2">

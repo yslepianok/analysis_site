@@ -128,6 +128,7 @@ class AuthenticationController extends \yii\web\Controller
     $user->username = $data->username;
     $user->password = $data->password;
     $user->email = $data->email;
+    $user->fio = $data->fio;
     $userInfo->birth_date = $data->birthDate;
 
     if (!$user->save()){

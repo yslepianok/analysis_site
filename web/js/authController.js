@@ -12,6 +12,8 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
   $scope.logError = null;
   $scope.regError = null;
 
+  $scope.fio = null;
+
   $scope.empty = [0,0,0,0];
 
   $scope.swap = function(value) {
@@ -61,7 +63,7 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
     }
   }
 
-  $scope.registration = function(username, email, password, birthDate) {
+  $scope.registration = function(username, email, password, fio, birthDate) {
     $scope.flag = 1;
     if (typeof username == "undefined") {
       $scope.empty[0] = 1;
@@ -98,7 +100,8 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
   			data: {
   			  "username" : username,
   			  "email" : email,
-  			  "password" : password,
+          "password" : password,
+          "fio" : fio,
   			  "birthDate" : birthDate
   			},
   			headers: 'Content-Type : application/json'
