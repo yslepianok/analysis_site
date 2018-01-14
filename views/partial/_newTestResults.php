@@ -57,14 +57,14 @@ use dosamigos\chartjs\ChartJs;
                 <div class="row">
                     <div class="col-md-7">
                         <?php echo $item['name'] ?>
-                        <input type="hidden" name="testResults[<?php echo $type?>][specRcmnd][<?php echo $key?>][name]" value="<?php echo $item['name']?>">
+                        <input type="hidden" name="testResults[specRcmnd][<?php echo $key?>][name]" value="<?php echo $item['name']?>">
                     </div>
                     <div class="col-md-3">
                         <?php echo $item['value'] ?>%
-                        <input type="hidden" name="testResults[<?php echo $type?>][specRcmnd][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
+                        <input type="hidden" name="testResults[specRcmnd][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
                     </div>
                     <div class="col-md-2">
-                        <select form="results-form" name="testResults[<?php echo $type?>][specRcmnd][<?php echo $key?>][sign]">
+                        <select form="results-form" <?php if ($scoreSaved) echo "disabled"?> name="testResults[specRcmnd][<?php echo $key?>][sign]">
                             <?php for ($i=1;$i<11;$i++) {
                                 if ($i == $item['sign'])
                                     echo '<option value="'.$i.'" selected>'.$i.'</option>';
@@ -133,14 +133,14 @@ use dosamigos\chartjs\ChartJs;
             <div class="row">
                 <div class="col-md-7">
                     <?php echo $item['name'] ?>
-                    <input type="hidden" name="testResults[<?php echo $type?>][specNotRcmnd][<?php echo $key?>][name]" value="<?php echo $item['name']?>">
+                    <input type="hidden" name="testResults[specNotRcmnd][<?php echo $key?>][name]" value="<?php echo $item['name']?>">
                 </div>
                 <div class="col-md-3">
                     <?php echo $item['value'] ?>%
-                    <input type="hidden" name="testResults[<?php echo $type?>][specNotRcmnd][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
+                    <input type="hidden" name="testResults[specNotRcmnd][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
                 </div>
                 <div class="col-md-2">
-                    <select form="results-form" name="testResults[<?php echo $type?>][specNotRcmnd][<?php echo $key?>][sign]">
+                    <select form="results-form" <?php if ($scoreSaved) echo "disabled"?> name="testResults[specNotRcmnd][<?php echo $key?>][sign]">
                         <?php for ($i=1;$i<11;$i++) {
                             if ($i == $item['sign'])
                                 echo '<option value="'.$i.'" selected>'.$i.'</option>';
@@ -210,14 +210,14 @@ use dosamigos\chartjs\ChartJs;
                 <div class="row">
                     <div class="col-md-7">
                         <?php echo $item['name'] ?>
-                        <input type="hidden" name="testResults[<?php echo $type?>][prof][<?php echo $key?>][name]" value="<?php echo $item['name']?>">
+                        <input type="hidden" name="testResults[prof][<?php echo $key?>][name]" value="<?php echo $item['name']?>">
                     </div>
                     <div class="col-md-3">
                         <?php echo $item['value'] ?>%
-                        <input type="hidden" name="testResults[<?php echo $type?>][prof][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
+                        <input type="hidden" name="testResults[prof][<?php echo $key?>][value]" value="<?php echo $item['value']?>">
                     </div>
                     <div class="col-md-2">
-                        <select form="results-form" name="testResults[<?php echo $type?>][prof][<?php echo $key?>][sign]">
+                        <select form="results-form" <?php if ($scoreSaved) echo "disabled"?> name="testResults[prof][<?php echo $key?>][sign]">
                             <?php for ($i=1;$i<11;$i++) {
                                 if ($i == $item['sign'])
                                     echo '<option value="'.$i.'" selected>'.$i.'</option>';

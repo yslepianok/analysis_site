@@ -29,62 +29,58 @@ use yii\bootstrap\ActiveForm;
             'labelOptions' => ['class' => 'col-lg-1 control-label'],
         ],
 ]); ?>
-<input type="hidden" name="testResults[id]" value="<?php echo $resultsId?>">
+<input type="hidden" name="basicData[id]" value="<?php echo $resultsId?>">
 
-<div class="panel">
-<ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#oldData" aria-controls="oldData" role="tab" data-toggle="tab">Результат по дате рождения</a></li>
-    <?php if ($wasTested) { ?>
-        <li role="presentation"><a href="#newData" aria-controls="newData" role="tab" data-toggle="tab">Результат по дате рождения и тестам</a></li>
-    <?php } ?>
-</ul>
-
-<div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="oldData">
-        <div class="panel weights-table">
-            <p>
-                <?php
-                echo $this->render('/partial/_newTestResults', [
-                    'bundle' => $oldBundle,
-                    'type' => 'old',
-                    'activitiesShortNames' => $activitiesShortNames
-                ])
-                ?>
-            </p>
-        </div>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="newData">
-        <div class="panel weights-table">
-            <p>
-                <?php
-                echo $this->render('/partial/_newTestResults', [
-                    'bundle' => $newBundle,
-                    'type' => 'new',
-                    'activitiesShortNames' => $activitiesShortNames
-                ])
-                ?>
-            </p>
-        </div>
-    </div>
+<div class="panel weights-table">
+    <p>
+        <?php
+        echo $this->render('/partial/_newTestResults', [
+            'bundle' => $bundle,
+            'activitiesShortNames' => $activitiesShortNames,
+            'scoreSaved' => $scoreSaved
+        ]);
+        ?>
+    </p>
 </div>
 
 <br>
 <div class="form-group">
     <div class="col-md-offset-4 col-md-4">
         <label for="imb">В результатах меня удивило то что:</label>
-        <input type="text" id="imb" class="form-control" name="testResults[impressedBy]" value="<?php echo $impressedBy?>">
+        <input type="text" <?php if ($scoreSaved) echo "disabled"?> id="imb" class="form-control" name="basicData[impressedBy]" value="<?php echo $impressedBy?>">
     </div>
 </div>
 <div class="form-group">
     <div class="col-md-offset-4 col-md-4">
         <label for="nkn">В результатах для меня было новым то что:</label>
-        <input type="text" id="nkn" class="form-control" name="testResults[newKnown]" value="<?php echo $newKnown?>">
+        <input type="text" <?php if ($scoreSaved) echo "disabled"?> id="nkn" class="form-control" name="basicData[newKnown]" value="<?php echo $newKnown?>">
     </div>
 </div>
 <div class="form-group">
     <div class="col-md-offset-4 col-md-4">
-        <?= Html::submitButton('Сохранить мою оценку результатов', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+        <label for="oscore">Я оцениваю результаты тестирования на:</label>
+        <select id="oscore" <?php if ($scoreSaved) echo "disabled"?> form="results-form" name="basicData[overallScore]">
+            <?php for ($i=1;$i<11;$i++) {
+                if ($i == $overallScore)
+                    echo '<option value="'.$i.'" selected>'.$i.'</option>';
+                else 
+                    echo '<option value="'.$i.'">'.$i.'</option>';
+            }?>
+        </select>
     </div>
 </div>
+<?php if (!$scoreSaved) {?>
+    <div class="form-group">
+        <div class="col-md-offset-4 col-md-4">
+            <?= Html::submitButton('Сохранить мою оценку результатов', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+        </div>
+    </div>
+<?php } ?>
+
+<?php if ($scoreSaved) {?>
+    <p class="text-center">
+        Ваша оценка результатов сохранена. Спасибо за обратную связь!
+    </p>
+<?php } ?>
 
 <?php ActiveForm::end(); ?>
