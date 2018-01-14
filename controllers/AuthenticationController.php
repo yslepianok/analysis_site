@@ -199,6 +199,11 @@ class AuthenticationController extends \yii\web\Controller
     return true;
   }
   public function actionProfile() {
-    return $this->render('profile');
+    $session = Yii::$app->session;
+    if ($session->get('user')) {
+      return $this->render('profile');
+    }
+    Yii::$app->session->setFlash('You are not authorised to perform that action');
+    return $this->redirect(Yii::$app->homeUrl);
   }
 }
