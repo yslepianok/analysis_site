@@ -14,12 +14,14 @@
 	<div ng-controller="authController">
     <div class="" ng-if="sign_login==0">
       <label for="">Username</label>
-      <input class="thumbnail" type="text" ng-model="logUsername" value="">
+      <input class="thumbnail" type="text" ng-model="logUsername" value="" autocomplete="off">
       <p ng-if="empty[0]!=0" class="error">Введите имя пользователя</p>
+
       <label for="">Password</label>
       <input class="thumbnail" type="password" ng-model="logPassword" value="">
       <p ng-if="empty[2]!=0" class="error">Введите пароль</p>
-      <p ng-if="logError==1" class="error">Не верное имя пользователя или пароль</p>
+      <p ng-if="logError==1" class="error">Неверное имя пользователя или пароль</p>
+
       <button ng-click="login(logUsername, logPassword)">Войти</button>
       <a ng-click="swap(1)">У меня нет аккаунта</a>
     </div>
