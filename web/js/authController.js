@@ -21,8 +21,12 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
 
     if (value == 1) {
       window.setTimeout(function() {
-        //var $j = jQuery.noConflict();
-        $("#birthDateInput").datepicker();
+        $("#birthDateInput").datepicker({
+          dateFormat: "yy-mm-dd",
+          onSelect: function () {
+            $scope.birthDate = this.value;
+          }
+        });
       }, 500);
     }
 

@@ -39,8 +39,18 @@ myApp.controller('profileController', ['$scope', '$location', '$http', function(
       $scope.addRelative = -1;
       return;
     }
+    if (value == -1) {
+      console.log($('#birthDateInput'));
+      $("#birthDateInput").datepicker({
+        dateFormat: "yy-mm-dd",
+        onSelect: function () {
+          console.log(this.value);
+          $scope.birthDate = this.value;
+        }
+      });
+    }
     if (value == 1) {
-      let birthDate = document.getElementById('birthDate').value;
+      let birthDate = $scope.birthDate;
       if ($scope.relative == 0 || birthDate == "") {
         $scope.error = 1;
         return;

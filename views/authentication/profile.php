@@ -23,12 +23,16 @@
 
 			</div>
 			<input class="thumbnail" type="button" name="" value=" + Добавить родственника" ng-if="addRelative==-1" ng-click="funAdd(-1)">
-			<div class="" ng-if="addRelative==1">
+			<div class="" ng-show="addRelative==1">
 				<select ng-options="element.name for element in userInfo.relations" ng-model="item"
 					ng-change="itemSelected(item)">
 				</select>
-				<label for="">Birth date</label>
-				<input type="text" id="birthDate" value=""><br>
+				<label for="birthDate">Birth date</label>
+				<input type="text" id="birthDateInput" ng-model="birthDate"><br>
+				<script>
+				
+				</script>
+
 				<input type="button" name="" value="Сохранить данные" ng-click="funAdd(1)">
 				<input type="button" name="" value="Отмена" ng-click="funAdd(2)">
 				<label ng-if="error==1" style="color: red;">Заполните поля</label>
