@@ -57,7 +57,7 @@
       <label for="">ФИО (по желанию)</label>
       <input class="thumbnail" type="text" value="" ng-model="fio">
 
-      <label for="birthDate">Дата рождения</label>
+      <label for="birthDate">Дата рождения (в формате год-месяц-день)</label>
       <input id="birthDateInput" class="thumbnail" type="text" ng-model="birthDate">
       <p ng-if="empty[3]!=0">Введите дату рождения</p>
       <p class="error do-not-show">гггг-мм-дд (только цифры и "-")</p> 

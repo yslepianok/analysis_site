@@ -27,7 +27,7 @@
 				<select ng-options="element.name for element in userInfo.relations" ng-model="item"
 					ng-change="itemSelected(item)">
 				</select>
-				<label for="birthDate">Birth date</label>
+				<label for="birthDate">Дата рождения(в формате год-месяц-день)</label>
 				<input type="text" id="birthDateInput" ng-model="birthDate"><br>
 				<script>
 				
