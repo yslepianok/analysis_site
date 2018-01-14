@@ -18,6 +18,14 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
 
   $scope.swap = function(value) {
     $scope.sign_login = value;
+
+    if (value == 1) {
+      window.setTimeout(function() {
+        //var $j = jQuery.noConflict();
+        $("#birthDateInput").datepicker();
+      }, 500);
+    }
+
     for (var i = 0; i < 3; i++) {
       $scope.empty[i] = 0;
     }
@@ -204,5 +212,4 @@ myApp.controller('authController', ['$scope', '$location', '$http', function($sc
   	  break;
   	}
   }
-
 }]);

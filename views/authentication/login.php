@@ -1,5 +1,9 @@
 
 <script type="text/javascript" src="../js/authController.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 <style type="text/css">
   .error {
     color : red;
@@ -57,16 +61,16 @@
       <label for="">ФИО (по желанию)</label>
       <input class="thumbnail" type="text" value="" ng-model="fio">
 
-      <label for="">Дата рождения</label>
-      <input class="thumbnail" type="text" value="" ng-model="birthDate" ng-change="validateInputData(birthDate, 'birthDate')">
+      <label for="birthDate">Дата рождения</label>
+      <input id="birthDateInput" class="thumbnail" type="text" ng-model="birthDate">
       <p ng-if="empty[3]!=0">Введите дату рождения</p>
-      <p id="birthDate" class="error do-not-show">гггг-мм-дд (только цифры и "-")</p>
+      <p class="error do-not-show">гггг-мм-дд (только цифры и "-")</p> 
 
       <p ng-if="regError!=null" class="error">{{error}}</p>
       <button ng-click="registration(username, email, pass, fio, birthDate)">Зарегистрироваться</button>
       <a ng-click="swap(0)">Вернуться к авторизации</a>
     </div>
-		<div class="" ng-if="sign_login==2">
+		<div ng-if="sign_login==2">
 			<p style="font-size : 50px;">Аккаунт <i>{{username}}</i> создан успешно.</p>
 		</div>
 	</div>
