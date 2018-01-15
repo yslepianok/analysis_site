@@ -59,7 +59,8 @@ class Question extends \yii\db\ActiveRecord
      */
     public function getAnswers()
     {
-        return $this->hasMany(Answer::className(), ['question_id' => 'id']);
+        return $this->hasMany(Answer::className(), ['question_id' => 'id'])->
+        orderBy(['id' => SORT_ASC]);
     }
 
     /**

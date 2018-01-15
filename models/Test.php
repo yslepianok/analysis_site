@@ -59,7 +59,8 @@ class Test extends \yii\db\ActiveRecord
      */
     public function getQuestions()
     {
-        return $this->hasMany(Question::className(), ['test_id' => 'id']);
+        return $this->hasMany(Question::className(), ['test_id' => 'id'])->
+        orderBy(['id' => SORT_ASC]);
     }
 
     /**

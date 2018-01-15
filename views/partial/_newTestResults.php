@@ -33,7 +33,7 @@ use dosamigos\chartjs\ChartJs;
                 'datasets' => [
                     [
                         'label' => "Рекомендуемые сферы деятельности",
-                        'backgroundColor' => "rgba(179,181,198,0.5)",
+                        'backgroundColor' => "rgba(30,180,30,0.8)",
                         'borderColor' => "rgba(179,181,198,1)",
                         'pointBackgroundColor' => "rgba(179,181,198,1)",
                         'pointBorderColor' => "#fff",
@@ -108,8 +108,8 @@ use dosamigos\chartjs\ChartJs;
                 'labels' => $specnames,
                 'datasets' => [
                     [
-                        'label' => "Рекомендуемые сферы деятельности",
-                        'backgroundColor' => "rgba(179,181,198,0.5)",
+                        'label' => "Наименее рекомендуемые сферы деятельности",
+                        'backgroundColor' => "rgba(180,30,30,0.8)",
                         'borderColor' => "rgba(179,181,198,1)",
                         'pointBackgroundColor' => "rgba(179,181,198,1)",
                         'pointBorderColor' => "#fff",
@@ -185,8 +185,8 @@ use dosamigos\chartjs\ChartJs;
                     'labels' => $profnames,
                     'datasets' => [
                         [
-                            'label' => "Результаты с учетами психологического тестирования",
-                            'backgroundColor' => "rgba(179,181,198,0.5)",
+                            'label' => "Профессии",
+                            'backgroundColor' => "rgba(30,180,30,0.8)",
                             'borderColor' => "rgba(179,181,198,1)",
                             'pointBackgroundColor' => "rgba(179,181,198,1)",
                             'pointBorderColor' => "#fff",

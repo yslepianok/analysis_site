@@ -64,6 +64,9 @@ class TestingController extends \yii\web\Controller
         /*$test =  Test::find()->select('name, description')->all();*/
 
         $connection = Yii::$app->getDb();
+        /*$command = $connection->createCommand("
+        SELECT t1.name, t1.description, (EXISTS(select * from user_to_testing t2 where t1.id=t2.testing_id AND t2.user_id=:user_id)) passed
+        FROM test t1", [':user_id' => Yii::$app->session->get('user')->id]);*/
         $command = $connection->createCommand("
             SELECT t1.name, t1.description
             FROM test t1
