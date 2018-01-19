@@ -413,7 +413,7 @@ class SiteController extends Controller
                 $userMarksNotActivities = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
                 $userMarksProfessions = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
                 $userMarksOverall = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
-                $arr = UserToProfessionTesting::find()->all();
+                $arr = UserToProfessionTesting::find()->where(['scoreSaved'=>1])->all();
 
                 foreach ($arr as $test) {
                     $results = json_decode($test->oldRawResults, true);
