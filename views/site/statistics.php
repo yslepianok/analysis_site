@@ -11,7 +11,7 @@ use dosamigos\chartjs\ChartJs;
         <?= ChartJs::widget([
             'type' => 'pie',
             'options' => [
-                'height' => 300,
+                'height' => 500,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -48,7 +48,7 @@ use dosamigos\chartjs\ChartJs;
         <?= ChartJs::widget([
             'type' => 'pie',
             'options' => [
-                'height' => 300,
+                'height' => 500,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -81,7 +81,7 @@ use dosamigos\chartjs\ChartJs;
         <?= ChartJs::widget([
             'type' => 'pie',
             'options' => [
-                'height' => 300,
+                'height' =>500,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -116,7 +116,7 @@ use dosamigos\chartjs\ChartJs;
         <?= ChartJs::widget([
             'type' => 'pie',
             'options' => [
-                'height' => 300,
+                'height' => 800,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -153,7 +153,7 @@ use dosamigos\chartjs\ChartJs;
         <?= ChartJs::widget([
             'type' => 'pie',
             'options' => [
-                'height' => 300,
+                'height' => 500,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -186,7 +186,7 @@ use dosamigos\chartjs\ChartJs;
         <?= ChartJs::widget([
             'type' => 'pie',
             'options' => [
-                'height' => 300,
+                'height' => 500,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -221,7 +221,7 @@ use dosamigos\chartjs\ChartJs;
         <?= ChartJs::widget([
             'type' => 'pie',
             'options' => [
-                'height' => 300,
+                'height' => 800,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
