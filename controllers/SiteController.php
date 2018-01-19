@@ -400,4 +400,66 @@ class SiteController extends Controller
 
         return $returnArr;
     }
+
+    public function actionStatistics()
+    {
+        $session = Yii::$app->session;
+        if ($session->get('user')) {
+            if ($session->get('user')->scope == "admin") {
+                $activitiesRecommended = [];
+                $activitiesNotRecommended = [];
+                $professionsRecommended = [];
+                $userMarksActivities = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
+                $userMarksNotActivities = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
+                $userMarksProfessions = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
+                $userMarksOverall = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
+                $arr = UserToProfessionTesting::find()->all();
+
+                foreach ($arr as $test) {
+                    $results = json_decode($test->oldRawResults, true);
+                    if ($test->passedTestsCount != 0)
+                        $results = json_decode($test->newRawResults, true);
+
+                    $userMarksOverall[$test->overallScore] += 1;
+
+                    foreach($results['specRcmnd'] as $spec) {
+                        if (!array_key_exists($spec['name'], $activitiesRecommended))
+                            $activitiesRecommended[$spec['name']] = 1;
+                        else 
+                            $activitiesRecommended[$spec['name']] += 1;
+
+                        $userMarksActivities[$spec['sign']] += 1;
+                    }
+
+                    foreach($results['specNotRcmnd'] as $spec) {
+                        if (!array_key_exists($spec['name'], $activitiesNotRecommended))
+                            $activitiesNotRecommended[$spec['name']] = 1;
+                        else 
+                            $activitiesNotRecommended[$spec['name']] += 1;
+
+                        $userMarksNotActivities[$spec['sign']] += 1;
+                    }
+
+                    foreach($results['prof'] as $prof) {
+                        if (!array_key_exists($prof['name'], $professionsRecommended))
+                            $professionsRecommended[$prof['name']] = 1;
+                        else 
+                            $professionsRecommended[$prof['name']] += 1;
+
+                        $userMarksProfessions[$prof['sign']] += 1;
+                    }
+                }
+                return $this->render('statistics', [
+                    'activitiesRecommended' => $activitiesRecommended,
+                    'activitiesNotRecommended' => $activitiesNotRecommended,
+                    'professionsRecommended' => $professionsRecommended,
+                    'userMarksActivities' => $userMarksActivities,
+                    'userMarksNotActivities' => $userMarksNotActivities,
+                    'userMarksProfessions' => $userMarksProfessions,
+                    'userMarksOverall' => $userMarksOverall
+                ]);
+            }
+        }
+        return $this->redirect(Yii::$app->homeUrl);
+    }
 }
