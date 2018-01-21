@@ -287,7 +287,7 @@ use dosamigos\chartjs\ChartJs;
         </thead>
         <tbody>
             <?php foreach($byRecomendations as $item) {
-                if ($item['rTimes'] > 2) { ?>
+                if ($item['rTimes'] > 5) { ?>
                     <tr>
                         <td><?php echo $item['name'] ?></td>
                         <td style="text-align:center"><?php echo $item['rTimes'] ?></td>
@@ -310,7 +310,7 @@ use dosamigos\chartjs\ChartJs;
         </thead>
         <tbody>
             <?php foreach($byMarksDesc as $item) {
-                if ($item['rMarks']/$item['rTimes'] > 5 && $item['rTimes'] >= 2) { ?>
+                if ($item['rMarks']/$item['rTimes'] > 6 && $item['rTimes'] >= 3) { ?>
                     <tr>
                         <td><?php echo $item['name'] ?></td>
                         <td style="text-align:center"><?php echo $item['rTimes'] ?></td>
@@ -333,7 +333,7 @@ use dosamigos\chartjs\ChartJs;
         </thead>
         <tbody>
             <?php foreach($byMarksAsc as $item) {
-                if ($item['rMarks']/$item['rTimes'] < 5 && $item['rTimes'] >= 2) { ?>
+                if ($item['rMarks']/$item['rTimes'] < 4 && $item['rTimes'] >= 3) { ?>
                     <tr>
                         <td><?php echo $item['name'] ?></td>
                         <td style="text-align:center"><?php echo $item['rTimes'] ?></td>
