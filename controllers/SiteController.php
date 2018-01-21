@@ -414,6 +414,7 @@ class SiteController extends Controller
                 $userMarksProfessions = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
                 $userMarksOverall = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
                 $specArray = [];
+                $profArray = [];
                 $arr = UserToProfessionTesting::find()->where(['scoreSaved'=>1])->all();
 
                 foreach ($arr as $test) {
@@ -475,9 +476,52 @@ class SiteController extends Controller
                         else 
                             $professionsRecommended[$prof['name']] += 1;
 
+                        if (!array_key_exists($prof['name'], $profArray)) {
+                            $profItem = [
+                                'name' => $prof['name'],
+                                'rTimes' => 1,
+                                'rMarks' => $prof['sign'] 
+                            ];
+                            $profArray[$prof['name']] = $profItem;
+                        } else {
+                            $profArray[$prof['name']]['rTimes'] +=1;
+                            $profArray[$prof['name']]['rMarks'] +=$prof['sign'];
+                        }
+
                         $userMarksProfessions[$prof['sign']] += 1;
                     }
                 }
+
+                $doNotExist = $this->getNotUsedProfessions();
+
+                $mostRelevant = $profArray;
+                uasort($mostRelevant, function($a, $b) {
+                    $am = $a['rMarks']/$a['rTimes'];
+                    $bm = $b['rMarks']/$b['rTimes'];
+                    if ($am == $bm) {
+                        return 0;
+                    }
+                    return ($am < $bm) ? 1 : -1;
+                });
+                $lessRelevant = $profArray;
+                usort($lessRelevant, function($a, $b) {
+                    $am = $a['rMarks']/$a['rTimes'];
+                    $bm = $b['rMarks']/$b['rTimes'];
+                    if ($am == $bm) {
+                        return 0;
+                    }
+                    return ($am < $bm) ? -1 : 1;
+                });
+                $mostRecommended = $profArray;
+                uasort($mostRecommended, function($a, $b) {
+                    $am = $a['rTimes'];
+                    $bm = $b['rTimes'];
+                    if ($am == $bm) {
+                        return 0;
+                    }
+                    return ($am < $bm) ? 1 : -1;
+                });
+                
                 return $this->render('statistics', [
                     'activitiesRecommended' => $activitiesRecommended,
                     'activitiesNotRecommended' => $activitiesNotRecommended,
@@ -486,10 +530,43 @@ class SiteController extends Controller
                     'userMarksNotActivities' => $userMarksNotActivities,
                     'userMarksProfessions' => $userMarksProfessions,
                     'userMarksOverall' => $userMarksOverall,
-                    'specStatisics' => $specArray
+                    'specStatistics' => $specArray,
+                    'profStatistics' => $profArray,
+                    'byRecomendations' => $mostRecommended,
+                    'byMarksDesc' => $mostRelevant,
+                    'byMarksAsc' => $lessRelevant,
+                    'doNotExist' => $doNotExist
                 ]);
             }
         }
         return $this->redirect(Yii::$app->homeUrl);
+    }
+
+    private function getNotUsedProfessions() {
+        $arr = UserToProfessionTesting::find()->all();
+        $existing = [];
+        $notExisting = [];
+        foreach($arr as $result) {
+            $profs = json_decode($result->oldRawResults, true)['prof'];
+            foreach($profs as $prof) {
+                if (!in_array($prof['name'], $existing))
+                    $existing []= $prof['name'];
+            }
+            if ($result->newRawResults != null) {
+                $profs = json_decode($result->newRawResults, true)['prof'];
+                foreach($profs as $prof) {
+                    if (!in_array($prof['name'], $existing))
+                        $existing []= $prof['name'];
+                }
+            }
+        }
+        $professions = Profession::find()->all();
+        foreach($professions as $profession) {
+            if (!in_array($profession->name, $existing)) {
+                $notExisting []= $profession->name;
+            }
+        }
+
+        return $notExisting;
     }
 }

@@ -263,7 +263,7 @@ use dosamigos\chartjs\ChartJs;
             <td style="width:10%">Средняя оценка пользователями</td>
         </thead>
         <tbody>
-            <?php foreach($specStatisics as $item) {?>
+            <?php foreach($specStatistics as $item) {?>
                 <tr>
                     <td><?php echo $item['name'] ?></td>
                     <td style="text-align:center"><?php echo $item['rTimes'] ?></td>
@@ -272,6 +272,92 @@ use dosamigos\chartjs\ChartJs;
                     <td style="text-align:center"><?php echo ($item['notRTimes'] != 0 ) ? round($item['notRMarks']/$item['notRTimes'], 1) : '-'?></td>
                 </tr>
             <?php } ?>
+        </tbody>
+    </table>
+</div>
+
+<h3>Наиболее часто рекомендуемые профессии</h3>
+
+<div style="width:70%">
+    <table border="1">
+        <thead>
+            <td style="width:60%">Название профессии</td>
+            <td style="width:10%">Сколько раз была рекомендована</td>
+            <td style="width:10%">Средняя оценка пользователями</td>
+        </thead>
+        <tbody>
+            <?php foreach($byRecomendations as $item) {
+                if ($item['rTimes'] > 2) { ?>
+                    <tr>
+                        <td><?php echo $item['name'] ?></td>
+                        <td style="text-align:center"><?php echo $item['rTimes'] ?></td>
+                        <td style="text-align:center"><?php echo ($item['rTimes'] != 0 ) ? round($item['rMarks']/$item['rTimes'], 1) : '-' ?></td>
+                    </tr>
+                <?php }
+                } ?>
+        </tbody>
+    </table>
+</div>
+
+<h3>Наиболее высоко оцененные профессии</h3>
+
+<div style="width:70%">
+    <table border="1">
+        <thead>
+            <td style="width:60%">Название профессии</td>
+            <td style="width:10%">Сколько раз была рекомендована</td>
+            <td style="width:10%">Средняя оценка пользователями</td>
+        </thead>
+        <tbody>
+            <?php foreach($byMarksDesc as $item) {
+                if ($item['rMarks']/$item['rTimes'] > 5 && $item['rTimes'] >= 2) { ?>
+                    <tr>
+                        <td><?php echo $item['name'] ?></td>
+                        <td style="text-align:center"><?php echo $item['rTimes'] ?></td>
+                        <td style="text-align:center"><?php echo ($item['rTimes'] != 0 ) ? round($item['rMarks']/$item['rTimes'], 1) : '-' ?></td>
+                    </tr>
+                <?php }
+                } ?>
+        </tbody>
+    </table>
+</div>
+
+<h3>Наиболее низко оцененные профессии</h3>
+
+<div style="width:70%">
+    <table border="1">
+        <thead>
+            <td style="width:60%">Название профессии</td>
+            <td style="width:10%">Сколько раз была рекомендована</td>
+            <td style="width:10%">Средняя оценка пользователями</td>
+        </thead>
+        <tbody>
+            <?php foreach($byMarksAsc as $item) {
+                if ($item['rMarks']/$item['rTimes'] < 5 && $item['rTimes'] >= 2) { ?>
+                    <tr>
+                        <td><?php echo $item['name'] ?></td>
+                        <td style="text-align:center"><?php echo $item['rTimes'] ?></td>
+                        <td style="text-align:center"><?php echo ($item['rTimes'] != 0 ) ? round($item['rMarks']/$item['rTimes'], 1) : '-' ?></td>
+                    </tr>
+                <?php }
+                } ?>
+        </tbody>
+    </table>
+</div>
+
+<h3>Профессии, которые никому не рекомендовались</h3>
+
+<div style="width:70%">
+    <table border="1">
+        <thead>
+            <td style="width:60%">Название профессии</td>
+        </thead>
+        <tbody>
+            <?php foreach($doNotExist as $item) {?>
+                    <tr>
+                        <td><?php echo $item ?></td>
+                    </tr>
+                <?php }?>
         </tbody>
     </table>
 </div>
