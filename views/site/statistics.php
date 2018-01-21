@@ -9,9 +9,9 @@ use dosamigos\chartjs\ChartJs;
     <div class="col-md-12">
         <h4>Оценки на рекомендуемые профессии:</h4>
         <?= ChartJs::widget([
-            'type' => 'pie',
+            'type' => 'bar',
             'options' => [
-                'height' => 500,
+                'height' => 300,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -26,7 +26,7 @@ use dosamigos\chartjs\ChartJs;
                 'datasets' => [
                     [
                         'label' => "Профессии",
-                        'backgroundColor' => "rgba(30,180,30,0.8)",
+                        'backgroundColor' => "rgba(179,181,198,0.5)",
                         'borderColor' => "rgba(179,181,198,1)",
                         'pointBackgroundColor' => "rgba(179,181,198,1)",
                         'pointBorderColor' => "#fff",
@@ -46,9 +46,9 @@ use dosamigos\chartjs\ChartJs;
     <div class="col-md-6 col-lg-6 col-xs-12">
         <h4>Наиболее часто рекомендуемые сферы деятельности:</h4>
         <?= ChartJs::widget([
-            'type' => 'pie',
+            'type' => 'bar',
             'options' => [
-                'height' => 500,
+                'height' => 300,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -63,7 +63,7 @@ use dosamigos\chartjs\ChartJs;
                 'datasets' => [
                     [
                         'label' => "Профессии",
-                        'backgroundColor' => "rgba(30,180,30,0.8)",
+                        'backgroundColor' => "rgba(179,181,198,0.5)",
                         'borderColor' => "rgba(179,181,198,1)",
                         'pointBackgroundColor' => "rgba(179,181,198,1)",
                         'pointBorderColor' => "#fff",
@@ -79,9 +79,9 @@ use dosamigos\chartjs\ChartJs;
     <div class="col-md-6 col-lg-6 col-xs-12">
         <h4>Наиболее часто нерекомендуемые сферы деятельности:</h4>
         <?= ChartJs::widget([
-            'type' => 'pie',
+            'type' => 'bar',
             'options' => [
-                'height' =>500,
+                'height' => 300,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -96,7 +96,7 @@ use dosamigos\chartjs\ChartJs;
                 'datasets' => [
                     [
                         'label' => "Профессии",
-                        'backgroundColor' => "rgba(30,180,30,0.8)",
+                        'backgroundColor' => "rgba(179,181,198,0.5)",
                         'borderColor' => "rgba(179,181,198,1)",
                         'pointBackgroundColor' => "rgba(179,181,198,1)",
                         'pointBorderColor' => "#fff",
@@ -114,9 +114,9 @@ use dosamigos\chartjs\ChartJs;
     <div class="col-md-12">
     <h4>Наиболее часто рекомендуемые профессии:</h4>
         <?= ChartJs::widget([
-            'type' => 'pie',
+            'type' => 'bar',
             'options' => [
-                'height' => 800,
+                'height' => 300,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -131,7 +131,7 @@ use dosamigos\chartjs\ChartJs;
                 'datasets' => [
                     [
                         'label' => "Профессии",
-                        'backgroundColor' => "rgba(30,180,30,0.8)",
+                        'backgroundColor' => "rgba(179,181,198,0.5)",
                         'borderColor' => "rgba(179,181,198,1)",
                         'pointBackgroundColor' => "rgba(179,181,198,1)",
                         'pointBorderColor' => "#fff",
@@ -151,9 +151,9 @@ use dosamigos\chartjs\ChartJs;
     <div class="col-md-6 col-lg-6 col-xs-12">
         <h4>Оценки на рекомендуемые сферы деятельности:</h4>
         <?= ChartJs::widget([
-            'type' => 'pie',
+            'type' => 'bar',
             'options' => [
-                'height' => 500,
+                'height' => 300,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -168,7 +168,7 @@ use dosamigos\chartjs\ChartJs;
                 'datasets' => [
                     [
                         'label' => "Профессии",
-                        'backgroundColor' => "rgba(30,180,30,0.8)",
+                        'backgroundColor' => "rgba(179,181,198,0.5)",
                         'borderColor' => "rgba(179,181,198,1)",
                         'pointBackgroundColor' => "rgba(179,181,198,1)",
                         'pointBorderColor' => "#fff",
@@ -184,9 +184,9 @@ use dosamigos\chartjs\ChartJs;
     <div class="col-md-6 col-lg-6 col-xs-12">
         <h4>Оценки на нерекомендуемые сферы деятельности:</h4>
         <?= ChartJs::widget([
-            'type' => 'pie',
+            'type' => 'bar',
             'options' => [
-                'height' => 500,
+                'height' => 300,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -201,7 +201,7 @@ use dosamigos\chartjs\ChartJs;
                 'datasets' => [
                     [
                         'label' => "Профессии",
-                        'backgroundColor' => "rgba(30,180,30,0.8)",
+                        'backgroundColor' => "rgba(179,181,198,0.5)",
                         'borderColor' => "rgba(179,181,198,1)",
                         'pointBackgroundColor' => "rgba(179,181,198,1)",
                         'pointBorderColor' => "#fff",
@@ -219,9 +219,9 @@ use dosamigos\chartjs\ChartJs;
     <div class="col-md-12">
     <h4>Оценки на рекомендуемые профессии:</h4>
         <?= ChartJs::widget([
-            'type' => 'pie',
+            'type' => 'bar',
             'options' => [
-                'height' => 800,
+                'height' => 300,
                 'width' => 900,
                 'scales' => [
                     'yAxes' => [
@@ -236,7 +236,7 @@ use dosamigos\chartjs\ChartJs;
                 'datasets' => [
                     [
                         'label' => "Профессии",
-                        'backgroundColor' => "rgba(30,180,30,0.8)",
+                        'backgroundColor' => "rgba(179,181,198,0.5)",
                         'borderColor' => "rgba(179,181,198,1)",
                         'pointBackgroundColor' => "rgba(179,181,198,1)",
                         'pointBorderColor' => "#fff",
@@ -249,4 +249,29 @@ use dosamigos\chartjs\ChartJs;
         ]);
         ?>
     </div>
+</div>
+
+<h3>Статистика по выдаваемым сферам деятельности</h3>
+
+<div style="width:70%">
+    <table border="1">
+        <thead>
+            <td style="width:60%">Название сферы</td>
+            <td style="width:10%">Сколько раз была рекомендована</td>
+            <td style="width:10%">Средняя оценка пользователями</td>
+            <td style="width:10%">Сколько раз была нерекомендована</td>
+            <td style="width:10%">Средняя оценка пользователями</td>
+        </thead>
+        <tbody>
+            <?php foreach($specStatisics as $item) {?>
+                <tr>
+                    <td><?php echo $item['name'] ?></td>
+                    <td style="text-align:center"><?php echo $item['rTimes'] ?></td>
+                    <td style="text-align:center"><?php echo ($item['rTimes'] != 0 ) ? round($item['rMarks']/$item['rTimes'], 1) : '-' ?></td>
+                    <td style="text-align:center"><?php echo $item['notRTimes'] ?></td>
+                    <td style="text-align:center"><?php echo ($item['notRTimes'] != 0 ) ? round($item['notRMarks']/$item['notRTimes'], 1) : '-'?></td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
 </div>

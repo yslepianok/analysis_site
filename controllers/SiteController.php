@@ -413,6 +413,7 @@ class SiteController extends Controller
                 $userMarksNotActivities = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
                 $userMarksProfessions = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
                 $userMarksOverall = ['1'=>0,'2'=>0,'3'=>0,'4'=>0,'5'=>0,'6'=>0,'7'=>0,'8'=>0,'9'=>0,'10'=>0];
+                $specArray = [];
                 $arr = UserToProfessionTesting::find()->where(['scoreSaved'=>1])->all();
 
                 foreach ($arr as $test) {
@@ -428,6 +429,20 @@ class SiteController extends Controller
                         else 
                             $activitiesRecommended[$spec['name']] += 1;
 
+                        if (!array_key_exists($spec['name'], $specArray)) {
+                            $specItem = [
+                                'name' => $spec['name'],
+                                'rTimes' => 1,
+                                'rMarks' => $spec['sign'],
+                                'notRTimes' => 0,
+                                'notRMarks' => 0
+                            ];
+                            $specArray[$spec['name']] = $specItem;
+                        } else {
+                            $specArray[$spec['name']]['rTimes'] +=1;
+                            $specArray[$spec['name']]['rMarks'] +=$spec['sign'];
+                        }
+
                         $userMarksActivities[$spec['sign']] += 1;
                     }
 
@@ -436,6 +451,20 @@ class SiteController extends Controller
                             $activitiesNotRecommended[$spec['name']] = 1;
                         else 
                             $activitiesNotRecommended[$spec['name']] += 1;
+
+                        if (!array_key_exists($spec['name'], $specArray)) {
+                            $specItem = [
+                                'name' => $spec['name'],
+                                'rTimes' => 0,
+                                'rMarks' => 0,
+                                'notRTimes' => 1,
+                                'notRMarks' => $spec['sign']
+                            ];
+                            $specArray[$spec['name']] = $specItem;
+                        } else {
+                            $specArray[$spec['name']]['notRTimes'] +=1;
+                            $specArray[$spec['name']]['notRMarks'] +=$spec['sign'];
+                        }
 
                         $userMarksNotActivities[$spec['sign']] += 1;
                     }
@@ -456,7 +485,8 @@ class SiteController extends Controller
                     'userMarksActivities' => $userMarksActivities,
                     'userMarksNotActivities' => $userMarksNotActivities,
                     'userMarksProfessions' => $userMarksProfessions,
-                    'userMarksOverall' => $userMarksOverall
+                    'userMarksOverall' => $userMarksOverall,
+                    'specStatisics' => $specArray
                 ]);
             }
         }
